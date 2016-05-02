@@ -4,19 +4,74 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 
-var Test = React.createClass({
-  displayName: 'Test',
+var FormBuilder = React.createClass({
+  displayName: 'FormBuilder',
 
   render: function () {
     return React.createElement(
       'div',
       null,
-      'I am a test component!'
+      React.createElement(Preview, null),
+      React.createElement(Toolbar, null)
     );
   }
 });
 
-ReactDOM.render(React.createElement(Test, null), document.getElementById('test'));
+var Preview = React.createClass({
+  displayName: 'Preview',
+
+  render: function () {
+    return React.createElement(
+      'div',
+      null,
+      React.createElement(
+        'h1',
+        null,
+        'Preview'
+      ),
+      React.createElement(
+        'span',
+        null,
+        'I\'m the preview pane'
+      )
+    );
+  }
+});
+
+var Toolbar = React.createClass({
+  displayName: 'Toolbar',
+
+  render: function () {
+    return React.createElement(
+      'div',
+      null,
+      React.createElement(
+        'h1',
+        null,
+        'Toolbar'
+      ),
+      React.createElement(Header, null)
+    );
+  }
+});
+
+var Header = React.createClass({
+  displayName: 'Header',
+
+  render: function () {
+    return React.createElement(
+      'div',
+      null,
+      React.createElement(
+        'h1',
+        null,
+        'Header'
+      )
+    );
+  }
+});
+
+ReactDOM.render(React.createElement(FormBuilder, null), document.getElementById('form-builder'));
 
 },{"react":167,"react-dom":29}],2:[function(require,module,exports){
 (function (process){

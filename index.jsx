@@ -3,10 +3,47 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 
-var Test = React.createClass({
+var FormBuilder = React.createClass({
   render: function(){
-    return <div>I am a test component!</div>
+    return (
+      <div>
+        <Preview />
+        <Toolbar />
+      </div>
+    );
   }
 });
 
-ReactDOM.render(<Test />, document.getElementById('test'));
+var Preview = React.createClass({
+  render: function() {
+    return(
+      <div>
+        <h1>Preview</h1>
+        <span>I'm the preview pane</span>
+      </div>
+    );
+  }
+});
+
+var Toolbar = React.createClass({
+  render: function() {
+    return(
+      <div>
+        <h1>Toolbar</h1>
+        <Header />
+      </div>
+    );
+  }
+});
+
+var Header = React.createClass({
+  render: function() {
+    return(
+      <div>
+        <h1>Header</h1>
+      </div>
+    )
+  }
+})
+
+ReactDOM.render(<FormBuilder />, document.getElementById('form-builder'));
