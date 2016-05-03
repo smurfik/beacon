@@ -4,21 +4,30 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 
+// the components in the builder will be forms – so they will be different than
+// the components we are dropping in from toolbar.
+
 var FormBuilder = React.createClass({
   displayName: 'FormBuilder',
 
+  getInitialState: function () {
+    return { currentForm: [] };
+    // push new formTool into currentForm,
+    // use setState to re-render children in Builder
+  },
+  // setCurrentForm
   render: function () {
     return React.createElement(
       'div',
       null,
-      React.createElement(Preview, null),
+      React.createElement(Builder, null),
       React.createElement(Toolbar, null)
     );
   }
 });
 
-var Preview = React.createClass({
-  displayName: 'Preview',
+var Builder = React.createClass({
+  displayName: 'Builder',
 
   render: function () {
     return React.createElement(
@@ -27,7 +36,7 @@ var Preview = React.createClass({
       React.createElement(
         'h1',
         null,
-        'Preview'
+        'Builder'
       ),
       React.createElement(
         'span',
@@ -42,6 +51,9 @@ var Toolbar = React.createClass({
   displayName: 'Toolbar',
 
   render: function () {
+    // all tools will share same handleClick function to add to builder
+    // function will be passed down from parent
+    // (later, use inheritance/mixin/module pattern)
     return React.createElement(
       'div',
       { id: 'toolbar-pane' },
@@ -53,6 +65,8 @@ var Toolbar = React.createClass({
       React.createElement(Header, null),
       React.createElement(Label, null)
     );
+    // hard-code other toolbar elements in toolbar-pane above,
+    // and create each of them as React classes below.
   }
 });
 
