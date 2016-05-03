@@ -23,7 +23,7 @@ var Preview = React.createClass({
   render: function () {
     return React.createElement(
       'div',
-      null,
+      { id: 'preview-pane' },
       React.createElement(
         'h1',
         null,
@@ -44,13 +44,14 @@ var Toolbar = React.createClass({
   render: function () {
     return React.createElement(
       'div',
-      null,
+      { id: 'toolbar-pane' },
       React.createElement(
         'h1',
         null,
         'Toolbar'
       ),
-      React.createElement(Header, null)
+      React.createElement(Header, null),
+      React.createElement(Label, null)
     );
   }
 });
@@ -63,9 +64,25 @@ var Header = React.createClass({
       'div',
       null,
       React.createElement(
-        'h1',
+        'h2',
         null,
         'Header'
+      )
+    );
+  }
+});
+
+var Label = React.createClass({
+  displayName: 'Label',
+
+  render: function () {
+    return React.createElement(
+      'div',
+      { 'class': 'form-element' },
+      React.createElement(
+        'h2',
+        null,
+        'Label'
       )
     );
   }
