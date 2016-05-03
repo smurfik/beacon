@@ -4,13 +4,15 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 
-// the components in the builder will be forms – so they will be different than
-// the components we are dropping in from toolbar.
+// The components added to the builder will be forms – so they will be different
+// than the components we are selecting from the toolbar.
+
+// But for now, let's just add text placeholders in the builder, and turn them
+// into forms later.
 
 var FormBuilder = React.createClass({
   displayName: 'FormBuilder',
 
-  // var currentForm;
   getInitialState: function () {
     return { currentForm: [] };
     // push new formTool into currentForm,
@@ -25,7 +27,7 @@ var FormBuilder = React.createClass({
     return React.createElement(
       'div',
       null,
-      React.createElement(Builder, null),
+      React.createElement(Builder, { currentForm: this.state.currentForm }),
       React.createElement(Toolbar, { addTool: this.addTool })
     );
   }
@@ -35,6 +37,24 @@ var Builder = React.createClass({
   displayName: 'Builder',
 
   render: function () {
+    var body;
+    if (this.props.currentForm[0] == null) {
+      body = React.createElement(
+        'span',
+        null,
+        'Add form elements by clicking toolbar ––––>'
+      );
+    } else {
+      body = React.createElement(
+        'div',
+        null,
+        React.createElement(
+          'ul',
+          null,
+          'this.props.currentForm'
+        )
+      );
+    }
     return React.createElement(
       'div',
       { id: 'preview-pane' },
@@ -43,11 +63,7 @@ var Builder = React.createClass({
         null,
         'Builder'
       ),
-      React.createElement(
-        'span',
-        null,
-        'List of [editable] form elements:'
-      )
+      body
     );
   }
 });

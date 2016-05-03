@@ -3,11 +3,13 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 
-// the components in the builder will be forms – so they will be different than
-// the components we are dropping in from toolbar.
+// The components added to the builder will be forms – so they will be different
+// than the components we are selecting from the toolbar.
+
+// But for now, let's just add text placeholders in the builder, and turn them
+// into forms later.
 
 var FormBuilder = React.createClass({
-  // var currentForm;
   getInitialState: function() {
     return {currentForm: []}
     // push new formTool into currentForm,
@@ -21,7 +23,7 @@ var FormBuilder = React.createClass({
   render: function(){
     return (
       <div>
-        <Builder />
+        <Builder currentForm={this.state.currentForm} />
         <Toolbar addTool={this.addTool}/>
       </div>
     );
@@ -30,10 +32,22 @@ var FormBuilder = React.createClass({
 
 var Builder = React.createClass({
   render: function() {
+    var body;
+    if(this.props.currentForm[0] == null) {
+      body = <span>Add form elements by clicking toolbar ––––></span>
+    } else {
+      body = (
+        <div>
+          <ul>
+            this.props.currentForm
+          </ul>
+        </div>
+      )
+    }
     return(
       <div id="preview-pane">
         <h1>Builder</h1>
-        <span>List of [editable] form elements:</span>
+        {body}
       </div>
     );
   }
