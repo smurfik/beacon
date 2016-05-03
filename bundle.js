@@ -10,18 +10,23 @@ var ReactDOM = require('react-dom');
 var FormBuilder = React.createClass({
   displayName: 'FormBuilder',
 
+  // var currentForm;
   getInitialState: function () {
     return { currentForm: [] };
     // push new formTool into currentForm,
     // use setState to re-render children in Builder
   },
-  // setCurrentForm
+  addTool: function (toolName) {
+    var currentForm = this.state.currentForm;
+    currentForm.push(toolName);
+    this.setState({ currentForm: currentForm });
+  },
   render: function () {
     return React.createElement(
       'div',
       null,
       React.createElement(Builder, null),
-      React.createElement(Toolbar, null)
+      React.createElement(Toolbar, { addTool: this.addTool })
     );
   }
 });
@@ -41,7 +46,7 @@ var Builder = React.createClass({
       React.createElement(
         'span',
         null,
-        'I\'m the preview pane'
+        'List of [editable] form elements:'
       )
     );
   }
@@ -63,7 +68,7 @@ var Toolbar = React.createClass({
         'Toolbar'
       ),
       React.createElement(Header, null),
-      React.createElement(Label, null)
+      React.createElement(Label, { handleClick: this.props.addTool })
     );
     // hard-code other toolbar elements in toolbar-pane above,
     // and create each of them as React classes below.
@@ -89,10 +94,16 @@ var Header = React.createClass({
 var Label = React.createClass({
   displayName: 'Label',
 
+  getInitialState: function () {
+    return { toolName: "label" };
+  },
+  addTool: function () {
+    this.props.handleClick(this.state.toolName);
+  },
   render: function () {
     return React.createElement(
       'div',
-      { className: 'toolbar-element' },
+      { className: 'toolbar-element', onClick: this.addTool },
       React.createElement(
         'h2',
         null,
