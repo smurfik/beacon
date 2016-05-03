@@ -29,6 +29,12 @@ header {
   width: 30%;
 }
 
-/*.form-element {
-  border: 1px solid hsl(0, 0%, 50%);
-}*/
+.toolbar-element {
+  border: 1px solid hsl(0, 0%, 90%);
+  padding: 2px;
+  margin: 5px 0;
+}
+
+.toolbar-element:hover {
+  background-color: hsl(0, 0%, 70%);
+}

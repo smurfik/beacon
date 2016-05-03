@@ -54,7 +54,7 @@ var Toolbar = React.createClass({
 var Header = React.createClass({
   render: function() {
     return(
-      <div>
+      <div className="toolbar-element">
         <h2>Header</h2>
       </div>
     )
@@ -64,7 +64,7 @@ var Header = React.createClass({
 var Label = React.createClass({
   render: function() {
     return(
-      <div class="form-element">
+      <div className="toolbar-element">
         <h2>Label</h2>
       </div>
     )

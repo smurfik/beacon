@@ -76,7 +76,7 @@ var Header = React.createClass({
   render: function () {
     return React.createElement(
       'div',
-      null,
+      { className: 'toolbar-element' },
       React.createElement(
         'h2',
         null,
@@ -92,7 +92,7 @@ var Label = React.createClass({
   render: function () {
     return React.createElement(
       'div',
-      { 'class': 'form-element' },
+      { className: 'toolbar-element' },
       React.createElement(
         'h2',
         null,
