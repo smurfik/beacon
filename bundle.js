@@ -14,20 +14,21 @@ var FormBuilder = React.createClass({
   displayName: 'FormBuilder',
 
   getInitialState: function () {
+    // currentForm starts as an empty array when page is loaded
     return { currentForm: [] };
-    // push new formTool into currentForm,
-    // use setState to re-render children in Builder
   },
   addTool: function (toolName) {
     var currentForm = this.state.currentForm;
+    // clicking an element on the toolbar pushes that element into currentForm
     currentForm.push(toolName);
+    // setState re-renders children in Builder
     this.setState({ currentForm: currentForm });
   },
   render: function () {
     return React.createElement(
       'div',
       null,
-      React.createElement(Builder, { currentForm: this.state.currentForm }),
+      React.createElement(Builder, { formElements: this.state.currentForm }),
       React.createElement(Toolbar, { addTool: this.addTool })
     );
   }
@@ -37,8 +38,14 @@ var Builder = React.createClass({
   displayName: 'Builder',
 
   render: function () {
+    var formElements = [];
     var body;
-    if (this.props.currentForm[0] == null) {
+
+    for (var i = 0; i < this.props.formElements.length; i++) {
+      formElements.push(React.createElement(FormElement, { key: i, element: this.props.formElements[i] }));
+    }
+
+    if (this.props.formElements[0] == null) {
       body = React.createElement(
         'span',
         null,
@@ -47,12 +54,8 @@ var Builder = React.createClass({
     } else {
       body = React.createElement(
         'div',
-        null,
-        React.createElement(
-          'ul',
-          null,
-          'this.props.currentForm'
-        )
+        { id: 'form=element-list' },
+        formElements
       );
     }
     return React.createElement(
@@ -68,13 +71,28 @@ var Builder = React.createClass({
   }
 });
 
+var FormElement = React.createClass({
+  displayName: 'FormElement',
+
+  render: function () {
+    return React.createElement(
+      'div',
+      { className: 'form-element' },
+      React.createElement(
+        'span',
+        null,
+        this.props.element
+      )
+    );
+  }
+});
+
 var Toolbar = React.createClass({
   displayName: 'Toolbar',
 
   render: function () {
-    // all tools will share same handleClick function to add to builder
-    // function will be passed down from parent
-    // (later, use inheritance/mixin/module pattern)
+    // all elements in toolbar will share same handleClick function to add to builder
+    // (later, use inheritance/mixin/module pattern to make the code DRYer)
     return React.createElement(
       'div',
       { id: 'toolbar-pane' },
@@ -86,8 +104,8 @@ var Toolbar = React.createClass({
       React.createElement(Header, null),
       React.createElement(Label, { handleClick: this.props.addTool })
     );
-    // hard-code other toolbar elements in toolbar-pane above,
-    // and create each of them as React classes below.
+    // need to hard-code other toolbar elements within toolbar-pane div above,
+    // and create each of them as a unique React class below.
   }
 });
 
@@ -110,6 +128,9 @@ var Header = React.createClass({
 var Label = React.createClass({
   displayName: 'Label',
 
+  // For now, we are just passing the name of the tool element from the toolbar
+  // up to the parent and then back down to builder.
+
   getInitialState: function () {
     return { toolName: "label" };
   },
@@ -127,6 +148,11 @@ var Label = React.createClass({
       )
     );
   }
+  // Looking ahead, we probably won't be passing the actual form element object [or its name] around.
+  // Instead, maybe we'll pass a *reference* to an element up to the
+  // parent, which will then render a *different* component containing an HTML form.
+  // The match could happen on a unique keyword that is shared between toolbar
+  // element and builder form element.
 });
 
 ReactDOM.render(React.createElement(FormBuilder, null), document.getElementById('form-builder'));
