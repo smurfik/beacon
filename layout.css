@@ -1,0 +1,46 @@
+* {
+  /*border: 1px solid pink;*/
+  font-family: "Helvetica";
+}
+
+header {
+  text-align: center;
+  background-color: hsl(0, 0%, 80%);
+}
+
+#form-builder {
+  width: 0 auto;
+  /*margin: 0px 40px;*/
+}
+
+#preview-pane, #toolbar-pane {
+  display: inline-block;
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid hsl(0, 0%, 80%);
+}
+
+#preview-pane {
+  float: left;
+  width: 60%;
+}
+
+#toolbar-pane {
+  width: 30%;
+}
+
+.toolbar-element {
+  border: 1px solid hsl(0, 0%, 90%);
+  padding: 2px;
+  margin: 5px 0;
+}
+
+.toolbar-element:hover {
+  background-color: hsl(0, 0%, 70%);
+}
+
+.form-element {
+  margin: 10px 0;
+  padding: 4px;
+  border: 1px solid hsl(0, 0%, 25%);
+}

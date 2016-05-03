@@ -4,35 +4,84 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 
+// The components added to the builder will be forms – so they will be different
+// than the components we are selecting from the toolbar.
+
+// But for now, let's just add text placeholders in the builder, and turn them
+// into forms later.
+
 var FormBuilder = React.createClass({
   displayName: 'FormBuilder',
 
+  getInitialState: function () {
+    // currentForm starts as an empty array when page is loaded
+    return { currentForm: [] };
+  },
+  addTool: function (toolName) {
+    var currentForm = this.state.currentForm;
+    // clicking an element on the toolbar pushes that element into currentForm
+    currentForm.push(toolName);
+    // setState re-renders children in Builder
+    this.setState({ currentForm: currentForm });
+  },
   render: function () {
     return React.createElement(
       'div',
       null,
-      React.createElement(Preview, null),
-      React.createElement(Toolbar, null)
+      React.createElement(Builder, { formElements: this.state.currentForm }),
+      React.createElement(Toolbar, { addTool: this.addTool })
     );
   }
 });
 
-var Preview = React.createClass({
-  displayName: 'Preview',
+var Builder = React.createClass({
+  displayName: 'Builder',
+
+  render: function () {
+    var formElements = [];
+    var body;
+
+    for (var i = 0; i < this.props.formElements.length; i++) {
+      formElements.push(React.createElement(FormElement, { key: i, element: this.props.formElements[i] }));
+    }
+
+    if (this.props.formElements[0] == null) {
+      body = React.createElement(
+        'span',
+        null,
+        'Add form elements by clicking toolbar ––––>'
+      );
+    } else {
+      body = React.createElement(
+        'div',
+        { id: 'form=element-list' },
+        formElements
+      );
+    }
+    return React.createElement(
+      'div',
+      { id: 'preview-pane' },
+      React.createElement(
+        'h1',
+        null,
+        'Builder'
+      ),
+      body
+    );
+  }
+});
+
+var FormElement = React.createClass({
+  displayName: 'FormElement',
 
   render: function () {
     return React.createElement(
       'div',
-      null,
-      React.createElement(
-        'h1',
-        null,
-        'Preview'
-      ),
+      { className: 'form-element' },
       React.createElement(
         'span',
         null,
-        'I\'m the preview pane'
+        this.props.element
       )
     );
   }
@@ -42,16 +91,21 @@ var Toolbar = React.createClass({
   displayName: 'Toolbar',
 
   render: function () {
+    // all elements in toolbar will share same handleClick function to add to builder
+    // (later, use inheritance/mixin/module pattern to make the code DRYer)
     return React.createElement(
       'div',
-      null,
+      { id: 'toolbar-pane' },
       React.createElement(
         'h1',
         null,
         'Toolbar'
       ),
-      React.createElement(Header, null)
+      React.createElement(Header, null),
+      React.createElement(Label, { handleClick: this.props.addTool })
     );
+    // need to hard-code other toolbar elements within toolbar-pane div above,
+    // and create each of them as a unique React class below.
   }
 });
 
@@ -61,14 +115,44 @@ var Header = React.createClass({
   render: function () {
     return React.createElement(
       'div',
-      null,
+      { className: 'toolbar-element' },
       React.createElement(
-        'h1',
+        'h2',
         null,
         'Header'
       )
     );
   }
+});
+
+var Label = React.createClass({
+  displayName: 'Label',
+
+  // For now, we are just passing the name of the tool element from the toolbar
+  // up to the parent and then back down to builder.
+
+  getInitialState: function () {
+    return { toolName: "label" };
+  },
+  addTool: function () {
+    this.props.handleClick(this.state.toolName);
+  },
+  render: function () {
+    return React.createElement(
+      'div',
+      { className: 'toolbar-element', onClick: this.addTool },
+      React.createElement(
+        'h2',
+        null,
+        'Label'
+      )
+    );
+  }
+  // Looking ahead, we probably won't be passing the actual form element object [or its name] around.
+  // Instead, maybe we'll pass a *reference* to an element up to the
+  // parent, which will then render a *different* component containing an HTML form.
+  // The match could happen on a unique keyword that is shared between toolbar
+  // element and builder form element.
 });
 
 ReactDOM.render(React.createElement(FormBuilder, null), document.getElementById('form-builder'));
