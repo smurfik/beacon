@@ -101,7 +101,7 @@ var Toolbar = React.createClass({
         null,
         'Toolbar'
       ),
-      React.createElement(Header, null),
+      React.createElement(Header, { addTool: this.props.addTool }),
       React.createElement(Label, { handleClick: this.props.addTool })
     );
     // need to hard-code other toolbar elements within toolbar-pane div above,
@@ -112,10 +112,16 @@ var Toolbar = React.createClass({
 var Header = React.createClass({
   displayName: 'Header',
 
+  getInitialState: function () {
+    return { toolName: "header" };
+  },
+  addTool: function () {
+    this.props.addTool(this.state.toolName);
+  },
   render: function () {
     return React.createElement(
       'div',
-      { className: 'toolbar-element' },
+      { className: 'toolbar-element', onClick: this.addTool },
       React.createElement(
         'h2',
         null,
