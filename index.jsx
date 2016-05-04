@@ -3,15 +3,57 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 
+var FormBank = {
+  Header: React.createClass({
+    render: function() {
+      return(
+        <div id="header-form">
+          <h2>Header</h2>
+          <form>
+            <textarea></textarea>
+          </form>
+        </div>
+      )
+    }
+  }),
+  Label: React.createClass({
+    render: function() {
+      return(
+        <div id="label-form">
+          <h2>Label</h2>
+          <form>
+            <textarea></textarea>
+          </form>
+        </div>
+      )
+    }
+  }),
+  Dropdown: React.createClass({
+    render: function() {
+      return(
+        <div id="dropdown-form">
+          <h2>Dropdown</h2>
+          <form>
+            <select>
+              <option value="value1">Value 1</option>
+              <option value="value2">Value 2</option>
+            </select>
+          </form>
+        </div>
+      )
+    }
+  })
+}
+
 var FormBuilder = React.createClass({
   getInitialState: function() {
     return {currentForm: []}
   },
   addElement: function(element) {
+    var formElement = React.createElement(FormBank[element]);
     var currentForm = this.state.currentForm;
-    currentForm.push(element);
+    currentForm.push(formElement);
     this.setState({currentForm: currentForm})
-    console.log(element);
   },
   render: function(){
     return (
@@ -54,7 +96,7 @@ var FormElement = React.createClass({
   render: function() {
     return (
       <div className="form-element">
-        <span>{this.props.element}</span>
+        {this.props.element}
       </div>
     )
   }
@@ -68,42 +110,11 @@ var Toolbar = React.createClass({
     return(
       <div id="toolbar-pane">
         <h1>Toolbar</h1>
-        <h2 className="toolbar-element" onClick={this.addElement} value="header">Header</h2>
-        <h2 className="toolbar-element" onClick={this.addElement} value="label">Label</h2>
+        <h2 className="toolbar-element" onClick={this.addElement} value="Header">Header</h2>
+        <h2 className="toolbar-element" onClick={this.addElement} value="Label">Label</h2>
+        <h2 className="toolbar-element" onClick={this.addElement} value="Dropdown">Dropdown</h2>
       </div>
     );
-  }
-});
-
-var Header = React.createClass({
-  getInitialState: function() {
-    return {toolName: "header"};
-  },
-  render: function() {
-    return(
-      <div className="form-element">
-        <form>
-          <textarea></textarea>
-          <button>Submit</button>
-        </form>
-      </div>
-    )
-  }
-});
-
-var Label = React.createClass({
-  getInitialState: function() {
-    return {toolName: "label"};
-  },
-  render: function() {
-    return(
-      <div className="form-element">
-        <form>
-          <input></input>
-          <button>Submit</button>
-        </form>
-      </div>
-    )
   }
 });
 

@@ -1,0 +1,19 @@
+.form-element {
+  margin: 10px 0;
+  padding: 4px;
+  border: 1px solid hsl(0, 0%, 85%);
+}
+
+.form-element h2 {
+  margin: 5px 0 10px 0;
+  font-size: 18px;
+}
+
+#header-form {
+}
+
+#label-form {
+}
+
+#dropdown-form {
+}
