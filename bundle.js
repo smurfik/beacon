@@ -4,32 +4,24 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 
-// The components added to the builder will be forms – so they will be different
-// than the components we are selecting from the toolbar.
-
-// But for now, let's just add text placeholders in the builder, and turn them
-// into forms later.
-
 var FormBuilder = React.createClass({
   displayName: 'FormBuilder',
 
   getInitialState: function () {
-    // currentForm starts as an empty array when page is loaded
     return { currentForm: [] };
   },
-  addTool: function (toolName) {
+  addElement: function (element) {
     var currentForm = this.state.currentForm;
-    // clicking an element on the toolbar pushes that element into currentForm
-    currentForm.push(toolName);
-    // setState re-renders children in Builder
+    currentForm.push(element);
     this.setState({ currentForm: currentForm });
+    console.log(element);
   },
   render: function () {
     return React.createElement(
       'div',
       null,
       React.createElement(Builder, { formElements: this.state.currentForm }),
-      React.createElement(Toolbar, { addTool: this.addTool })
+      React.createElement(Toolbar, { addElement: this.addElement })
     );
   }
 });
@@ -90,9 +82,10 @@ var FormElement = React.createClass({
 var Toolbar = React.createClass({
   displayName: 'Toolbar',
 
+  addElement: function (event) {
+    this.props.addElement(event.target.value);
+  },
   render: function () {
-    // all elements in toolbar will share same handleClick function to add to builder
-    // (later, use inheritance/mixin/module pattern to make the code DRYer)
     return React.createElement(
       'div',
       { id: 'toolbar-pane' },
@@ -101,11 +94,17 @@ var Toolbar = React.createClass({
         null,
         'Toolbar'
       ),
-      React.createElement(Header, { addTool: this.props.addTool }),
-      React.createElement(Label, { handleClick: this.props.addTool })
+      React.createElement(
+        'h2',
+        { className: 'toolbar-element', onClick: this.addElement, value: 'header' },
+        'Header'
+      ),
+      React.createElement(
+        'h2',
+        { className: 'toolbar-element', onClick: this.addElement, value: 'label' },
+        'Label'
+      )
     );
-    // need to hard-code other toolbar elements within toolbar-pane div above,
-    // and create each of them as a unique React class below.
   }
 });
 
@@ -115,17 +114,19 @@ var Header = React.createClass({
   getInitialState: function () {
     return { toolName: "header" };
   },
-  addTool: function () {
-    this.props.addTool(this.state.toolName);
-  },
   render: function () {
     return React.createElement(
       'div',
-      { className: 'toolbar-element', onClick: this.addTool },
+      { className: 'form-element' },
       React.createElement(
-        'h2',
+        'form',
         null,
-        'Header'
+        React.createElement('textarea', null),
+        React.createElement(
+          'button',
+          null,
+          'Submit'
+        )
       )
     );
   }
@@ -134,31 +135,25 @@ var Header = React.createClass({
 var Label = React.createClass({
   displayName: 'Label',
 
-  // For now, we are just passing the name of the tool element from the toolbar
-  // up to the parent and then back down to builder.
-
   getInitialState: function () {
     return { toolName: "label" };
-  },
-  addTool: function () {
-    this.props.handleClick(this.state.toolName);
   },
   render: function () {
     return React.createElement(
       'div',
-      { className: 'toolbar-element', onClick: this.addTool },
+      { className: 'form-element' },
       React.createElement(
-        'h2',
+        'form',
         null,
-        'Label'
+        React.createElement('input', null),
+        React.createElement(
+          'button',
+          null,
+          'Submit'
+        )
       )
     );
   }
-  // Looking ahead, we probably won't be passing the actual form element object [or its name] around.
-  // Instead, maybe we'll pass a *reference* to an element up to the
-  // parent, which will then render a *different* component containing an HTML form.
-  // The match could happen on a unique keyword that is shared between toolbar
-  // element and builder form element.
 });
 
 ReactDOM.render(React.createElement(FormBuilder, null), document.getElementById('form-builder'));
