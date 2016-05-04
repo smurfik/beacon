@@ -44,3 +44,8 @@ header {
   padding: 4px;
   border: 1px solid hsl(0, 0%, 25%);
 }
+
+.form-field {
+  margin: 20px;
+  padding: 5px;
+}

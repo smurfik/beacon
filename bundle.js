@@ -4,11 +4,35 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 
-// The components added to the builder will be forms – so they will be different
-// than the components we are selecting from the toolbar.
+var formBank = {};
 
-// But for now, let's just add text placeholders in the builder, and turn them
-// into forms later.
+var LabelForm = React.createClass({
+  displayName: 'LabelForm',
+
+  render: function () {
+    return React.createElement(
+      'div',
+      null,
+      React.createElement(
+        'h1',
+        null,
+        'Here\'s the form!'
+      ),
+      React.createElement(
+        'form',
+        null,
+        React.createElement('textarea', { value: 'text goes here' }),
+        React.createElement(
+          'button',
+          null,
+          'Submit'
+        )
+      )
+    );
+  }
+});
+
+formBank["Label"] = LabelForm;
 
 var FormBuilder = React.createClass({
   displayName: 'FormBuilder',
@@ -19,9 +43,7 @@ var FormBuilder = React.createClass({
   },
   addTool: function (toolName) {
     var currentForm = this.state.currentForm;
-    // clicking an element on the toolbar pushes that element into currentForm
     currentForm.push(toolName);
-    // setState re-renders children in Builder
     this.setState({ currentForm: currentForm });
   },
   render: function () {
@@ -42,7 +64,8 @@ var Builder = React.createClass({
     var body;
 
     for (var i = 0; i < this.props.formElements.length; i++) {
-      formElements.push(React.createElement(FormElement, { key: i, element: this.props.formElements[i] }));
+      var formForElement = formBank["label"];
+      formElements.push(React.createElement(FormElement, { key: i, element: this.props.formElements[i], formForElement: formForElement }));
     }
 
     if (this.props.formElements[0] == null) {
@@ -62,7 +85,7 @@ var Builder = React.createClass({
       'div',
       { id: 'preview-pane' },
       React.createElement(
-        'h1',
+        'h2',
         null,
         'Builder'
       ),
@@ -79,9 +102,14 @@ var FormElement = React.createClass({
       'div',
       { className: 'form-element' },
       React.createElement(
-        'span',
+        'h3',
         null,
         this.props.element
+      ),
+      React.createElement(
+        'div',
+        { className: 'form-wrapper' },
+        this.props.formForElement
       )
     );
   }
@@ -97,7 +125,7 @@ var Toolbar = React.createClass({
       'div',
       { id: 'toolbar-pane' },
       React.createElement(
-        'h1',
+        'h2',
         null,
         'Toolbar'
       ),
@@ -117,7 +145,7 @@ var Header = React.createClass({
       'div',
       { className: 'toolbar-element' },
       React.createElement(
-        'h2',
+        'h3',
         null,
         'Header'
       )
@@ -128,11 +156,8 @@ var Header = React.createClass({
 var Label = React.createClass({
   displayName: 'Label',
 
-  // For now, we are just passing the name of the tool element from the toolbar
-  // up to the parent and then back down to builder.
-
   getInitialState: function () {
-    return { toolName: "label" };
+    return { toolName: "Label" };
   },
   addTool: function () {
     this.props.handleClick(this.state.toolName);
@@ -142,7 +167,7 @@ var Label = React.createClass({
       'div',
       { className: 'toolbar-element', onClick: this.addTool },
       React.createElement(
-        'h2',
+        'h3',
         null,
         'Label'
       )

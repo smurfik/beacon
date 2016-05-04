@@ -3,11 +3,23 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 
-// The components added to the builder will be forms – so they will be different
-// than the components we are selecting from the toolbar.
+var formBank = {};
 
-// But for now, let's just add text placeholders in the builder, and turn them
-// into forms later.
+var LabelForm = React.createClass({
+  render: function(){
+    return (
+      <div>
+        <h1>Here's the form!</h1>
+        <form>
+          <textarea value="text goes here"></textarea>
+          <button>Submit</button>
+        </form>
+      </div>
+    )
+  }
+});
+
+formBank["Label"] = LabelForm;
 
 var FormBuilder = React.createClass({
   getInitialState: function() {
@@ -16,9 +28,7 @@ var FormBuilder = React.createClass({
   },
   addTool: function(toolName) {
     var currentForm = this.state.currentForm;
-    // clicking an element on the toolbar pushes that element into currentForm
     currentForm.push(toolName);
-    // setState re-renders children in Builder
     this.setState({currentForm: currentForm})
   },
   render: function(){
@@ -37,7 +47,8 @@ var Builder = React.createClass({
     var body;
 
     for (var i = 0; i < this.props.formElements.length; i++) {
-      formElements.push(<FormElement key={i} element={this.props.formElements[i]}/>)
+      var formForElement = formBank["label"]
+      formElements.push(<FormElement key={i} element={this.props.formElements[i]} formForElement={formForElement}/>)
     }
 
     if(this.props.formElements[0] == null) {
@@ -51,7 +62,7 @@ var Builder = React.createClass({
     }
     return(
       <div id="preview-pane">
-        <h1>Builder</h1>
+        <h2>Builder</h2>
         {body}
       </div>
     );
@@ -62,7 +73,10 @@ var FormElement = React.createClass({
   render: function() {
     return (
       <div className="form-element">
-        <span>{this.props.element}</span>
+        <h3>{this.props.element}</h3>
+        <div className="form-wrapper">
+          {this.props.formForElement}
+        </div>
       </div>
     )
   }
@@ -74,7 +88,7 @@ var Toolbar = React.createClass({
       // (later, use inheritance/mixin/module pattern to make the code DRYer)
     return(
       <div id="toolbar-pane">
-        <h1>Toolbar</h1>
+        <h2>Toolbar</h2>
         <Header />
         <Label handleClick={this.props.addTool}/>
       </div>
@@ -88,18 +102,15 @@ var Header = React.createClass({
   render: function() {
     return(
       <div className="toolbar-element">
-        <h2>Header</h2>
+        <h3>Header</h3>
       </div>
     )
   }
 })
 
 var Label = React.createClass({
-  // For now, we are just passing the name of the tool element from the toolbar
-  // up to the parent and then back down to builder.
-
   getInitialState: function() {
-    return {toolName: "label"};
+    return {toolName: "Label"};
   },
   addTool: function() {
     this.props.handleClick(this.state.toolName);
@@ -107,7 +118,7 @@ var Label = React.createClass({
   render: function() {
     return(
       <div className="toolbar-element" onClick={this.addTool}>
-        <h2>Label</h2>
+        <h3>Label</h3>
       </div>
     )
   }
