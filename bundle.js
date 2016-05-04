@@ -11,7 +11,12 @@ var FormBank = {
     render: function () {
       return React.createElement(
         'div',
-        { className: 'form-element' },
+        { id: 'header-form' },
+        React.createElement(
+          'h2',
+          null,
+          'Header'
+        ),
         React.createElement(
           'form',
           null,
@@ -26,7 +31,12 @@ var FormBank = {
     render: function () {
       return React.createElement(
         'div',
-        { className: 'form-element' },
+        { id: 'label-form' },
+        React.createElement(
+          'h2',
+          null,
+          'Label'
+        ),
         React.createElement(
           'form',
           null,
@@ -41,7 +51,12 @@ var FormBank = {
     render: function () {
       return React.createElement(
         'div',
-        { className: 'form-element' },
+        { id: 'dropdown-form' },
+        React.createElement(
+          'h2',
+          null,
+          'Dropdown'
+        ),
         React.createElement(
           'form',
           null,
@@ -131,11 +146,7 @@ var FormElement = React.createClass({
     return React.createElement(
       'div',
       { className: 'form-element' },
-      React.createElement(
-        'span',
-        null,
-        this.props.element
-      )
+      this.props.element
     );
   }
 });

@@ -7,7 +7,8 @@ var FormBank = {
   Header: React.createClass({
     render: function() {
       return(
-        <div className="form-element">
+        <div id="header-form">
+          <h2>Header</h2>
           <form>
             <textarea></textarea>
           </form>
@@ -18,7 +19,8 @@ var FormBank = {
   Label: React.createClass({
     render: function() {
       return(
-        <div className="form-element">
+        <div id="label-form">
+          <h2>Label</h2>
           <form>
             <textarea></textarea>
           </form>
@@ -29,7 +31,8 @@ var FormBank = {
   Dropdown: React.createClass({
     render: function() {
       return(
-        <div className="form-element">
+        <div id="dropdown-form">
+          <h2>Dropdown</h2>
           <form>
             <select>
               <option value="value1">Value 1</option>
@@ -93,7 +96,7 @@ var FormElement = React.createClass({
   render: function() {
     return (
       <div className="form-element">
-        <span>{this.props.element}</span>
+        {this.props.element}
       </div>
     )
   }
