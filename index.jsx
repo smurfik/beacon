@@ -89,7 +89,7 @@ var Toolbar = React.createClass({
     return(
       <div id="toolbar-pane">
         <h2>Toolbar</h2>
-        <Header />
+        <Header addTool={this.props.addTool}/>
         <Label handleClick={this.props.addTool}/>
       </div>
     );
@@ -99,9 +99,15 @@ var Toolbar = React.createClass({
 });
 
 var Header = React.createClass({
+  getInitialState: function() {
+    return {toolName: "header"};
+  },
+  addTool: function() {
+    this.props.addTool(this.state.toolName);
+  },
   render: function() {
     return(
-      <div className="toolbar-element">
+      <div className="toolbar-element" onClick={this.addTool}>
         <h3>Header</h3>
       </div>
     )
