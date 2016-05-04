@@ -4,6 +4,67 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 
+var FormBank = {
+  Header: React.createClass({
+    displayName: 'Header',
+
+    render: function () {
+      return React.createElement(
+        'div',
+        { className: 'form-element' },
+        React.createElement(
+          'form',
+          null,
+          React.createElement('textarea', null)
+        )
+      );
+    }
+  }),
+  Label: React.createClass({
+    displayName: 'Label',
+
+    render: function () {
+      return React.createElement(
+        'div',
+        { className: 'form-element' },
+        React.createElement(
+          'form',
+          null,
+          React.createElement('textarea', null)
+        )
+      );
+    }
+  }),
+  Dropdown: React.createClass({
+    displayName: 'Dropdown',
+
+    render: function () {
+      return React.createElement(
+        'div',
+        { className: 'form-element' },
+        React.createElement(
+          'form',
+          null,
+          React.createElement(
+            'select',
+            null,
+            React.createElement(
+              'option',
+              { value: 'value1' },
+              'Value 1'
+            ),
+            React.createElement(
+              'option',
+              { value: 'value2' },
+              'Value 2'
+            )
+          )
+        )
+      );
+    }
+  })
+};
+
 var FormBuilder = React.createClass({
   displayName: 'FormBuilder',
 
@@ -11,10 +72,10 @@ var FormBuilder = React.createClass({
     return { currentForm: [] };
   },
   addElement: function (element) {
+    var formElement = React.createElement(FormBank[element]);
     var currentForm = this.state.currentForm;
-    currentForm.push(element);
+    currentForm.push(formElement);
     this.setState({ currentForm: currentForm });
-    console.log(element);
   },
   render: function () {
     return React.createElement(
@@ -96,61 +157,18 @@ var Toolbar = React.createClass({
       ),
       React.createElement(
         'h2',
-        { className: 'toolbar-element', onClick: this.addElement, value: 'header' },
+        { className: 'toolbar-element', onClick: this.addElement, value: 'Header' },
         'Header'
       ),
       React.createElement(
         'h2',
-        { className: 'toolbar-element', onClick: this.addElement, value: 'label' },
+        { className: 'toolbar-element', onClick: this.addElement, value: 'Label' },
         'Label'
-      )
-    );
-  }
-});
-
-var Header = React.createClass({
-  displayName: 'Header',
-
-  getInitialState: function () {
-    return { toolName: "header" };
-  },
-  render: function () {
-    return React.createElement(
-      'div',
-      { className: 'form-element' },
+      ),
       React.createElement(
-        'form',
-        null,
-        React.createElement('textarea', null),
-        React.createElement(
-          'button',
-          null,
-          'Submit'
-        )
-      )
-    );
-  }
-});
-
-var Label = React.createClass({
-  displayName: 'Label',
-
-  getInitialState: function () {
-    return { toolName: "label" };
-  },
-  render: function () {
-    return React.createElement(
-      'div',
-      { className: 'form-element' },
-      React.createElement(
-        'form',
-        null,
-        React.createElement('input', null),
-        React.createElement(
-          'button',
-          null,
-          'Submit'
-        )
+        'h2',
+        { className: 'toolbar-element', onClick: this.addElement, value: 'Dropdown' },
+        'Dropdown'
       )
     );
   }
