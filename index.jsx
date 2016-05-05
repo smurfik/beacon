@@ -42,6 +42,39 @@ var FormBank = {
         </div>
       )
     }
+  }),
+  Table: React.createClass({
+    render: function() {
+      return(
+        <div id="table-form">
+          <h2>Table</h2>
+          <form>
+            <table>
+              <thead>
+                <th>Column 1</th>
+                <th>Column 2</th>
+                <th>Column 3</th>
+                <th>Column 4</th>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Body Content 1a</td>
+                  <td>Body Content 2a</td>
+                  <td>Body Content 3a</td>
+                  <td>Body Content 4a</td>
+                </tr>
+                <tr>
+                  <td>Body Content 1b</td>
+                  <td>Body Content 2b</td>
+                  <td>Body Content 3b</td>
+                  <td>Body Content 4b</td>
+                </tr>
+              </tbody>
+            </table>
+          </form>
+        </div>
+      )
+    }
   })
 }
 
@@ -113,6 +146,7 @@ var Toolbar = React.createClass({
         <h2 className="toolbar-element" onClick={this.addElement} value="Header">Header</h2>
         <h2 className="toolbar-element" onClick={this.addElement} value="Label">Label</h2>
         <h2 className="toolbar-element" onClick={this.addElement} value="Dropdown">Dropdown</h2>
+        <h2 className="toolbar-element" onClick={this.addElement} value="Table">Table</h2>
       </div>
     );
   }

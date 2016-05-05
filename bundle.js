@@ -77,6 +77,105 @@ var FormBank = {
         )
       );
     }
+  }),
+  Table: React.createClass({
+    displayName: 'Table',
+
+    render: function () {
+      return React.createElement(
+        'div',
+        { id: 'table-form' },
+        React.createElement(
+          'h2',
+          null,
+          'Table'
+        ),
+        React.createElement(
+          'form',
+          null,
+          React.createElement(
+            'table',
+            null,
+            React.createElement(
+              'thead',
+              null,
+              React.createElement(
+                'th',
+                null,
+                'Column 1'
+              ),
+              React.createElement(
+                'th',
+                null,
+                'Column 2'
+              ),
+              React.createElement(
+                'th',
+                null,
+                'Column 3'
+              ),
+              React.createElement(
+                'th',
+                null,
+                'Column 4'
+              )
+            ),
+            React.createElement(
+              'tbody',
+              null,
+              React.createElement(
+                'tr',
+                null,
+                React.createElement(
+                  'td',
+                  null,
+                  'Body Content 1a'
+                ),
+                React.createElement(
+                  'td',
+                  null,
+                  'Body Content 2a'
+                ),
+                React.createElement(
+                  'td',
+                  null,
+                  'Body Content 3a'
+                ),
+                React.createElement(
+                  'td',
+                  null,
+                  'Body Content 4a'
+                )
+              ),
+              React.createElement(
+                'tr',
+                null,
+                React.createElement(
+                  'td',
+                  null,
+                  'Body Content 1b'
+                ),
+                React.createElement(
+                  'td',
+                  null,
+                  'Body Content 2b'
+                ),
+                React.createElement(
+                  'td',
+                  null,
+                  'Body Content 3b'
+                ),
+                React.createElement(
+                  'td',
+                  null,
+                  'Body Content 4b'
+                )
+              )
+            )
+          )
+        )
+      );
+    }
   })
 };
 
@@ -180,6 +279,11 @@ var Toolbar = React.createClass({
         'h2',
         { className: 'toolbar-element', onClick: this.addElement, value: 'Dropdown' },
         'Dropdown'
+      ),
+      React.createElement(
+        'h2',
+        { className: 'toolbar-element', onClick: this.addElement, value: 'Table' },
+        'Table'
       )
     );
   }

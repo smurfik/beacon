@@ -17,3 +17,16 @@
 
 #dropdown-form {
 }
+
+#table-form table {
+  width: 100%;
+}
+
+#table-form table thead th {
+  width: 25%;
+}
+
+#table-form table tbody tr td {
+  text-align: center;
+  background-color: hsl(0, 0%, 90%);
+}
