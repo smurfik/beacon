@@ -81,7 +81,55 @@ var FormBank = {
   Table: React.createClass({
     displayName: 'Table',
 
+    getInitialState: function () {
+      var row = React.createElement(FormBank["NewRow"]);
+      return { tableRows: [row] };
+    },
+    addRow: function (event) {
+      event.preventDefault();
+      var newRow = React.createElement(FormBank[event.target.value]);
+      var tableRows = this.state.tableRows;
+      tableRows.push(newRow);
+      this.setState({ tableRows: tableRows });
+    },
     render: function () {
+      var tableRows = [];
+      var rows;
+      var NewRow = FormBank["NewRow"];
+
+      for (var i = 0; i < this.state.tableRows.length; i++) {
+        tableRows.push(React.createElement(NewRow, { key: i, element: this.state.tableRows[i] }));
+      }
+
+      if (this.state.tableRows.length == 1) {
+        rows = React.createElement(
+          'tr',
+          null,
+          React.createElement(
+            'td',
+            null,
+            'Body Content 1a'
+          ),
+          React.createElement(
+            'td',
+            null,
+            'Body Content 2a'
+          ),
+          React.createElement(
+            'td',
+            null,
+            'Body Content 3a'
+          ),
+          React.createElement(
+            'td',
+            null,
+            'Body Content 4a'
+          )
+        );
+      } else {
+        rows = { tableRows };
+      }
+
       return React.createElement(
         'div',
         { id: 'table-form' },
@@ -100,80 +148,87 @@ var FormBank = {
               'thead',
               null,
               React.createElement(
-                'th',
+                'tr',
                 null,
-                'Column 1'
-              ),
-              React.createElement(
-                'th',
-                null,
-                'Column 2'
-              ),
-              React.createElement(
-                'th',
-                null,
-                'Column 3'
-              ),
-              React.createElement(
-                'th',
-                null,
-                'Column 4'
+                React.createElement(
+                  'th',
+                  null,
+                  'Column 1'
+                ),
+                React.createElement(
+                  'th',
+                  null,
+                  'Column 2'
+                ),
+                React.createElement(
+                  'th',
+                  null,
+                  'Column 3'
+                ),
+                React.createElement(
+                  'th',
+                  null,
+                  'Column 4'
+                ),
+                React.createElement(
+                  'th',
+                  null,
+                  React.createElement(
+                    'button',
+                    null,
+                    'Add Column'
+                  )
+                )
               )
             ),
             React.createElement(
               'tbody',
               null,
-              React.createElement(
-                'tr',
-                null,
-                React.createElement(
-                  'td',
-                  null,
-                  'Body Content 1a'
-                ),
-                React.createElement(
-                  'td',
-                  null,
-                  'Body Content 2a'
-                ),
-                React.createElement(
-                  'td',
-                  null,
-                  'Body Content 3a'
-                ),
-                React.createElement(
-                  'td',
-                  null,
-                  'Body Content 4a'
-                )
-              ),
-              React.createElement(
-                'tr',
-                null,
-                React.createElement(
-                  'td',
-                  null,
-                  'Body Content 1b'
-                ),
-                React.createElement(
-                  'td',
-                  null,
-                  'Body Content 2b'
-                ),
-                React.createElement(
-                  'td',
-                  null,
-                  'Body Content 3b'
-                ),
-                React.createElement(
-                  'td',
-                  null,
-                  'Body Content 4b'
-                )
-              )
+              rows
             )
           )
+        ),
+        React.createElement(
+          'button',
+          { onClick: this.addRow, value: 'NewRow' },
+          'Add Row'
         )
+      );
+    }
+  }),
+  NewRow: React.createClass({
+    displayName: 'NewRow',
+
+    render: function () {
+      var row = React.createElement(
+        'tr',
+        null,
+        React.createElement(
+          'td',
+          null,
+          'Body Content 1a'
+        ),
+        React.createElement(
+          'td',
+          null,
+          'Body Content 2a'
+        ),
+        React.createElement(
+          'td',
+          null,
+          'Body Content 3a'
+        ),
+        React.createElement(
+          'td',
+          null,
+          'Body Content 4a'
+        )
+      );
+
+      return React.createElement(
+        'div',
+        null,
+        row
       );
     }
   })

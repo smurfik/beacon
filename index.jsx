@@ -44,34 +44,79 @@ var FormBank = {
     }
   }),
   Table: React.createClass({
+    getInitialState: function() {
+      var row = React.createElement(FormBank["NewRow"]);
+      return {tableRows: [row]}
+    },
+    addRow: function(event) {
+      event.preventDefault();
+      var newRow = React.createElement(FormBank[event.target.value]);
+      var tableRows = this.state.tableRows;
+      tableRows.push(newRow);
+      this.setState({tableRows: tableRows});
+    },
     render: function() {
+      var tableRows = [];
+      var rows;
+      var NewRow = FormBank["NewRow"];
+
+      for (var i = 0; i < this.state.tableRows.length; i++) {
+        tableRows.push(<NewRow key={i} element={this.state.tableRows[i]}/>)
+      }
+
+      if(this.state.tableRows.length == 1) {
+        rows = (
+          <tr>
+            <td>Body Content 1a</td>
+            <td>Body Content 2a</td>
+            <td>Body Content 3a</td>
+            <td>Body Content 4a</td>
+          </tr>
+        )
+      } else {
+        rows = (
+          {tableRows}
+        )
+      }
+
       return(
         <div id="table-form">
           <h2>Table</h2>
           <form>
             <table>
               <thead>
-                <th>Column 1</th>
-                <th>Column 2</th>
-                <th>Column 3</th>
-                <th>Column 4</th>
+                <tr>
+                  <th>Column 1</th>
+                  <th>Column 2</th>
+                  <th>Column 3</th>
+                  <th>Column 4</th>
+                  <th><button>Add Column</button></th>
+                </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>Body Content 1a</td>
-                  <td>Body Content 2a</td>
-                  <td>Body Content 3a</td>
-                  <td>Body Content 4a</td>
-                </tr>
-                <tr>
-                  <td>Body Content 1b</td>
-                  <td>Body Content 2b</td>
-                  <td>Body Content 3b</td>
-                  <td>Body Content 4b</td>
-                </tr>
+                {rows}
               </tbody>
             </table>
           </form>
+          <button onClick={this.addRow} value="NewRow">Add Row</button>
+        </div>
+      )
+    }
+  }),
+  NewRow: React.createClass({
+    render: function() {
+      var row = (
+        <tr>
+          <td>Body Content 1a</td>
+          <td>Body Content 2a</td>
+          <td>Body Content 3a</td>
+          <td>Body Content 4a</td>
+        </tr>
+      )
+
+      return(
+        <div>
+          {row}
         </div>
       )
     }
