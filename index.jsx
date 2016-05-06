@@ -16,11 +16,11 @@ var FormBank = {
       )
     }
   }),
-  Label: React.createClass({
+  Text: React.createClass({
     render: function() {
       return(
-        <div id="label-form">
-          <h2>Label</h2>
+        <div id="text-form">
+          <h2>Text</h2>
           <form>
             <textarea></textarea>
           </form>
@@ -40,6 +40,123 @@ var FormBank = {
             </select>
           </form>
         </div>
+      )
+    }
+  }),
+  Table: React.createClass({
+    getInitialState: function() {
+      var row = React.createElement(FormBank["NewRow"]);
+      return {tableRows: [row], columnCount: 1}
+    },
+    addRow: function(event) {
+      event.preventDefault();
+      var newRow = React.createElement(FormBank[event.target.value]);
+      var rows = this.state.tableRows;
+      rows.push(newRow);
+      this.setState({tableRows: rows});
+    },
+    addColumn: function(event) {
+      event.preventDefault();
+      var newColumnCount = this.state.columnCount += 1;
+      this.setState({columnCount: newColumnCount});
+    },
+    render: function() {
+      var columnHeaders = [];
+      var rows = [];
+      var NewRow = FormBank["NewRow"];
+
+      for (var i = 0; i < this.state.tableRows.length; i++) {
+        rows.push(<NewRow key={i} element={this.state.tableRows[i]} columnCount={this.state.columnCount}/>);
+      }
+
+      for (var i = 0; i < this.state.columnCount; i++) {
+        columnHeaders.push(<th key={i}> Column {i+1} </th>);
+      }
+
+      return(
+        <div id="table-form">
+          <h2>Table</h2>
+          <button id="add-column-button" onClick={this.addColumn}>Add Column</button>
+          <form>
+            <table>
+              <thead>
+                <tr>
+                  {columnHeaders}
+                </tr>
+              </thead>
+              <tbody>
+                {rows}
+              </tbody>
+            </table>
+          </form>
+          <button onClick={this.addRow} value="NewRow">Add Row</button>
+        </div>
+      )
+    }
+  }),
+  NewRow: React.createClass({
+    getInitialState: function() {
+      return {columnCount: this.props.columnCount}
+    },
+
+    render: function() {
+      var columns = [];
+      var TableCell = FormBank["TableCell"];
+
+      for (var i = 0; i < this.props.columnCount; i++) {
+        columns.push(<TableCell key={i} element={this.props.columnCount[i]}/>)
+      }
+
+      return(
+        <tr>
+          {columns}
+        </tr>
+      )
+    }
+  }),
+  TableCell: React.createClass({
+    getInitialState: function() {
+      return({active: false, cellType: null});
+    },
+    setCellType: function(event) {
+      this.setState({active: true, cellType: event.target.value});
+    },
+    render: function() {
+      var body;
+      var dropdown = (
+        <div className="form-type-selector">
+          <span>Select Form Type:</span>
+          <select onChange={this.setCellType}>
+            <option>[select]</option>
+            <option value="Text">Text</option>
+            <option value="Dropdown">Dropdown</option>
+          </select>
+        </div>
+      )
+
+      var cellType = (
+        React.createElement(FormBank[this.state.cellType])
+      )
+
+      if (this.state.active == false) {
+        body = (
+          <div>
+            {dropdown}
+          </div>
+        )
+      } else {
+        body = (
+          <div>
+            {cellType}
+            {dropdown}
+          </div>
+        )
+      }
+
+      return (
+        <td>
+          {body}
+        </td>
       )
     }
   })
@@ -111,8 +228,9 @@ var Toolbar = React.createClass({
       <div id="toolbar-pane">
         <h1>Toolbar</h1>
         <h2 className="toolbar-element" onClick={this.addElement} value="Header">Header</h2>
-        <h2 className="toolbar-element" onClick={this.addElement} value="Label">Label</h2>
+        <h2 className="toolbar-element" onClick={this.addElement} value="Text">Text</h2>
         <h2 className="toolbar-element" onClick={this.addElement} value="Dropdown">Dropdown</h2>
+        <h2 className="toolbar-element" onClick={this.addElement} value="Table">Table</h2>
       </div>
     );
   }

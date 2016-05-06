@@ -17,3 +17,29 @@
 
 #dropdown-form {
 }
+
+#table-form table {
+  width: 100%;
+}
+
+#add-column-button {
+  float: right;
+}
+
+#table-form table th, #table-form table td {
+  width: 5%;
+}
+
+#table-form table th {
+  background-color: hsl(0, 0%, 87%);
+}
+
+#table-form table td {
+  text-align: center;
+  background-color: hsl(0, 0%, 95%);
+}
+
+.form-type-selector {
+  margin: 20px 0;
+  font-size: 10px;
+}

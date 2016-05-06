@@ -25,17 +25,17 @@ var FormBank = {
       );
     }
   }),
-  Label: React.createClass({
-    displayName: 'Label',
+  Text: React.createClass({
+    displayName: 'Text',
 
     render: function () {
       return React.createElement(
         'div',
-        { id: 'label-form' },
+        { id: 'text-form' },
         React.createElement(
           'h2',
           null,
-          'Label'
+          'Text'
         ),
         React.createElement(
           'form',
@@ -75,6 +75,173 @@ var FormBank = {
             )
           )
         )
+      );
+    }
+  }),
+  Table: React.createClass({
+    displayName: 'Table',
+
+    getInitialState: function () {
+      var row = React.createElement(FormBank["NewRow"]);
+      return { tableRows: [row], columnCount: 1 };
+    },
+    addRow: function (event) {
+      event.preventDefault();
+      var newRow = React.createElement(FormBank[event.target.value]);
+      var rows = this.state.tableRows;
+      rows.push(newRow);
+      this.setState({ tableRows: rows });
+    },
+    addColumn: function (event) {
+      event.preventDefault();
+      var newColumnCount = this.state.columnCount += 1;
+      this.setState({ columnCount: newColumnCount });
+    },
+    render: function () {
+      var columnHeaders = [];
+      var rows = [];
+      var NewRow = FormBank["NewRow"];
+
+      for (var i = 0; i < this.state.tableRows.length; i++) {
+        rows.push(React.createElement(NewRow, { key: i, element: this.state.tableRows[i], columnCount: this.state.columnCount }));
+      }
+
+      for (var i = 0; i < this.state.columnCount; i++) {
+        columnHeaders.push(React.createElement(
+          'th',
+          { key: i },
+          ' Column ',
+          i + 1,
+          ' '
+        ));
+      }
+
+      return React.createElement(
+        'div',
+        { id: 'table-form' },
+        React.createElement(
+          'h2',
+          null,
+          'Table'
+        ),
+        React.createElement(
+          'button',
+          { id: 'add-column-button', onClick: this.addColumn },
+          'Add Column'
+        ),
+        React.createElement(
+          'form',
+          null,
+          React.createElement(
+            'table',
+            null,
+            React.createElement(
+              'thead',
+              null,
+              React.createElement(
+                'tr',
+                null,
+                columnHeaders
+              )
+            ),
+            React.createElement(
+              'tbody',
+              null,
+              rows
+            )
+          )
+        ),
+        React.createElement(
+          'button',
+          { onClick: this.addRow, value: 'NewRow' },
+          'Add Row'
+        )
+      );
+    }
+  }),
+  NewRow: React.createClass({
+    displayName: 'NewRow',
+
+    getInitialState: function () {
+      return { columnCount: this.props.columnCount };
+    },
+
+    render: function () {
+      var columns = [];
+      var TableCell = FormBank["TableCell"];
+
+      for (var i = 0; i < this.props.columnCount; i++) {
+        columns.push(React.createElement(TableCell, { key: i, element: this.props.columnCount[i] }));
+      }
+
+      return React.createElement(
+        'tr',
+        null,
+        columns
+      );
+    }
+  }),
+  TableCell: React.createClass({
+    displayName: 'TableCell',
+
+    getInitialState: function () {
+      return { active: false, cellType: null };
+    },
+    setCellType: function (event) {
+      this.setState({ active: true, cellType: event.target.value });
+    },
+    render: function () {
+      var body;
+      var dropdown = React.createElement(
+        'div',
+        { className: 'form-type-selector' },
+        React.createElement(
+          'span',
+          null,
+          'Select Form Type:'
+        ),
+        React.createElement(
+          'select',
+          { onChange: this.setCellType },
+          React.createElement(
+            'option',
+            null,
+            '[select]'
+          ),
+          React.createElement(
+            'option',
+            { value: 'Text' },
+            'Text'
+          ),
+          React.createElement(
+            'option',
+            { value: 'Dropdown' },
+            'Dropdown'
+          )
+        )
+      );
+
+      var cellType = React.createElement(FormBank[this.state.cellType]);
+
+      if (this.state.active == false) {
+        body = React.createElement(
+          'div',
+          null,
+          dropdown
+        );
+      } else {
+        body = React.createElement(
+          'div',
+          null,
+          cellType,
+          dropdown
+        );
+      }
+
+      return React.createElement(
+        'td',
+        null,
+        body
       );
     }
   })
@@ -173,13 +340,18 @@ var Toolbar = React.createClass({
       ),
       React.createElement(
         'h2',
-        { className: 'toolbar-element', onClick: this.addElement, value: 'Label' },
-        'Label'
+        { className: 'toolbar-element', onClick: this.addElement, value: 'Text' },
+        'Text'
       ),
       React.createElement(
         'h2',
         { className: 'toolbar-element', onClick: this.addElement, value: 'Dropdown' },
         'Dropdown'
+      ),
+      React.createElement(
+        'h2',
+        { className: 'toolbar-element', onClick: this.addElement, value: 'Table' },
+        'Table'
       )
     );
   }
