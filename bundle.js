@@ -185,29 +185,51 @@ var FormBank = {
     getInitialState: function () {
       return { active: false, cellType: null };
     },
-    setCellType: function () {
-      this.setState({ active: true });
+    setCellType: function (event) {
+      this.setState({ active: true, cellType: event.target.value });
     },
     render: function () {
       var body;
+      var dropdown = React.createElement(
+        'select',
+        { onChange: this.setCellType },
+        React.createElement(
+          'option',
+          { value: 'Text' },
+          'Text'
+        ),
+        React.createElement(
+          'option',
+          { value: 'Dropdown' },
+          'Dropdown'
+        )
+      );
+
+      var cellType = React.createElement(FormBank[this.state.cellType]);
 
       if (this.state.active == false) {
         body = React.createElement(
-          'span',
+          'div',
           null,
-          'Click to choose cell type'
+          React.createElement(
+            'span',
+            null,
+            'Select cell type: '
+          ),
+          dropdown
         );
       } else {
         body = React.createElement(
-          'span',
+          'div',
           null,
-          'I\'m a complicated form!'
+          cellType,
+          dropdown
         );
       }
 
       return React.createElement(
         'td',
-        { onClick: this.setCellType },
+        null,
         body
       );
     }

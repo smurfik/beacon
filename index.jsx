@@ -118,20 +118,40 @@ var FormBank = {
     getInitialState: function() {
       return({active: false, cellType: null});
     },
-    setCellType: function() {
-      this.setState({active: true});
+    setCellType: function(event) {
+      this.setState({active: true, cellType: event.target.value});
     },
     render: function() {
       var body;
+      var dropdown = (
+        <select onChange={this.setCellType}>
+          <option value="Text">Text</option>
+          <option value="Dropdown">Dropdown</option>
+        </select>
+      )
+
+      var cellType = (
+        React.createElement(FormBank[this.state.cellType])
+      )
 
       if (this.state.active == false) {
-        body = <span>Click to choose cell type</span>
+        body = (
+          <div>
+            <span>Select cell type: </span>
+            {dropdown}
+          </div>
+        )
       } else {
-        body = <span>I'm a complicated form!</span>
+        body = (
+          <div>
+            {cellType}
+            {dropdown}
+          </div>
+        )
       }
 
       return (
-        <td onClick={this.setCellType}>
+        <td>
           {body}
         </td>
       )
