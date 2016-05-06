@@ -7,13 +7,21 @@ var RIEInput = riek.RIEInput;
 
 var FormBank = {
   Header: React.createClass({
+    getInitialState: function() {
+      return({text: "Header"});
+    },
+    changeState: function(newState) {
+      this.setState(newState);
+    },
     render: function() {
       return(
         <div id="header-form">
-          <h2>Header</h2>
-          <form>
-            <textarea></textarea>
-          </form>
+          <RIEInput
+            value={this.state.text}
+            change={this.changeState}
+            propName="text"
+            className="form-header"
+            />
         </div>
       )
     }
@@ -25,18 +33,15 @@ var FormBank = {
     changeState: function(newState) {
       this.setState(newState);
     },
-
     render: function() {
       return(
         <div id="text-form">
-          <h2>Text</h2>
-          <form>
-            <RIEInput
-              value={this.state.text}
-              change={this.changeState}
-              propName="text"
-              />
-          </form>
+          <RIEInput
+            value={this.state.text}
+            change={this.changeState}
+            propName="text"
+            className="form-text"
+            />
         </div>
       )
     }

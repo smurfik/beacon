@@ -10,20 +10,22 @@ var FormBank = {
   Header: React.createClass({
     displayName: 'Header',
 
+    getInitialState: function () {
+      return { text: "Header" };
+    },
+    changeState: function (newState) {
+      this.setState(newState);
+    },
     render: function () {
       return React.createElement(
         'div',
         { id: 'header-form' },
-        React.createElement(
-          'h2',
-          null,
-          'Header'
-        ),
-        React.createElement(
-          'form',
-          null,
-          React.createElement('textarea', null)
-        )
+        React.createElement(RIEInput, {
+          value: this.state.text,
+          change: this.changeState,
+          propName: 'text',
+          className: 'form-header'
+        })
       );
     }
   }),
@@ -36,25 +38,16 @@ var FormBank = {
     changeState: function (newState) {
       this.setState(newState);
     },
-
     render: function () {
       return React.createElement(
         'div',
         { id: 'text-form' },
-        React.createElement(
-          'h2',
-          null,
-          'Text'
-        ),
-        React.createElement(
-          'form',
-          null,
-          React.createElement(RIEInput, {
-            value: this.state.text,
-            change: this.changeState,
-            propName: 'text'
-          })
-        )
+        React.createElement(RIEInput, {
+          value: this.state.text,
+          change: this.changeState,
+          propName: 'text',
+          className: 'form-text'
+        })
       );
     }
   }),
