@@ -20,7 +20,7 @@ var FormBank = {
             value={this.state.text}
             change={this.changeState}
             propName="text"
-            className="form-header"
+            className="form-section-header"
             />
         </div>
       )
@@ -47,16 +47,25 @@ var FormBank = {
     }
   }),
   Dropdown: React.createClass({
+    getInitialState: function() {
+      return({text: "Question"});
+    },
+    changeState: function(newState) {
+      this.setState(newState);
+    },
     render: function() {
       return(
         <div id="dropdown-form">
-          <h2>Dropdown</h2>
-          <form>
-            <select>
-              <option value="value1">Value 1</option>
-              <option value="value2">Value 2</option>
-            </select>
-          </form>
+        <RIEInput
+          value={this.state.text}
+          change={this.changeState}
+          propName="text"
+          className="form-question-header"
+          />
+          <select>
+            <option value="value1">Value 1</option>
+            <option value="value2">Value 2</option>
+          </select>
         </div>
       )
     }
@@ -64,7 +73,10 @@ var FormBank = {
   Table: React.createClass({
     getInitialState: function() {
       var row = React.createElement(FormBank["NewRow"]);
-      return {tableRows: [row], columnCount: 1}
+      return {tableRows: [row], columnCount: 1, text: "Table Title"}
+    },
+    changeState: function(newState) {
+      this.setState(newState);
     },
     addRow: function(event) {
       event.preventDefault();
@@ -93,7 +105,12 @@ var FormBank = {
 
       return(
         <div id="table-form">
-          <h2>Table</h2>
+          <RIEInput
+            value={this.state.text}
+            change={this.changeState}
+            propName="text"
+            className="form-question-header"
+          />
           <button id="add-column-button" onClick={this.addColumn}>Add Column</button>
           <form>
             <table>

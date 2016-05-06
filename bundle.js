@@ -24,7 +24,7 @@ var FormBank = {
           value: this.state.text,
           change: this.changeState,
           propName: 'text',
-          className: 'form-header'
+          className: 'form-section-header'
         })
       );
     }
@@ -54,31 +54,34 @@ var FormBank = {
   Dropdown: React.createClass({
     displayName: 'Dropdown',
 
+    getInitialState: function () {
+      return { text: "Question" };
+    },
+    changeState: function (newState) {
+      this.setState(newState);
+    },
     render: function () {
       return React.createElement(
         'div',
         { id: 'dropdown-form' },
+        React.createElement(RIEInput, {
+          value: this.state.text,
+          change: this.changeState,
+          propName: 'text',
+          className: 'form-question-header'
+        }),
         React.createElement(
-          'h2',
-          null,
-          'Dropdown'
-        ),
-        React.createElement(
-          'form',
+          'select',
           null,
           React.createElement(
-            'select',
-            null,
-            React.createElement(
-              'option',
-              { value: 'value1' },
-              'Value 1'
-            ),
-            React.createElement(
-              'option',
-              { value: 'value2' },
-              'Value 2'
-            )
+            'option',
+            { value: 'value1' },
+            'Value 1'
+          ),
+          React.createElement(
+            'option',
+            { value: 'value2' },
+            'Value 2'
           )
         )
       );
@@ -89,7 +92,10 @@ var FormBank = {
 
     getInitialState: function () {
       var row = React.createElement(FormBank["NewRow"]);
-      return { tableRows: [row], columnCount: 1 };
+      return { tableRows: [row], columnCount: 1, text: "Table Title" };
+    },
+    changeState: function (newState) {
+      this.setState(newState);
     },
     addRow: function (event) {
       event.preventDefault();
@@ -125,11 +131,12 @@ var FormBank = {
       return React.createElement(
         'div',
         { id: 'table-form' },
-        React.createElement(
-          'h2',
-          null,
-          'Table'
-        ),
+        React.createElement(RIEInput, {
+          value: this.state.text,
+          change: this.changeState,
+          propName: 'text',
+          className: 'form-question-header'
+        }),
         React.createElement(
           'button',
           { id: 'add-column-button', onClick: this.addColumn },
