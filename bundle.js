@@ -198,13 +198,14 @@ var FormBank = {
     displayName: 'TableCell',
 
     getInitialState: function () {
-      return { active: false, cellType: null };
+      return { active: false, cellType: "" };
     },
     setCellType: function (event) {
       this.setState({ active: true, cellType: event.target.value });
     },
     render: function () {
       var body;
+      var cellType;
       var dropdown = React.createElement(
         'div',
         { className: 'form-type-selector' },
@@ -234,8 +235,6 @@ var FormBank = {
         )
       );
 
-      var cellType = React.createElement(FormBank[this.state.cellType]);
-
       if (this.state.active == false) {
         body = React.createElement(
           'div',
@@ -243,6 +242,7 @@ var FormBank = {
           dropdown
         );
       } else {
+        cellType = React.createElement(FormBank[this.state.cellType]);
         body = React.createElement(
           'div',
           null,

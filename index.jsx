@@ -151,13 +151,14 @@ var FormBank = {
   }),
   TableCell: React.createClass({
     getInitialState: function() {
-      return({active: false, cellType: null});
+      return({active: false, cellType: ""});
     },
     setCellType: function(event) {
       this.setState({active: true, cellType: event.target.value});
     },
     render: function() {
       var body;
+      var cellType;
       var dropdown = (
         <div className="form-type-selector">
           <span>Select Form Type:</span>
@@ -169,10 +170,6 @@ var FormBank = {
         </div>
       )
 
-      var cellType = (
-        React.createElement(FormBank[this.state.cellType])
-      )
-
       if (this.state.active == false) {
         body = (
           <div>
@@ -180,6 +177,9 @@ var FormBank = {
           </div>
         )
       } else {
+        cellType = (
+          React.createElement(FormBank[this.state.cellType])
+        )
         body = (
           <div>
             {cellType}
