@@ -1,5 +1,4 @@
 * {
-  /*border: 1px solid pink;*/
   font-family: "Helvetica";
 }
 
@@ -10,7 +9,6 @@ header {
 
 #form-builder {
   width: 0 auto;
-  /*margin: 0px 40px;*/
 }
 
 #preview-pane, #toolbar-pane {
