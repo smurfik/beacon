@@ -70,7 +70,7 @@ var FormBank = {
       }
 
       for (var i = 0; i < this.state.columnCount; i++) {
-        headers.push(<th> Header </th>);
+        headers.push(<th key={i}> Header </th>);
       }
 
       return(
@@ -115,10 +115,24 @@ var FormBank = {
     }
   }),
   TableCell: React.createClass({
+    getInitialState: function() {
+      return({active: false, cellType: null});
+    },
+    setCellType: function() {
+      this.setState({active: true});
+    },
     render: function() {
-      return(
-        <td>
-          I'm a cell!
+      var body;
+
+      if (this.state.active == false) {
+        body = <span>Click to choose cell type</span>
+      } else {
+        body = <span>I'm a complicated form!</span>
+      }
+
+      return (
+        <td onClick={this.setCellType}>
+          {body}
         </td>
       )
     }

@@ -109,7 +109,7 @@ var FormBank = {
       for (var i = 0; i < this.state.columnCount; i++) {
         headers.push(React.createElement(
           'th',
-          null,
+          { key: i },
           ' Header '
         ));
       }
@@ -182,11 +182,33 @@ var FormBank = {
   TableCell: React.createClass({
     displayName: 'TableCell',
 
+    getInitialState: function () {
+      return { active: false, cellType: null };
+    },
+    setCellType: function () {
+      this.setState({ active: true });
+    },
     render: function () {
+      var body;
+
+      if (this.state.active == false) {
+        body = React.createElement(
+          'span',
+          null,
+          'Click to choose cell type'
+        );
+      } else {
+        body = React.createElement(
+          'span',
+          null,
+          'I\'m a complicated form!'
+        );
+      }
+
       return React.createElement(
         'td',
-        null,
-        'I\'m a cell!'
+        { onClick: this.setCellType },
+        body
       );
     }
   })
