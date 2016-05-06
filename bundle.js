@@ -83,7 +83,7 @@ var FormBank = {
 
     getInitialState: function () {
       var row = React.createElement(FormBank["NewRow"]);
-      return { tableRows: [row] };
+      return { tableRows: [row], columnCount: 1 };
     },
     addRow: function (event) {
       event.preventDefault();
@@ -92,12 +92,17 @@ var FormBank = {
       rows.push(newRow);
       this.setState({ tableRows: rows });
     },
+    addColumn: function (event) {
+      event.preventDefault();
+      var newColumnCount = this.state.columnCount += 1;
+      this.setState({ columnCount: newColumnCount });
+    },
     render: function () {
       var rows = [];
       var NewRow = FormBank["NewRow"];
 
       for (var i = 0; i < this.state.tableRows.length; i++) {
-        rows.push(React.createElement(NewRow, { key: i, element: this.state.tableRows[i] }));
+        rows.push(React.createElement(NewRow, { key: i, element: this.state.tableRows[i], columnCount: this.state.columnCount }));
       }
 
       return React.createElement(
@@ -128,24 +133,9 @@ var FormBank = {
                 React.createElement(
                   'th',
                   null,
-                  'Column 2'
-                ),
-                React.createElement(
-                  'th',
-                  null,
-                  'Column 3'
-                ),
-                React.createElement(
-                  'th',
-                  null,
-                  'Column 4'
-                ),
-                React.createElement(
-                  'th',
-                  null,
                   React.createElement(
                     'button',
-                    null,
+                    { onClick: this.addColumn },
                     'Add Column'
                   )
                 )
@@ -169,30 +159,33 @@ var FormBank = {
   NewRow: React.createClass({
     displayName: 'NewRow',
 
+    getInitialState: function () {
+      return { columnCount: this.props.columnCount };
+    },
+
     render: function () {
+      var columns = [];
+      var TableCell = FormBank["TableCell"];
+
+      for (var i = 0; i < this.props.columnCount; i++) {
+        columns.push(React.createElement(TableCell, { key: i, element: this.props.columnCount[i] }));
+      }
+
       return React.createElement(
         'tr',
         null,
-        React.createElement(
-          'td',
-          null,
-          'Body Content 1a'
-        ),
-        React.createElement(
-          'td',
-          null,
-          'Body Content 2a'
-        ),
-        React.createElement(
-          'td',
-          null,
-          'Body Content 3a'
-        ),
-        React.createElement(
-          'td',
-          null,
-          'Body Content 4a'
-        )
+        columns
+      );
+    }
+  }),
+  TableCell: React.createClass({
+    displayName: 'TableCell',
+
+    render: function () {
+      return React.createElement(
+        'td',
+        null,
+        'I\'m a cell!'
       );
     }
   })

@@ -46,7 +46,7 @@ var FormBank = {
   Table: React.createClass({
     getInitialState: function() {
       var row = React.createElement(FormBank["NewRow"]);
-      return {tableRows: [row]}
+      return {tableRows: [row], columnCount: 1}
     },
     addRow: function(event) {
       event.preventDefault();
@@ -55,12 +55,17 @@ var FormBank = {
       rows.push(newRow);
       this.setState({tableRows: rows});
     },
+    addColumn: function(event) {
+      event.preventDefault();
+      var newColumnCount = this.state.columnCount += 1;
+      this.setState({columnCount: newColumnCount});
+    },
     render: function() {
       var rows = [];
       var NewRow = FormBank["NewRow"];
 
       for (var i = 0; i < this.state.tableRows.length; i++) {
-        rows.push(<NewRow key={i} element={this.state.tableRows[i]}/>)
+        rows.push(<NewRow key={i} element={this.state.tableRows[i]} columnCount={this.state.columnCount}/>)
       }
 
       return(
@@ -71,10 +76,7 @@ var FormBank = {
               <thead>
                 <tr>
                   <th>Column 1</th>
-                  <th>Column 2</th>
-                  <th>Column 3</th>
-                  <th>Column 4</th>
-                  <th><button>Add Column</button></th>
+                  <th><button onClick={this.addColumn}>Add Column</button></th>
                 </tr>
               </thead>
               <tbody>
@@ -88,14 +90,31 @@ var FormBank = {
     }
   }),
   NewRow: React.createClass({
+    getInitialState: function() {
+      return {columnCount: this.props.columnCount}
+    },
+
     render: function() {
+      var columns = [];
+      var TableCell = FormBank["TableCell"];
+
+      for (var i = 0; i < this.props.columnCount; i++) {
+        columns.push(<TableCell key={i} element={this.props.columnCount[i]}/>)
+      }
+
       return(
         <tr>
-          <td>Body Content 1a</td>
-          <td>Body Content 2a</td>
-          <td>Body Content 3a</td>
-          <td>Body Content 4a</td>
+          {columns}
         </tr>
+      )
+    }
+  }),
+  TableCell: React.createClass({
+    render: function() {
+      return(
+        <td>
+          I'm a cell!
+        </td>
       )
     }
   })
