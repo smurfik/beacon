@@ -29,11 +29,11 @@ var FormBank = {
       );
     }
   }),
-  Text: React.createClass({
-    displayName: 'Text',
+  Description: React.createClass({
+    displayName: 'Description',
 
     getInitialState: function () {
-      return { text: "enter text here" };
+      return { text: "enter description here" };
     },
     changeState: function (newState) {
       this.setState(newState);
@@ -41,12 +41,34 @@ var FormBank = {
     render: function () {
       return React.createElement(
         'div',
-        { id: 'text-form' },
+        { id: 'description-form' },
         React.createElement(RIEInput, {
           value: this.state.text,
           change: this.changeState,
           propName: 'text',
-          className: 'form-text'
+          className: 'form-description'
+        })
+      );
+    }
+  }),
+  UserText: React.createClass({
+    displayName: 'UserText',
+
+    getInitialState: function () {
+      return { text: "answer here" };
+    },
+    changeState: function (newState) {
+      this.setState(newState);
+    },
+    render: function () {
+      return React.createElement(
+        'div',
+        { id: 'user-text-form' },
+        React.createElement(RIEInput, {
+          value: this.state.text,
+          change: this.changeState,
+          propName: 'text',
+          className: 'form-user-text'
         })
       );
     }
@@ -224,7 +246,7 @@ var FormBank = {
           ),
           React.createElement(
             'option',
-            { value: 'Text' },
+            { value: 'UserText' },
             'Text'
           ),
           React.createElement(
@@ -347,14 +369,29 @@ var Toolbar = React.createClass({
         'Toolbar'
       ),
       React.createElement(
+        'span',
+        { className: 'toolbar-section-header' },
+        'Form Layout & Construction'
+      ),
+      React.createElement(
         'h2',
         { className: 'toolbar-element', onClick: this.addElement, value: 'Header' },
         'Header'
       ),
       React.createElement(
         'h2',
-        { className: 'toolbar-element', onClick: this.addElement, value: 'Text' },
-        'Text'
+        { className: 'toolbar-element', onClick: this.addElement, value: 'Description' },
+        'Description'
+      ),
+      React.createElement(
+        'h2',
+        { className: 'toolbar-element', onClick: this.addElement, value: 'Table' },
+        'Table'
+      ),
+      React.createElement(
+        'span',
+        { className: 'toolbar-section-header' },
+        'Question Types'
       ),
       React.createElement(
         'h2',
@@ -363,8 +400,8 @@ var Toolbar = React.createClass({
       ),
       React.createElement(
         'h2',
-        { className: 'toolbar-element', onClick: this.addElement, value: 'Table' },
-        'Table'
+        { className: 'toolbar-element', onClick: this.addElement, value: 'UserText' },
+        'Text'
       )
     );
   }
