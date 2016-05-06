@@ -51,32 +51,16 @@ var FormBank = {
     addRow: function(event) {
       event.preventDefault();
       var newRow = React.createElement(FormBank[event.target.value]);
-      var tableRows = this.state.tableRows;
-      tableRows.push(newRow);
-      this.setState({tableRows: tableRows});
+      var rows = this.state.tableRows;
+      rows.push(newRow);
+      this.setState({tableRows: rows});
     },
     render: function() {
-      var tableRows = [];
-      var rows;
+      var rows = [];
       var NewRow = FormBank["NewRow"];
 
       for (var i = 0; i < this.state.tableRows.length; i++) {
-        tableRows.push(<NewRow key={i} element={this.state.tableRows[i]}/>)
-      }
-
-      if(this.state.tableRows.length == 1) {
-        rows = (
-          <tr>
-            <td>Body Content 1a</td>
-            <td>Body Content 2a</td>
-            <td>Body Content 3a</td>
-            <td>Body Content 4a</td>
-          </tr>
-        )
-      } else {
-        rows = (
-          {tableRows}
-        )
+        rows.push(<NewRow key={i} element={this.state.tableRows[i]}/>)
       }
 
       return(

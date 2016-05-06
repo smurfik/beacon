@@ -88,46 +88,16 @@ var FormBank = {
     addRow: function (event) {
       event.preventDefault();
       var newRow = React.createElement(FormBank[event.target.value]);
-      var tableRows = this.state.tableRows;
-      tableRows.push(newRow);
-      this.setState({ tableRows: tableRows });
+      var rows = this.state.tableRows;
+      rows.push(newRow);
+      this.setState({ tableRows: rows });
     },
     render: function () {
-      var tableRows = [];
-      var rows;
+      var rows = [];
       var NewRow = FormBank["NewRow"];
 
       for (var i = 0; i < this.state.tableRows.length; i++) {
-        tableRows.push(React.createElement(NewRow, { key: i, element: this.state.tableRows[i] }));
-      }
-
-      if (this.state.tableRows.length == 1) {
-        rows = React.createElement(
-          'tr',
-          null,
-          React.createElement(
-            'td',
-            null,
-            'Body Content 1a'
-          ),
-          React.createElement(
-            'td',
-            null,
-            'Body Content 2a'
-          ),
-          React.createElement(
-            'td',
-            null,
-            'Body Content 3a'
-          ),
-          React.createElement(
-            'td',
-            null,
-            'Body Content 4a'
-          )
-        );
-      } else {
-        rows = { tableRows };
+        rows.push(React.createElement(NewRow, { key: i, element: this.state.tableRows[i] }));
       }
 
       return React.createElement(
