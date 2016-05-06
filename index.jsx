@@ -2,6 +2,8 @@
 
 var React = require('react');
 var ReactDOM = require('react-dom');
+var riek = require('riek')
+var RIEInput = riek.RIEInput;
 
 var FormBank = {
   Header: React.createClass({
@@ -17,12 +19,23 @@ var FormBank = {
     }
   }),
   Text: React.createClass({
+    getInitialState: function() {
+      return({text: "enter text here"});
+    },
+    changeState: function(newState) {
+      this.setState(newState);
+    },
+
     render: function() {
       return(
         <div id="text-form">
           <h2>Text</h2>
           <form>
-            <textarea></textarea>
+            <RIEInput
+              value={this.state.text}
+              change={this.changeState}
+              propName="text"
+              />
           </form>
         </div>
       )
