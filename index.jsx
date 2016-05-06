@@ -183,7 +183,7 @@ var FormBank = {
         <div className="form-type-selector">
           <span>Select Form Type:</span>
           <select onChange={this.setCellType}>
-            <option>[select]</option>
+            <option value="selected">[select]</option>
             <option value="UserText">Text</option>
             <option value="Dropdown">Dropdown</option>
           </select>
@@ -214,7 +214,10 @@ var FormBank = {
         </td>
       )
     }
-  })
+  }),
+  selected: function() {
+    return <div></div>
+  }
 }
 
 var FormBuilder = React.createClass({

@@ -241,7 +241,7 @@ var FormBank = {
           { onChange: this.setCellType },
           React.createElement(
             'option',
-            null,
+            { value: 'selected' },
             '[select]'
           ),
           React.createElement(
@@ -279,7 +279,10 @@ var FormBank = {
         body
       );
     }
-  })
+  }),
+  selected: function () {
+    return React.createElement('div', null);
+  }
 };
 
 var FormBuilder = React.createClass({
