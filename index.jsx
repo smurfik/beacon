@@ -89,19 +89,13 @@ var FormBank = {
   }),
   NewRow: React.createClass({
     render: function() {
-      var row = (
+      return(
         <tr>
           <td>Body Content 1a</td>
           <td>Body Content 2a</td>
           <td>Body Content 3a</td>
           <td>Body Content 4a</td>
         </tr>
-      )
-
-      return(
-        <div>
-          {row}
-        </div>
       )
     }
   })

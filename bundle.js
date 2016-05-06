@@ -170,7 +170,7 @@ var FormBank = {
     displayName: 'NewRow',
 
     render: function () {
-      var row = React.createElement(
+      return React.createElement(
         'tr',
         null,
         React.createElement(
@@ -193,12 +193,6 @@ var FormBank = {
           null,
           'Body Content 4a'
         )
-      );
-
-      return React.createElement(
-        'div',
-        null,
-        row
       );
     }
   })
