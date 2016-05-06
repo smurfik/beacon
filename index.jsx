@@ -61,11 +61,16 @@ var FormBank = {
       this.setState({columnCount: newColumnCount});
     },
     render: function() {
+      var headers = [];
       var rows = [];
       var NewRow = FormBank["NewRow"];
 
       for (var i = 0; i < this.state.tableRows.length; i++) {
-        rows.push(<NewRow key={i} element={this.state.tableRows[i]} columnCount={this.state.columnCount}/>)
+        rows.push(<NewRow key={i} element={this.state.tableRows[i]} columnCount={this.state.columnCount}/>);
+      }
+
+      for (var i = 0; i < this.state.columnCount; i++) {
+        headers.push(<th> Header </th>);
       }
 
       return(
@@ -76,7 +81,7 @@ var FormBank = {
             <table>
               <thead>
                 <tr>
-                  <th>Column 1</th>
+                  {headers}
                 </tr>
               </thead>
               <tbody>

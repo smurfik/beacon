@@ -98,11 +98,20 @@ var FormBank = {
       this.setState({ columnCount: newColumnCount });
     },
     render: function () {
+      var headers = [];
       var rows = [];
       var NewRow = FormBank["NewRow"];
 
       for (var i = 0; i < this.state.tableRows.length; i++) {
         rows.push(React.createElement(NewRow, { key: i, element: this.state.tableRows[i], columnCount: this.state.columnCount }));
+      }
+
+      for (var i = 0; i < this.state.columnCount; i++) {
+        headers.push(React.createElement(
+          'th',
+          null,
+          ' Header '
+        ));
       }
 
       return React.createElement(
@@ -130,11 +139,7 @@ var FormBank = {
               React.createElement(
                 'tr',
                 null,
-                React.createElement(
-                  'th',
-                  null,
-                  'Column 1'
-                )
+                headers
               )
             ),
             React.createElement(
