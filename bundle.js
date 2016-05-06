@@ -114,6 +114,11 @@ var FormBank = {
           'Table'
         ),
         React.createElement(
+          'button',
+          { id: 'add-column-button', onClick: this.addColumn },
+          'Add Column'
+        ),
+        React.createElement(
           'form',
           null,
           React.createElement(
@@ -129,15 +134,6 @@ var FormBank = {
                   'th',
                   null,
                   'Column 1'
-                ),
-                React.createElement(
-                  'th',
-                  null,
-                  React.createElement(
-                    'button',
-                    { onClick: this.addColumn },
-                    'Add Column'
-                  )
                 )
               )
             ),

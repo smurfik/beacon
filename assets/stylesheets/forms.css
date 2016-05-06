@@ -26,6 +26,10 @@
   width: 25%;
 }
 
+#add-column-button {
+  float: right;
+}
+
 #table-form table tbody tr td {
   text-align: center;
   background-color: hsl(0, 0%, 90%);

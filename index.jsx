@@ -71,12 +71,12 @@ var FormBank = {
       return(
         <div id="table-form">
           <h2>Table</h2>
+          <button id="add-column-button" onClick={this.addColumn}>Add Column</button>
           <form>
             <table>
               <thead>
                 <tr>
                   <th>Column 1</th>
-                  <th><button onClick={this.addColumn}>Add Column</button></th>
                 </tr>
               </thead>
               <tbody>
