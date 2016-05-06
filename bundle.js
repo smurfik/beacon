@@ -25,17 +25,17 @@ var FormBank = {
       );
     }
   }),
-  Label: React.createClass({
-    displayName: 'Label',
+  Text: React.createClass({
+    displayName: 'Text',
 
     render: function () {
       return React.createElement(
         'div',
-        { id: 'label-form' },
+        { id: 'text-form' },
         React.createElement(
           'h2',
           null,
-          'Label'
+          'Text'
         ),
         React.createElement(
           'form',
@@ -98,7 +98,7 @@ var FormBank = {
       this.setState({ columnCount: newColumnCount });
     },
     render: function () {
-      var headers = [];
+      var columnHeaders = [];
       var rows = [];
       var NewRow = FormBank["NewRow"];
 
@@ -107,10 +107,12 @@ var FormBank = {
       }
 
       for (var i = 0; i < this.state.columnCount; i++) {
-        headers.push(React.createElement(
+        columnHeaders.push(React.createElement(
           'th',
           { key: i },
-          ' Header '
+          ' Column ',
+          i + 1,
+          ' '
         ));
       }
 
@@ -139,7 +141,7 @@ var FormBank = {
               React.createElement(
                 'tr',
                 null,
-                headers
+                columnHeaders
               )
             ),
             React.createElement(
@@ -191,17 +193,31 @@ var FormBank = {
     render: function () {
       var body;
       var dropdown = React.createElement(
-        'select',
-        { onChange: this.setCellType },
+        'div',
+        { className: 'form-type-selector' },
         React.createElement(
-          'option',
-          { value: 'Text' },
-          'Text'
+          'span',
+          null,
+          'Select Form Type:'
         ),
         React.createElement(
-          'option',
-          { value: 'Dropdown' },
-          'Dropdown'
+          'select',
+          { onChange: this.setCellType },
+          React.createElement(
+            'option',
+            null,
+            '[select]'
+          ),
+          React.createElement(
+            'option',
+            { value: 'Text' },
+            'Text'
+          ),
+          React.createElement(
+            'option',
+            { value: 'Dropdown' },
+            'Dropdown'
+          )
         )
       );
 
@@ -211,11 +227,6 @@ var FormBank = {
         body = React.createElement(
           'div',
           null,
-          React.createElement(
-            'span',
-            null,
-            'Select cell type: '
-          ),
           dropdown
         );
       } else {
@@ -329,8 +340,8 @@ var Toolbar = React.createClass({
       ),
       React.createElement(
         'h2',
-        { className: 'toolbar-element', onClick: this.addElement, value: 'Label' },
-        'Label'
+        { className: 'toolbar-element', onClick: this.addElement, value: 'Text' },
+        'Text'
       ),
       React.createElement(
         'h2',

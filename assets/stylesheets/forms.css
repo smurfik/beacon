@@ -38,3 +38,8 @@
   text-align: center;
   background-color: hsl(0, 0%, 95%);
 }
+
+.form-type-selector {
+  margin: 20px 0;
+  font-size: 10px;
+}

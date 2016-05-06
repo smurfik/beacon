@@ -16,11 +16,11 @@ var FormBank = {
       )
     }
   }),
-  Label: React.createClass({
+  Text: React.createClass({
     render: function() {
       return(
-        <div id="label-form">
-          <h2>Label</h2>
+        <div id="text-form">
+          <h2>Text</h2>
           <form>
             <textarea></textarea>
           </form>
@@ -61,7 +61,7 @@ var FormBank = {
       this.setState({columnCount: newColumnCount});
     },
     render: function() {
-      var headers = [];
+      var columnHeaders = [];
       var rows = [];
       var NewRow = FormBank["NewRow"];
 
@@ -70,7 +70,7 @@ var FormBank = {
       }
 
       for (var i = 0; i < this.state.columnCount; i++) {
-        headers.push(<th key={i}> Header </th>);
+        columnHeaders.push(<th key={i}> Column {i+1} </th>);
       }
 
       return(
@@ -81,7 +81,7 @@ var FormBank = {
             <table>
               <thead>
                 <tr>
-                  {headers}
+                  {columnHeaders}
                 </tr>
               </thead>
               <tbody>
@@ -124,10 +124,14 @@ var FormBank = {
     render: function() {
       var body;
       var dropdown = (
-        <select onChange={this.setCellType}>
-          <option value="Text">Text</option>
-          <option value="Dropdown">Dropdown</option>
-        </select>
+        <div className="form-type-selector">
+          <span>Select Form Type:</span>
+          <select onChange={this.setCellType}>
+            <option>[select]</option>
+            <option value="Text">Text</option>
+            <option value="Dropdown">Dropdown</option>
+          </select>
+        </div>
       )
 
       var cellType = (
@@ -137,7 +141,6 @@ var FormBank = {
       if (this.state.active == false) {
         body = (
           <div>
-            <span>Select cell type: </span>
             {dropdown}
           </div>
         )
@@ -225,7 +228,7 @@ var Toolbar = React.createClass({
       <div id="toolbar-pane">
         <h1>Toolbar</h1>
         <h2 className="toolbar-element" onClick={this.addElement} value="Header">Header</h2>
-        <h2 className="toolbar-element" onClick={this.addElement} value="Label">Label</h2>
+        <h2 className="toolbar-element" onClick={this.addElement} value="Text">Text</h2>
         <h2 className="toolbar-element" onClick={this.addElement} value="Dropdown">Dropdown</h2>
         <h2 className="toolbar-element" onClick={this.addElement} value="Table">Table</h2>
       </div>
