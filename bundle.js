@@ -297,11 +297,16 @@ var FormBuilder = React.createClass({
     currentForm.push(formElement);
     this.setState({ currentForm: currentForm });
   },
+  deleteElement: function (id) {
+    var currentForm = this.state.currentForm;
+    currentForm.splice(id, 1);
+    this.setState({ currentForm: currentForm });
+  },
   render: function () {
     return React.createElement(
       'div',
       null,
-      React.createElement(Builder, { formElements: this.state.currentForm }),
+      React.createElement(Builder, { formElements: this.state.currentForm, deleteElement: this.deleteElement }),
       React.createElement(Toolbar, { addElement: this.addElement })
     );
   }
@@ -315,7 +320,7 @@ var Builder = React.createClass({
     var body;
 
     for (var i = 0; i < this.props.formElements.length; i++) {
-      formElements.push(React.createElement(FormElement, { key: i, element: this.props.formElements[i] }));
+      formElements.push(React.createElement(FormElement, { key: i, id: i, element: this.props.formElements[i], deleteElement: this.props.deleteElement }));
     }
 
     if (this.props.formElements[0] == null) {
@@ -347,11 +352,21 @@ var Builder = React.createClass({
 var FormElement = React.createClass({
   displayName: 'FormElement',
 
+  deleteElement: function (event, id) {
+    event.preventDefault();
+    var id = this.props.id;
+    this.props.deleteElement(id);
+  },
   render: function () {
     return React.createElement(
       'div',
       { className: 'form-element' },
-      this.props.element
+      this.props.element,
+      React.createElement(
+        'button',
+        { onClick: this.deleteElement },
+        'Delete'
+      )
     );
   }
 });
