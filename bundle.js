@@ -302,7 +302,7 @@ var FormBuilder = React.createClass({
     currentForm.splice(id, 1);
     this.setState({ currentForm: currentForm });
   },
-  moveElementUp: function (element, id) {
+  moveElementUp: function (id) {
     var currentForm = this.state.currentForm;
     var movedUp = currentForm[id];
     var movedDown = currentForm[id - 1];
@@ -310,7 +310,7 @@ var FormBuilder = React.createClass({
     currentForm[id] = movedDown;
     this.setState({ currentForm: currentForm });
   },
-  moveElementDown: function (element, id) {
+  moveElementDown: function (id) {
     var currentForm = this.state.currentForm;
     var movedDown = currentForm[id];
     var movedUp = currentForm[id + 1];
@@ -373,17 +373,15 @@ var FormElement = React.createClass({
     var id = this.props.id;
     this.props.deleteElement(id);
   },
-  moveElementUp: function (event, element, id) {
+  moveElementUp: function (event, id) {
     event.preventDefault();
-    var element = this.props.element;
     var id = this.props.id;
     this.props.moveElementUp(element, id);
   },
-  moveElementDown: function (event, element, id) {
+  moveElementDown: function (event, id) {
     event.preventDefault();
-    var element = this.props.element;
     var id = this.props.id;
-    this.props.moveElementDown(element, id);
+    this.props.moveElementDown(id);
   },
   render: function () {
     return React.createElement(
