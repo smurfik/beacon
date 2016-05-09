@@ -302,11 +302,19 @@ var FormBuilder = React.createClass({
     currentForm.splice(id, 1);
     this.setState({ currentForm: currentForm });
   },
+  moveElementUp: function (element, id) {
+    var currentForm = this.state.currentForm;
+    var movedUp = currentForm[id];
+    var movedDown = currentForm[id - 1];
+    currentForm[id - 1] = movedUp;
+    currentForm[id] = movedDown;
+    this.setState({ currentForm: currentForm });
+  },
   render: function () {
     return React.createElement(
       'div',
       null,
-      React.createElement(Builder, { formElements: this.state.currentForm, deleteElement: this.deleteElement }),
+      React.createElement(Builder, { formElements: this.state.currentForm, deleteElement: this.deleteElement, moveElementUp: this.moveElementUp }),
       React.createElement(Toolbar, { addElement: this.addElement })
     );
   }
@@ -320,7 +328,7 @@ var Builder = React.createClass({
     var body;
 
     for (var i = 0; i < this.props.formElements.length; i++) {
-      formElements.push(React.createElement(FormElement, { key: i, id: i, element: this.props.formElements[i], deleteElement: this.props.deleteElement }));
+      formElements.push(React.createElement(FormElement, { key: i, id: i, element: this.props.formElements[i], deleteElement: this.props.deleteElement, moveElementUp: this.props.moveElementUp }));
     }
 
     if (this.props.formElements[0] == null) {
@@ -357,6 +365,12 @@ var FormElement = React.createClass({
     var id = this.props.id;
     this.props.deleteElement(id);
   },
+  moveElementUp: function (event, element, id) {
+    event.preventDefault();
+    var element = this.props.element;
+    var id = this.props.id;
+    this.props.moveElementUp(element, id);
+  },
   render: function () {
     return React.createElement(
       'div',
@@ -366,6 +380,11 @@ var FormElement = React.createClass({
         'button',
         { onClick: this.deleteElement },
         'Delete'
+      ),
+      React.createElement(
+        'button',
+        { onClick: this.moveElementUp },
+        'Move Up'
       )
     );
   }
