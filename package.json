@@ -1,0 +1,30 @@
+{
+  "name": "beacon",
+  "version": "1.0.0",
+  "description": "```sh watchify -t [ babelify --presets [ react ] ] index.jsx -o bundle.js ``` ```sh http-server . ```",
+  "main": "bundle.js",
+  "dependencies": {
+    "react": "^15.0.2",
+    "react-dom": "^15.0.2",
+    "riek": "^1.0.0"
+  },
+  "devDependencies": {
+    "babel-preset-react": "^6.5.0",
+    "babelify": "^7.3.0",
+    "http-server": "^0.9.0",
+    "watchify": "^3.7.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/smurfik/beacon.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/smurfik/beacon/issues"
+  },
+  "homepage": "https://github.com/smurfik/beacon"
+}
