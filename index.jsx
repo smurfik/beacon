@@ -297,7 +297,7 @@ var FormElement = React.createClass({
   moveElementUp: function(event, id) {
     event.preventDefault();
     var id = this.props.id;
-    this.props.moveElementUp(element, id);
+    this.props.moveElementUp(id);
   },
   moveElementDown: function(event, id) {
     event.preventDefault();
