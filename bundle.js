@@ -310,11 +310,19 @@ var FormBuilder = React.createClass({
     currentForm[id] = movedDown;
     this.setState({ currentForm: currentForm });
   },
+  moveElementDown: function (element, id) {
+    var currentForm = this.state.currentForm;
+    var movedDown = currentForm[id];
+    var movedUp = currentForm[id + 1];
+    currentForm[id + 1] = movedDown;
+    currentForm[id] = movedUp;
+    this.setState({ currentForm: currentForm });
+  },
   render: function () {
     return React.createElement(
       'div',
       null,
-      React.createElement(Builder, { formElements: this.state.currentForm, deleteElement: this.deleteElement, moveElementUp: this.moveElementUp }),
+      React.createElement(Builder, { formElements: this.state.currentForm, deleteElement: this.deleteElement, moveElementUp: this.moveElementUp, moveElementDown: this.moveElementDown }),
       React.createElement(Toolbar, { addElement: this.addElement })
     );
   }
@@ -328,7 +336,7 @@ var Builder = React.createClass({
     var body;
 
     for (var i = 0; i < this.props.formElements.length; i++) {
-      formElements.push(React.createElement(FormElement, { key: i, id: i, element: this.props.formElements[i], deleteElement: this.props.deleteElement, moveElementUp: this.props.moveElementUp }));
+      formElements.push(React.createElement(FormElement, { key: i, id: i, element: this.props.formElements[i], deleteElement: this.props.deleteElement, moveElementUp: this.props.moveElementUp, moveElementDown: this.props.moveElementDown }));
     }
 
     if (this.props.formElements[0] == null) {
@@ -371,6 +379,12 @@ var FormElement = React.createClass({
     var id = this.props.id;
     this.props.moveElementUp(element, id);
   },
+  moveElementDown: function (event, element, id) {
+    event.preventDefault();
+    var element = this.props.element;
+    var id = this.props.id;
+    this.props.moveElementDown(element, id);
+  },
   render: function () {
     return React.createElement(
       'div',
@@ -385,6 +399,11 @@ var FormElement = React.createClass({
         'button',
         { onClick: this.moveElementUp },
         'Move Up'
+      ),
+      React.createElement(
+        'button',
+        { onClick: this.moveElementDown },
+        'Move Down'
       )
     );
   }
