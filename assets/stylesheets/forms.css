@@ -43,3 +43,16 @@
   margin: 20px 0;
   font-size: 10px;
 }
+
+.form-section-header {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.form-question-header {
+  font-size: 18px;
+  font-weight: bold;
+  display: block;
+  border-bottom: 0.5px solid hsl(0, 0%, 85%);
+  margin-bottom: 10px;
+}

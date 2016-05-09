@@ -2,43 +2,90 @@
 
 var React = require('react');
 var ReactDOM = require('react-dom');
+var riek = require('riek')
+var RIEInput = riek.RIEInput;
 
 var FormBank = {
   Header: React.createClass({
+    getInitialState: function() {
+      return({text: "Header"});
+    },
+    changeState: function(newState) {
+      this.setState(newState);
+    },
     render: function() {
       return(
         <div id="header-form">
-          <h2>Header</h2>
-          <form>
-            <textarea></textarea>
-          </form>
+          <RIEInput
+            value={this.state.text}
+            change={this.changeState}
+            propName="text"
+            className="form-section-header"
+            />
         </div>
       )
     }
   }),
-  Text: React.createClass({
+  Description: React.createClass({
+    getInitialState: function() {
+      return({text: "enter description here"});
+    },
+    changeState: function(newState) {
+      this.setState(newState);
+    },
     render: function() {
       return(
-        <div id="text-form">
-          <h2>Text</h2>
-          <form>
-            <textarea></textarea>
-          </form>
+        <div id="description-form">
+          <RIEInput
+            value={this.state.text}
+            change={this.changeState}
+            propName="text"
+            className="form-description"
+            />
+        </div>
+      )
+    }
+  }),
+  UserText: React.createClass({
+    getInitialState: function() {
+      return({text: "answer here"});
+    },
+    changeState: function(newState) {
+      this.setState(newState);
+    },
+    render: function() {
+      return(
+        <div id="user-text-form">
+          <RIEInput
+            value={this.state.text}
+            change={this.changeState}
+            propName="text"
+            className="form-user-text"
+            />
         </div>
       )
     }
   }),
   Dropdown: React.createClass({
+    getInitialState: function() {
+      return({text: "Question"});
+    },
+    changeState: function(newState) {
+      this.setState(newState);
+    },
     render: function() {
       return(
         <div id="dropdown-form">
-          <h2>Dropdown</h2>
-          <form>
-            <select>
-              <option value="value1">Value 1</option>
-              <option value="value2">Value 2</option>
-            </select>
-          </form>
+        <RIEInput
+          value={this.state.text}
+          change={this.changeState}
+          propName="text"
+          className="form-question-header"
+          />
+          <select>
+            <option value="value1">Value 1</option>
+            <option value="value2">Value 2</option>
+          </select>
         </div>
       )
     }
@@ -46,7 +93,10 @@ var FormBank = {
   Table: React.createClass({
     getInitialState: function() {
       var row = React.createElement(FormBank["NewRow"]);
-      return {tableRows: [row], columnCount: 1}
+      return {tableRows: [row], columnCount: 1, text: "Table Title"}
+    },
+    changeState: function(newState) {
+      this.setState(newState);
     },
     addRow: function(event) {
       event.preventDefault();
@@ -75,7 +125,12 @@ var FormBank = {
 
       return(
         <div id="table-form">
-          <h2>Table</h2>
+          <RIEInput
+            value={this.state.text}
+            change={this.changeState}
+            propName="text"
+            className="form-question-header"
+          />
           <button id="add-column-button" onClick={this.addColumn}>Add Column</button>
           <form>
             <table>
@@ -116,26 +171,23 @@ var FormBank = {
   }),
   TableCell: React.createClass({
     getInitialState: function() {
-      return({active: false, cellType: null});
+      return({active: false, cellType: ""});
     },
     setCellType: function(event) {
       this.setState({active: true, cellType: event.target.value});
     },
     render: function() {
       var body;
+      var cellType;
       var dropdown = (
         <div className="form-type-selector">
           <span>Select Form Type:</span>
           <select onChange={this.setCellType}>
-            <option>[select]</option>
-            <option value="Text">Text</option>
+            <option value="selected">[select]</option>
+            <option value="UserText">Text</option>
             <option value="Dropdown">Dropdown</option>
           </select>
         </div>
-      )
-
-      var cellType = (
-        React.createElement(FormBank[this.state.cellType])
       )
 
       if (this.state.active == false) {
@@ -145,6 +197,9 @@ var FormBank = {
           </div>
         )
       } else {
+        cellType = (
+          React.createElement(FormBank[this.state.cellType])
+        )
         body = (
           <div>
             {cellType}
@@ -159,7 +214,10 @@ var FormBank = {
         </td>
       )
     }
-  })
+  }),
+  selected: function() {
+    return <div></div>
+  }
 }
 
 var FormBuilder = React.createClass({
@@ -172,10 +230,31 @@ var FormBuilder = React.createClass({
     currentForm.push(formElement);
     this.setState({currentForm: currentForm})
   },
+  deleteElement: function(id) {
+    var currentForm = this.state.currentForm;
+    currentForm.splice(id, 1);
+    this.setState({currentForm: currentForm});
+  },
+  moveElementUp: function(id) {
+    var currentForm = this.state.currentForm;
+    var movedUp = currentForm[id];
+    var movedDown = currentForm[(id - 1)];
+    currentForm[(id - 1)] = movedUp;
+    currentForm[id] = movedDown;
+    this.setState({currentForm: currentForm});
+  },
+  moveElementDown: function(id) {
+    var currentForm = this.state.currentForm;
+    var movedDown = currentForm[id];
+    var movedUp = currentForm[(id + 1)];
+    currentForm[(id + 1)] = movedDown;
+    currentForm[(id)] = movedUp;
+    this.setState({currentForm: currentForm});
+  },
   render: function(){
     return (
       <div>
-        <Builder formElements={this.state.currentForm} />
+        <Builder formElements={this.state.currentForm} deleteElement={this.deleteElement} moveElementUp={this.moveElementUp} moveElementDown={this.moveElementDown}/>
         <Toolbar addElement={this.addElement}/>
       </div>
     );
@@ -188,7 +267,7 @@ var Builder = React.createClass({
     var body;
 
     for (var i = 0; i < this.props.formElements.length; i++) {
-      formElements.push(<FormElement key={i} element={this.props.formElements[i]}/>)
+      formElements.push(<FormElement key={i} id={i} element={this.props.formElements[i]} deleteElement={this.props.deleteElement} moveElementUp={this.props.moveElementUp} moveElementDown={this.props.moveElementDown}/>)
     }
 
     if(this.props.formElements[0] == null) {
@@ -210,10 +289,28 @@ var Builder = React.createClass({
 });
 
 var FormElement = React.createClass({
+  deleteElement: function(event, id) {
+    event.preventDefault();
+    var id = this.props.id;
+    this.props.deleteElement(id);
+  },
+  moveElementUp: function(event, id) {
+    event.preventDefault();
+    var id = this.props.id;
+    this.props.moveElementUp(element, id);
+  },
+  moveElementDown: function(event, id) {
+    event.preventDefault();
+    var id = this.props.id;
+    this.props.moveElementDown(id);
+  },
   render: function() {
     return (
       <div className="form-element">
         {this.props.element}
+        <button onClick={this.deleteElement}>Delete</button>
+        <button onClick={this.moveElementUp}>Move Up</button>
+        <button onClick={this.moveElementDown}>Move Down</button>
       </div>
     )
   }
@@ -227,10 +324,13 @@ var Toolbar = React.createClass({
     return(
       <div id="toolbar-pane">
         <h1>Toolbar</h1>
+        <span className="toolbar-section-header">Form Layout & Construction</span>
         <h2 className="toolbar-element" onClick={this.addElement} value="Header">Header</h2>
-        <h2 className="toolbar-element" onClick={this.addElement} value="Text">Text</h2>
-        <h2 className="toolbar-element" onClick={this.addElement} value="Dropdown">Dropdown</h2>
+        <h2 className="toolbar-element" onClick={this.addElement} value="Description">Description</h2>
         <h2 className="toolbar-element" onClick={this.addElement} value="Table">Table</h2>
+        <span className="toolbar-section-header">Question Types</span>
+        <h2 className="toolbar-element" onClick={this.addElement} value="Dropdown">Dropdown</h2>
+        <h2 className="toolbar-element" onClick={this.addElement} value="UserText">Text</h2>
       </div>
     );
   }
