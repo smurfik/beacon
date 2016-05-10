@@ -5,6 +5,20 @@ var ReactDOM = require('react-dom');
 var riek = require('riek')
 var RIEInput = riek.RIEInput;
 
+var Modal = React.createClass({
+  render: function() {
+    if(this.props.isOpen){
+      return (
+        <div className="modal">
+          {this.props.children}
+        </div>
+      );
+    } else {
+      return null;
+    }
+  }
+});
+
 var FormBank = {
   Header: React.createClass({
     getInitialState: function() {
@@ -222,7 +236,13 @@ var FormBank = {
 
 var FormBuilder = React.createClass({
   getInitialState: function() {
-    return {currentForm: []}
+    return {currentForm: [], isModalOpen: false}
+  },
+  openModal: function() {
+    this.setState({isModalOpen: true});
+  },
+  closeModal: function() {
+    this.setState({isModalOpen: false});
   },
   addElement: function(element) {
     var formElement = React.createElement(FormBank[element]);
@@ -254,7 +274,14 @@ var FormBuilder = React.createClass({
   render: function(){
     return (
       <div>
-        <Builder formElements={this.state.currentForm} deleteElement={this.deleteElement} moveElementUp={this.moveElementUp} moveElementDown={this.moveElementDown}/>
+        <Modal isOpen={this.state.isModalOpen}>
+          <div id="preview-form-modal">
+            <h3>Preview Form</h3>
+            <p>Test version of from will go here.</p>
+            <button onClick={this.closeModal}>Close preview</button>
+          </div>
+        </Modal>
+        <Builder formElements={this.state.currentForm} deleteElement={this.deleteElement} moveElementUp={this.moveElementUp} moveElementDown={this.moveElementDown} openModal={this.openModal}/>
         <Toolbar addElement={this.addElement}/>
       </div>
     );
@@ -281,7 +308,10 @@ var Builder = React.createClass({
     }
     return(
       <div id="preview-pane">
-        <h1>Builder</h1>
+        <header>
+          <h1>Builder</h1>
+          <button id="open-modal-button" onClick={this.props.openModal}>Preview</button>
+        </header>
         {body}
       </div>
     );
@@ -333,16 +363,6 @@ var Toolbar = React.createClass({
         <h2 className="toolbar-element" onClick={this.addElement} value="UserText">Text</h2>
       </div>
     );
-  }
-});
-
-var PreviewForm = React.createClass({
-  render: function(){
-    return(
-      <div>
-        <h1>Here's a form.</h1>
-      </div>
-    )
   }
 });
 

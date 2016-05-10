@@ -6,6 +6,22 @@ var ReactDOM = require('react-dom');
 var riek = require('riek');
 var RIEInput = riek.RIEInput;
 
+var Modal = React.createClass({
+  displayName: 'Modal',
+
+  render: function () {
+    if (this.props.isOpen) {
+      return React.createElement(
+        'div',
+        { className: 'modal' },
+        this.props.children
+      );
+    } else {
+      return null;
+    }
+  }
+});
+
 var FormBank = {
   Header: React.createClass({
     displayName: 'Header',
@@ -289,7 +305,13 @@ var FormBuilder = React.createClass({
   displayName: 'FormBuilder',
 
   getInitialState: function () {
-    return { currentForm: [] };
+    return { currentForm: [], isModalOpen: false };
+  },
+  openModal: function () {
+    this.setState({ isModalOpen: true });
+  },
+  closeModal: function () {
+    this.setState({ isModalOpen: false });
   },
   addElement: function (element) {
     var formElement = React.createElement(FormBank[element]);
@@ -322,7 +344,30 @@ var FormBuilder = React.createClass({
     return React.createElement(
       'div',
       null,
-      React.createElement(Builder, { formElements: this.state.currentForm, deleteElement: this.deleteElement, moveElementUp: this.moveElementUp, moveElementDown: this.moveElementDown }),
+      React.createElement(
+        Modal,
+        { isOpen: this.state.isModalOpen },
+        React.createElement(
+          'div',
+          { id: 'preview-form-modal' },
+          React.createElement(
+            'h3',
+            null,
+            'Preview Form'
+          ),
+          React.createElement(
+            'p',
+            null,
+            'Test version of from will go here.'
+          ),
+          React.createElement(
+            'button',
+            { onClick: this.closeModal },
+            'Close preview'
+          )
+        )
+      ),
+      React.createElement(Builder, { formElements: this.state.currentForm, deleteElement: this.deleteElement, moveElementUp: this.moveElementUp, moveElementDown: this.moveElementDown, openModal: this.openModal }),
       React.createElement(Toolbar, { addElement: this.addElement })
     );
   }
@@ -356,9 +401,18 @@ var Builder = React.createClass({
       'div',
       { id: 'preview-pane' },
       React.createElement(
-        'h1',
+        'header',
         null,
-        'Builder'
+        React.createElement(
+          'h1',
+          null,
+          'Builder'
+        ),
+        React.createElement(
+          'button',
+          { id: 'open-modal-button', onClick: this.props.openModal },
+          'Preview'
+        )
       ),
       body
     );
@@ -456,22 +510,6 @@ var Toolbar = React.createClass({
         'h2',
         { className: 'toolbar-element', onClick: this.addElement, value: 'UserText' },
         'Text'
-      )
-    );
-  }
-});
-
-var PreviewForm = React.createClass({
-  displayName: 'PreviewForm',
-
-  render: function () {
-    return React.createElement(
-      'div',
-      null,
-      React.createElement(
-        'h1',
-        null,
-        'Here\'s a form.'
       )
     );
   }
