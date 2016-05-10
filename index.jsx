@@ -225,7 +225,7 @@ var FormBuilder = React.createClass({
     return {currentForm: []}
   },
   addElement: function(element) {
-    var formElement = React.createElement(FormBank[element]);
+    var formElement = React.createElement(FormBank[element], {textFromState: "should be text from RIEinput's state?"});
     var currentForm = this.state.currentForm;
     currentForm.push(formElement);
     this.setState({currentForm: currentForm})
@@ -267,7 +267,7 @@ var Builder = React.createClass({
     var body;
 
     for (var i = 0; i < this.props.formElements.length; i++) {
-      formElements.push(<FormElement key={i} id={i} element={this.props.formElements[i]} deleteElement={this.props.deleteElement} moveElementUp={this.props.moveElementUp} moveElementDown={this.props.moveElementDown}/>)
+      formElements.push(<FormElement id={i} key={i} element={this.props.formElements[i]} deleteElement={this.props.deleteElement} moveElementUp={this.props.moveElementUp} moveElementDown={this.props.moveElementDown}/>)
     }
 
     if(this.props.formElements[0] == null) {
