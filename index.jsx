@@ -6,11 +6,32 @@ var riek = require('riek')
 var RIEInput = riek.RIEInput;
 
 var Modal = React.createClass({
+  closeModal: function() {
+    this.props.closeModal();
+  },
   render: function() {
+
+    var formElements = [];
+    var body;
+
+    for (var i = 0; i < this.props.formElements.length; i++) {
+      formElements.push(<FormElement key={i} id={i} element={this.props.formElements[i]}/>)
+    }
+
+    body = (
+      <div className="modal">
+        <div id="preview-form-modal">
+          <h3>Preview Form</h3>
+            <button onClick={this.closeModal}>Close preview</button>
+          {formElements}
+        </div>
+      </div>
+    )
+
     if(this.props.isOpen){
       return (
-        <div className="modal">
-          {this.props.children}
+        <div>
+          {body}
         </div>
       );
     } else {
@@ -274,13 +295,7 @@ var FormBuilder = React.createClass({
   render: function(){
     return (
       <div>
-        <Modal isOpen={this.state.isModalOpen}>
-          <div id="preview-form-modal">
-            <h3>Preview Form</h3>
-            <p>Test version of from will go here.</p>
-            <button onClick={this.closeModal}>Close preview</button>
-          </div>
-        </Modal>
+        <Modal isOpen={this.state.isModalOpen} formElements={this.state.currentForm} closeModal={this.closeModal}></Modal>
         <Builder formElements={this.state.currentForm} deleteElement={this.deleteElement} moveElementUp={this.moveElementUp} moveElementDown={this.moveElementDown} openModal={this.openModal}/>
         <Toolbar addElement={this.addElement}/>
       </div>
@@ -301,7 +316,7 @@ var Builder = React.createClass({
       body = <span>Add form elements by clicking toolbar ––––></span>
     } else {
       body = (
-        <div id="form=element-list">
+        <div id="form-element-list">
           {formElements}
         </div>
       )

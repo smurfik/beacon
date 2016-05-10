@@ -9,12 +9,43 @@ var RIEInput = riek.RIEInput;
 var Modal = React.createClass({
   displayName: 'Modal',
 
+  closeModal: function () {
+    this.props.closeModal();
+  },
   render: function () {
+
+    var formElements = [];
+    var body;
+
+    for (var i = 0; i < this.props.formElements.length; i++) {
+      formElements.push(React.createElement(FormElement, { key: i, id: i, element: this.props.formElements[i] }));
+    }
+
+    body = React.createElement(
+      'div',
+      { className: 'modal' },
+      React.createElement(
+        'div',
+        { id: 'preview-form-modal' },
+        React.createElement(
+          'h3',
+          null,
+          'Preview Form'
+        ),
+        React.createElement(
+          'button',
+          { onClick: this.closeModal },
+          'Close preview'
+        ),
+        formElements
+      )
+    );
+
     if (this.props.isOpen) {
       return React.createElement(
         'div',
-        { className: 'modal' },
-        this.props.children
+        null,
+        body
       );
     } else {
       return null;
@@ -344,29 +375,7 @@ var FormBuilder = React.createClass({
     return React.createElement(
       'div',
       null,
-      React.createElement(
-        Modal,
-        { isOpen: this.state.isModalOpen },
-        React.createElement(
-          'div',
-          { id: 'preview-form-modal' },
-          React.createElement(
-            'h3',
-            null,
-            'Preview Form'
-          ),
-          React.createElement(
-            'p',
-            null,
-            'Test version of from will go here.'
-          ),
-          React.createElement(
-            'button',
-            { onClick: this.closeModal },
-            'Close preview'
-          )
-        )
-      ),
+      React.createElement(Modal, { isOpen: this.state.isModalOpen, formElements: this.state.currentForm, closeModal: this.closeModal }),
       React.createElement(Builder, { formElements: this.state.currentForm, deleteElement: this.deleteElement, moveElementUp: this.moveElementUp, moveElementDown: this.moveElementDown, openModal: this.openModal }),
       React.createElement(Toolbar, { addElement: this.addElement })
     );
@@ -393,7 +402,7 @@ var Builder = React.createClass({
     } else {
       body = React.createElement(
         'div',
-        { id: 'form=element-list' },
+        { id: 'form-element-list' },
         formElements
       );
     }
