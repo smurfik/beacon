@@ -336,4 +336,14 @@ var Toolbar = React.createClass({
   }
 });
 
+var PreviewForm = React.createClass({
+  render: function(){
+    return(
+      <div>
+        <h1>Here's a form.</h1>
+      </div>
+    )
+  }
+});
+
 ReactDOM.render(<FormBuilder />, document.getElementById('form-builder'));
