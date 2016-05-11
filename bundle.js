@@ -15,6 +15,7 @@ var FormBank = {
     },
     updateElementText: function (newText) {
       this.props.updateElementText(newText.text);
+      this.setState(newText);
     },
     render: function () {
       return React.createElement(
@@ -35,8 +36,8 @@ var FormBank = {
     getInitialState: function () {
       return { type: "Description", text: "enter description here" };
     },
-    changeState: function (newState) {
-      this.setState(newState);
+    updateElementText: function (newText) {
+      this.props.updateElementText(newText.text);
     },
     render: function () {
       return React.createElement(
@@ -44,7 +45,7 @@ var FormBank = {
         { id: 'description-form' },
         React.createElement(RIEInput, {
           value: this.state.text,
-          change: this.changeState,
+          change: this.updateElementText,
           propName: 'text',
           className: 'form-description'
         })
@@ -300,10 +301,7 @@ var FormBuilder = React.createClass({
   updateElementText: function (newText, id) {
     var currentForm = this.state.currentForm;
     currentForm[id].text = newText;
-    // console.log(currentForm[id]);
-    console.log(this.state.currentForm);
-
-    // this.setState({currentForm: currentForm});
+    this.setState({ currentForm: currentForm });
   },
   deleteElement: function (id) {
     var currentForm = this.state.currentForm;
@@ -396,7 +394,7 @@ var FormElement = React.createClass({
     this.props.moveElementDown(id);
   },
   render: function () {
-    var element = React.createElement(FormBank[this.props.element.type], { updateElementText: this.updateElementText });
+    var element = React.createElement(FormBank[this.props.element.type], { text: this.props.text, updateElementText: this.updateElementText });
     return React.createElement(
       'div',
       { className: 'form-element' },
