@@ -291,10 +291,10 @@ var FormBuilder = React.createClass({
   getInitialState: function () {
     return { currentForm: [] };
   },
-  addElement: function (element) {
-    var formElement = React.createElement(FormBank[element], { textFromState: "should be text from RIEinput's state?" });
+  addElement: function (elementType) {
+    var formElementObject = { type: elementType };
     var currentForm = this.state.currentForm;
-    currentForm.push(formElement);
+    currentForm.push(formElementObject);
     this.setState({ currentForm: currentForm });
   },
   deleteElement: function (id) {
@@ -348,7 +348,7 @@ var Builder = React.createClass({
     } else {
       body = React.createElement(
         'div',
-        { id: 'form=element-list' },
+        { id: 'form-element-list' },
         formElements
       );
     }
@@ -384,10 +384,11 @@ var FormElement = React.createClass({
     this.props.moveElementDown(id);
   },
   render: function () {
+    var element = React.createElement(FormBank[this.props.element.type], { textFromState: "should be text from RIEinput's state?" });
     return React.createElement(
       'div',
       { className: 'form-element' },
-      this.props.element,
+      element,
       React.createElement(
         'button',
         { onClick: this.deleteElement },
