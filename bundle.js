@@ -11,10 +11,10 @@ var FormBank = {
     displayName: 'Header',
 
     getInitialState: function () {
-      return { text: "Header" };
+      return { type: "Header", text: "Header" };
     },
-    changeState: function (newState) {
-      this.setState(newState);
+    updateElementText: function (newText) {
+      this.props.updateElementText(newText.text);
     },
     render: function () {
       return React.createElement(
@@ -22,7 +22,7 @@ var FormBank = {
         { id: 'header-form' },
         React.createElement(RIEInput, {
           value: this.state.text,
-          change: this.changeState,
+          change: this.updateElementText,
           propName: 'text',
           className: 'form-section-header'
         })
@@ -33,7 +33,7 @@ var FormBank = {
     displayName: 'Description',
 
     getInitialState: function () {
-      return { text: "enter description here" };
+      return { type: "Description", text: "enter description here" };
     },
     changeState: function (newState) {
       this.setState(newState);
@@ -292,10 +292,18 @@ var FormBuilder = React.createClass({
     return { currentForm: [] };
   },
   addElement: function (elementType) {
-    var formElementObject = { type: elementType };
+    var formElementObject = { type: elementType, text: null };
     var currentForm = this.state.currentForm;
     currentForm.push(formElementObject);
     this.setState({ currentForm: currentForm });
+  },
+  updateElementText: function (newText, id) {
+    var currentForm = this.state.currentForm;
+    currentForm[id].text = newText;
+    // console.log(currentForm[id]);
+    console.log(this.state.currentForm);
+
+    // this.setState({currentForm: currentForm});
   },
   deleteElement: function (id) {
     var currentForm = this.state.currentForm;
@@ -322,7 +330,7 @@ var FormBuilder = React.createClass({
     return React.createElement(
       'div',
       null,
-      React.createElement(Builder, { formElements: this.state.currentForm, deleteElement: this.deleteElement, moveElementUp: this.moveElementUp, moveElementDown: this.moveElementDown }),
+      React.createElement(Builder, { formElements: this.state.currentForm, deleteElement: this.deleteElement, moveElementUp: this.moveElementUp, moveElementDown: this.moveElementDown, updateElementText: this.updateElementText }),
       React.createElement(Toolbar, { addElement: this.addElement })
     );
   }
@@ -336,7 +344,7 @@ var Builder = React.createClass({
     var body;
 
     for (var i = 0; i < this.props.formElements.length; i++) {
-      formElements.push(React.createElement(FormElement, { id: i, key: i, element: this.props.formElements[i], deleteElement: this.props.deleteElement, moveElementUp: this.props.moveElementUp, moveElementDown: this.props.moveElementDown }));
+      formElements.push(React.createElement(FormElement, { id: i, text: this.props.formElements[i].text, key: i, element: this.props.formElements[i], deleteElement: this.props.deleteElement, moveElementUp: this.props.moveElementUp, moveElementDown: this.props.moveElementDown, updateElementText: this.props.updateElementText }));
     }
 
     if (this.props.formElements[0] == null) {
@@ -368,6 +376,10 @@ var Builder = React.createClass({
 var FormElement = React.createClass({
   displayName: 'FormElement',
 
+  updateElementText: function (newText, id) {
+    var id = this.props.id;
+    this.props.updateElementText(newText, id);
+  },
   deleteElement: function (event, id) {
     event.preventDefault();
     var id = this.props.id;
@@ -384,7 +396,7 @@ var FormElement = React.createClass({
     this.props.moveElementDown(id);
   },
   render: function () {
-    var element = React.createElement(FormBank[this.props.element.type], { textFromState: "should be text from RIEinput's state?" });
+    var element = React.createElement(FormBank[this.props.element.type], { updateElementText: this.updateElementText });
     return React.createElement(
       'div',
       { className: 'form-element' },
