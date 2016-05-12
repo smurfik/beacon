@@ -122,11 +122,8 @@ var FormBank = {
     addRow: function (event) {
       event.preventDefault();
       var newRow = React.createElement(FormBank[event.target.value], { addTableElement: "YES" });
-      // console.log(newRow);
       this.props.addRow(newRow);
 
-      // console.log(this.props);
-      // this.addRow(newRow);
       // var rows = this.state.tableRows;
       // rows.push(newRow);
       // this.setState({tableRows: rows});
@@ -326,8 +323,12 @@ var FormBuilder = React.createClass({
   addTableElement: function (elementType) {
     console.log("addTableElement triggered in FormBuilder");
   },
-  addRow: function () {
-    console.log("addRow triggered in FormBuilder");
+  addRow: function (newRow, id) {
+    // console.log("addRow triggered in FormBuilder");
+    var currentForm = this.state.currentForm;
+    var tableArrToModify = currentForm[id].tableRows;
+    tableArrToModify.push(newRow);
+    this.setState({ currentForm: currentForm });
   },
   updateElementText: function (newText, id) {
     var currentForm = this.state.currentForm;
@@ -372,16 +373,16 @@ var Builder = React.createClass({
     console.log("addTableElement triggered in Builder");
     console.log(elementType);
   },
-  addRow: function () {
-    // console.log("addRow triggered in Builder");
-    this.props.addRow();
-  },
+  // addRow: function() {
+  //   // console.log("addRow triggered in Builder");
+  //   this.props.addRow();
+  // },
   render: function () {
     var formElements = [];
     var body;
 
     for (var i = 0; i < this.props.formElements.length; i++) {
-      formElements.push(React.createElement(FormElement, { id: i, text: this.props.formElements[i].text, key: i, element: this.props.formElements[i], deleteElement: this.props.deleteElement, moveElementUp: this.props.moveElementUp, moveElementDown: this.props.moveElementDown, updateElementText: this.props.updateElementText, addTableElement: this.addTableElement, addRow: this.addRow }));
+      formElements.push(React.createElement(FormElement, { id: i, text: this.props.formElements[i].text, key: i, element: this.props.formElements[i], deleteElement: this.props.deleteElement, moveElementUp: this.props.moveElementUp, moveElementDown: this.props.moveElementDown, updateElementText: this.props.updateElementText, addTableElement: this.addTableElement, addRow: this.props.addRow }));
     }
 
     if (this.props.formElements[0] == null) {
@@ -432,10 +433,14 @@ var FormElement = React.createClass({
     var id = this.props.id;
     this.props.moveElementDown(id);
   },
+  addRow: function (newRow, id) {
+    var id = this.props.id;
+    this.props.addRow(newRow, id);
+  },
   render: function () {
     var element;
     if (this.props.element.type == "Table") {
-      element = React.createElement(FormBank[this.props.element.type], { text: this.props.text, updateElementText: this.updateElementText, addRow: this.props.addRow });
+      element = React.createElement(FormBank[this.props.element.type], { text: this.props.text, updateElementText: this.updateElementText, addRow: this.addRow });
     } else {
       element = React.createElement(FormBank[this.props.element.type], { text: this.props.text, updateElementText: this.updateElementText });
     }
