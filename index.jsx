@@ -101,9 +101,11 @@ var FormBank = {
     addRow: function(event) {
       event.preventDefault();
       var newRow = React.createElement(FormBank[event.target.value]);
-      var rows = this.state.tableRows;
-      rows.push(newRow);
-      this.setState({tableRows: rows});
+      console.log(this.props);
+      // this.props.addRow(newRow);
+      // var rows = this.state.tableRows;
+      // rows.push(newRow);
+      // this.setState({tableRows: rows});
     },
     addColumn: function(event) {
       event.preventDefault();
@@ -116,7 +118,7 @@ var FormBank = {
       var NewRow = FormBank["NewRow"];
 
       for (var i = 0; i < this.state.tableRows.length; i++) {
-        rows.push(<NewRow key={i} element={this.state.tableRows[i]} columnCount={this.state.columnCount} updateElementText={this.updateElementText}/>);
+        rows.push(<NewRow key={i} element={this.state.tableRows[i]} columnCount={this.state.columnCount} updateElementText={this.updateElementText} addTableElement={this.props.addTableElement}/>);
       }
 
       for (var i = 0; i < this.state.columnCount; i++) {
@@ -159,7 +161,7 @@ var FormBank = {
       var TableCell = FormBank["TableCell"];
 
       for (var i = 0; i < this.props.columnCount; i++) {
-        columns.push(<TableCell key={i} element={this.props.columnCount[i]} updateElementText={this.props.updateElementText}/>)
+        columns.push(<TableCell key={i} element={this.props.columnCount[i]} updateElementText={this.props.updateElementText} addTableElement={this.props.addTableElement}/>)
       }
 
       return(
@@ -173,10 +175,13 @@ var FormBank = {
     getInitialState: function() {
       return({active: false, cellType: ""});
     },
-    setCellType: function(event) {
-      // var type = event.target.value;
-      // this.setState({active: true, cellType: "UserText"});
-      this.setState({active: true, cellType: event.target.value});
+    // setCellType: function(event) {
+    //   // var type = event.target.value;
+    //   // this.setState({active: true, cellType: "UserText"});
+    //   this.setState({active: true, cellType: event.target.value});
+    // },
+    addTableElement: function(event) {
+      this.props.addTableElement(event.target.value);
     },
 
     updateElementText: function(newText) {
@@ -189,7 +194,7 @@ var FormBank = {
       var dropdown = (
         <div className="form-type-selector">
           <span>Select Form Type:</span>
-          <select onChange={this.setCellType}>
+          <select onChange={this.addTableElement}>
             <option value="selected">[select]</option>
             <option value="UserText">Text</option>
             <option value="Dropdown">Dropdown</option>
@@ -234,10 +239,18 @@ var FormBuilder = React.createClass({
     return {currentForm: []}
   },
   addElement: function(elementType) {
-    var formElementObject = {type: elementType, text: elementType};
+    var formElementObject = {};
+    if (elementType == "Table") {
+      formElementObject = {type: elementType, text: elementType, addTableElement: "now in props of Table FormElement", tableRows: []}
+    } else {
+      formElementObject = {type: elementType, text: elementType};
+    }
     var currentForm = this.state.currentForm;
     currentForm.push(formElementObject);
     this.setState({currentForm: currentForm});
+  },
+  addTableElement: function(elementType) {
+    console.log("yep, in FormBuilder");
   },
   updateElementText: function(newText, id) {
     var currentForm = this.state.currentForm;
@@ -276,12 +289,16 @@ var FormBuilder = React.createClass({
 });
 
 var Builder = React.createClass({
+  addTableElement: function(elementType) {
+    console.log("yep, in FormBuilder");
+    console.log(elementType);
+  },
   render: function() {
     var formElements = [];
     var body;
 
     for (var i = 0; i < this.props.formElements.length; i++) {
-      formElements.push(<FormElement id={i} text={this.props.formElements[i].text} key={i} element={this.props.formElements[i]} deleteElement={this.props.deleteElement} moveElementUp={this.props.moveElementUp} moveElementDown={this.props.moveElementDown} updateElementText={this.props.updateElementText}/>)
+      formElements.push(<FormElement id={i} text={this.props.formElements[i].text} key={i} element={this.props.formElements[i]} deleteElement={this.props.deleteElement} moveElementUp={this.props.moveElementUp} moveElementDown={this.props.moveElementDown} updateElementText={this.props.updateElementText} addTableElement={this.addTableElement}/>)
     }
 
     if(this.props.formElements[0] == null) {
