@@ -43,7 +43,7 @@ var FormBank = {
         'div',
         { id: 'description-form' },
         React.createElement(RIEInput, {
-          value: this.state.text,
+          value: this.props.text,
           change: this.updateElementText,
           propName: 'text',
           className: 'form-description'
@@ -55,18 +55,18 @@ var FormBank = {
     displayName: 'UserText',
 
     getInitialState: function () {
-      return { text: "answer here" };
+      return { type: "UserText", text: "answer here" };
     },
-    changeState: function (newState) {
-      this.setState(newState);
+    updateElementText: function (newText) {
+      this.props.updateElementText(newText.text);
     },
     render: function () {
       return React.createElement(
         'div',
         { id: 'user-text-form' },
         React.createElement(RIEInput, {
-          value: this.state.text,
-          change: this.changeState,
+          value: this.props.text,
+          change: this.updateElementText,
           propName: 'text',
           className: 'form-user-text'
         })
@@ -77,18 +77,18 @@ var FormBank = {
     displayName: 'Dropdown',
 
     getInitialState: function () {
-      return { text: "Question" };
+      return { type: "Dropdown", text: "Question" };
     },
-    changeState: function (newState) {
-      this.setState(newState);
+    updateElementText: function (newText) {
+      this.props.updateElementText(newText.text);
     },
     render: function () {
       return React.createElement(
         'div',
         { id: 'dropdown-form' },
         React.createElement(RIEInput, {
-          value: this.state.text,
-          change: this.changeState,
+          value: this.props.text,
+          change: this.updateElementText,
           propName: 'text',
           className: 'form-question-header'
         }),

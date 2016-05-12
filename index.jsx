@@ -37,7 +37,7 @@ var FormBank = {
       return(
         <div id="description-form">
           <RIEInput
-            value={this.state.text}
+            value={this.props.text}
             change={this.updateElementText}
             propName="text"
             className="form-description"
@@ -48,17 +48,17 @@ var FormBank = {
   }),
   UserText: React.createClass({
     getInitialState: function() {
-      return({text: "answer here"});
+      return({type: "UserText", text: "answer here"});
     },
-    changeState: function(newState) {
-      this.setState(newState);
+    updateElementText: function(newText) {
+      this.props.updateElementText(newText.text);
     },
     render: function() {
       return(
         <div id="user-text-form">
           <RIEInput
-            value={this.state.text}
-            change={this.changeState}
+            value={this.props.text}
+            change={this.updateElementText}
             propName="text"
             className="form-user-text"
             />
@@ -68,17 +68,17 @@ var FormBank = {
   }),
   Dropdown: React.createClass({
     getInitialState: function() {
-      return({text: "Question"});
+      return({type: "Dropdown", text: "Question"});
     },
-    changeState: function(newState) {
-      this.setState(newState);
+    updateElementText: function(newText) {
+      this.props.updateElementText(newText.text);
     },
     render: function() {
       return(
         <div id="dropdown-form">
         <RIEInput
-          value={this.state.text}
-          change={this.changeState}
+          value={this.props.text}
+          change={this.updateElementText}
           propName="text"
           className="form-question-header"
           />
