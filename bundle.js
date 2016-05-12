@@ -116,8 +116,8 @@ var FormBank = {
       var row = React.createElement(FormBank["NewRow"]);
       return { tableRows: [row], columnCount: 1, text: "Table Title" };
     },
-    changeState: function (newState) {
-      this.setState(newState);
+    updateElementText: function (newText) {
+      this.props.updateElementText(newText.text);
     },
     addRow: function (event) {
       event.preventDefault();
@@ -137,7 +137,7 @@ var FormBank = {
       var NewRow = FormBank["NewRow"];
 
       for (var i = 0; i < this.state.tableRows.length; i++) {
-        rows.push(React.createElement(NewRow, { key: i, element: this.state.tableRows[i], columnCount: this.state.columnCount }));
+        rows.push(React.createElement(NewRow, { key: i, element: this.state.tableRows[i], columnCount: this.state.columnCount, updateElementText: this.updateElementText }));
       }
 
       for (var i = 0; i < this.state.columnCount; i++) {
@@ -154,8 +154,8 @@ var FormBank = {
         'div',
         { id: 'table-form' },
         React.createElement(RIEInput, {
-          value: this.state.text,
-          change: this.changeState,
+          value: this.props.text,
+          change: this.updateElementText,
           propName: 'text',
           className: 'form-question-header'
         }),
@@ -206,7 +206,7 @@ var FormBank = {
       var TableCell = FormBank["TableCell"];
 
       for (var i = 0; i < this.props.columnCount; i++) {
-        columns.push(React.createElement(TableCell, { key: i, element: this.props.columnCount[i] }));
+        columns.push(React.createElement(TableCell, { key: i, element: this.props.columnCount[i], updateElementText: this.props.updateElementText }));
       }
 
       return React.createElement(
@@ -223,8 +223,15 @@ var FormBank = {
       return { active: false, cellType: "" };
     },
     setCellType: function (event) {
+      // var type = event.target.value;
+      // this.setState({active: true, cellType: "UserText"});
       this.setState({ active: true, cellType: event.target.value });
     },
+
+    updateElementText: function (newText) {
+      this.props.updateElementText(newText.text);
+    },
+
     render: function () {
       var body;
       var cellType;
@@ -264,7 +271,10 @@ var FormBank = {
           dropdown
         );
       } else {
-        cellType = React.createElement(FormBank[this.state.cellType]);
+        cellType = React.createElement(FormBank[this.state.cellType], { text: "text", updateElementText: this.updateElementText })
+        // React.createElement(FormBank[this.state.cellType], {text: this.props.text})
+        // React.createElement(FormBank[this.state.cellType], {text: this.props.text, updateElementText: this.updateElementText})
+        ;
         body = React.createElement(
           'div',
           null,
