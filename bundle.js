@@ -15,14 +15,13 @@ var FormBank = {
     },
     updateElementText: function (newText) {
       this.props.updateElementText(newText.text);
-      this.setState(newText);
     },
     render: function () {
       return React.createElement(
         'div',
         { id: 'header-form' },
         React.createElement(RIEInput, {
-          value: this.state.text,
+          value: this.props.text,
           change: this.updateElementText,
           propName: 'text',
           className: 'form-section-header'
@@ -293,7 +292,7 @@ var FormBuilder = React.createClass({
     return { currentForm: [] };
   },
   addElement: function (elementType) {
-    var formElementObject = { type: elementType, text: null };
+    var formElementObject = { type: elementType, text: elementType };
     var currentForm = this.state.currentForm;
     currentForm.push(formElementObject);
     this.setState({ currentForm: currentForm });
