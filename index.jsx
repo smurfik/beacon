@@ -114,8 +114,8 @@ var FormBank = {
       var rows = [];
       var NewRow = FormBank["NewRow"];
 
-      for (var i = 0; i < this.props.tableRowCount; i++) {
-        console.log("something is happening");
+      for (var i = 0; i < this.props.tableRows.length; i++) {
+        rows.push(<NewRow key={i} element={this.props.tableRows[i]} columnCount={this.state.columnCount} updateElementText={this.updateElementText} addTableElement={this.props.addTableElement}/>);
       }
 
       for (var i = 0; i < this.state.columnCount; i++) {
@@ -314,7 +314,7 @@ var Builder = React.createClass({
 
     for (var i = 0; i < this.props.formElements.length; i++) {
       if (this.props.formElements[i].type == "Table") {
-        formElements.push(<FormElement id={i} text={this.props.formElements[i].text} key={i} element={this.props.formElements[i]} deleteElement={this.props.deleteElement} moveElementUp={this.props.moveElementUp} moveElementDown={this.props.moveElementDown} updateElementText={this.props.updateElementText} addTableElement={this.addTableElement} addRow={this.props.addRow} tableRowCount={this.props.formElements[i].tableRows.length}/>)
+        formElements.push(<FormElement id={i} text={this.props.formElements[i].text} key={i} element={this.props.formElements[i]} deleteElement={this.props.deleteElement} moveElementUp={this.props.moveElementUp} moveElementDown={this.props.moveElementDown} updateElementText={this.props.updateElementText} addTableElement={this.addTableElement} addRow={this.props.addRow} tableRows={this.props.formElements[i].tableRows}/>)
       } else {
         formElements.push(<FormElement id={i} text={this.props.formElements[i].text} key={i} element={this.props.formElements[i]} deleteElement={this.props.deleteElement} moveElementUp={this.props.moveElementUp} moveElementDown={this.props.moveElementDown} updateElementText={this.props.updateElementText}/>)
       }
@@ -362,14 +362,14 @@ var FormElement = React.createClass({
     var id = this.props.id
     this.props.addRow(newRow, id);
   },
-  tableRows: function(id) {
-    var id = this.props.id
-    this.props.tableRows[id];
-  },
+  // tableRows: function(id) {
+  //   var id = this.props.id
+  //   this.props.tableRows[id];
+  // },
   render: function() {
     var element;
     if (this.props.element.type == "Table") {
-      element = React.createElement(FormBank[this.props.element.type], {text: this.props.text, updateElementText: this.updateElementText, addRow: this.addRow, tableRows: this.tableRows, tableRowCount: this.props.tableRowCount})
+      element = React.createElement(FormBank[this.props.element.type], {text: this.props.text, updateElementText: this.updateElementText, addRow: this.addRow, tableRows: this.props.tableRows, tableRowCount: this.props.tableRowCount})
     } else {
       element = React.createElement(FormBank[this.props.element.type], {text: this.props.text, updateElementText: this.updateElementText});
     }
