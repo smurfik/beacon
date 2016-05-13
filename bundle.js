@@ -113,7 +113,6 @@ var FormBank = {
     displayName: 'Table',
 
     getInitialState: function () {
-      var row = React.createElement(FormBank["NewRow"]);
       return { tableRows: [], columnCount: 1, text: "Table Title" };
     },
     updateElementText: function (newText) {
@@ -305,7 +304,7 @@ var FormBuilder = React.createClass({
   addElement: function (elementType) {
     var formElementObject = {};
     var addRow = function () {
-      // this is where addRow is passed along as a function to Table FormElement. Don't delete.
+      // DON'T DELETE: this is where addRow is defined as one of Table FormElement's props (as a function) when it is added to Builder.
     };
     if (elementType == "Table") {
       formElementObject = { type: elementType, text: elementType, tableRows: [], addRow: addRow };
