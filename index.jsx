@@ -99,6 +99,9 @@ var FormBank = {
     },
     addRow: function(event) {
       event.preventDefault();
+      if (this.props.columnCount == null) {
+        this.props.addColumn();
+      }
       var newRow = React.createElement(FormBank[event.target.value], {addTableElement: "YES"});
       this.props.addRow(newRow);
     },
