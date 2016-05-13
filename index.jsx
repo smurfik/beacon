@@ -92,7 +92,7 @@ var FormBank = {
   }),
   Table: React.createClass({
     getInitialState: function() {
-      return {tableRows: [], columnCount: 1, text: "Table Title"}
+      return {text: "Table Title"}
     },
     updateElementText: function(newText) {
       this.props.updateElementText(newText.text);
@@ -104,11 +104,7 @@ var FormBank = {
     },
     addColumn: function(event) {
       event.preventDefault();
-      // console.log("addColumn triggered in Table");
       this.props.addColumn();
-
-      // var newColumnCount = this.state.columnCount += 1;
-      // this.setState({columnCount: newColumnCount});
     },
     render: function() {
       var columnHeaders = [];
