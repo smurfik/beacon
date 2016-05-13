@@ -93,7 +93,6 @@ var FormBank = {
   Table: React.createClass({
     getInitialState: function() {
       var row = React.createElement(FormBank["NewRow"]);
-      // return {tableRows: [row], columnCount: 1, text: "Table Title"}
       return {tableRows: [], columnCount: 1, text: "Table Title"}
     },
     updateElementText: function(newText) {
@@ -238,7 +237,7 @@ var FormBuilder = React.createClass({
   addElement: function(elementType) {
     var formElementObject = {};
     var addRow = function() {
-      console.log("I'm where addRow is passed along");
+      // this is where addRow is passed along as a function to Table FormElement. Don't delete.
     };
     if (elementType == "Table") {
       formElementObject = {type: elementType, text: elementType, tableRows: [], addRow: addRow}
@@ -253,15 +252,9 @@ var FormBuilder = React.createClass({
     console.log("addTableElement triggered in FormBuilder");
   },
   addRow: function(newRow, id) {
-    // console.log("addRow triggered in FormBuilder");
     var currentForm = this.state.currentForm;
-    // var tableArrToModify = currentForm[id].tableRows
     currentForm[id].tableRows.push(newRow);
     this.setState({currentForm: currentForm});
-  },
-  peekIntoTable: function(id) {
-    console.log(this.state.currentForm[id].tableRows.length);
-    // return this.state.currentForm[id].tableRows.length;
   },
   updateElementText: function(newText, id) {
     var currentForm = this.state.currentForm;
@@ -292,7 +285,7 @@ var FormBuilder = React.createClass({
   render: function(){
     return (
       <div>
-        <Builder formElements={this.state.currentForm} deleteElement={this.deleteElement} moveElementUp={this.moveElementUp} moveElementDown={this.moveElementDown} updateElementText={this.updateElementText} addTableElement={this.addTableElement} addRow={this.addRow} tableRows={this.peekIntoTable}/>
+        <Builder formElements={this.state.currentForm} deleteElement={this.deleteElement} moveElementUp={this.moveElementUp} moveElementDown={this.moveElementDown} updateElementText={this.updateElementText} addTableElement={this.addTableElement} addRow={this.addRow}/>
         <Toolbar addElement={this.addElement}/>
       </div>
     );
@@ -304,10 +297,6 @@ var Builder = React.createClass({
     console.log("addTableElement triggered in Builder");
     console.log(elementType);
   },
-  // addRow: function() {
-  //   // console.log("addRow triggered in Builder");
-  //   this.props.addRow();
-  // },
   render: function() {
     var formElements = [];
     var body;
@@ -362,14 +351,10 @@ var FormElement = React.createClass({
     var id = this.props.id
     this.props.addRow(newRow, id);
   },
-  // tableRows: function(id) {
-  //   var id = this.props.id
-  //   this.props.tableRows[id];
-  // },
   render: function() {
     var element;
     if (this.props.element.type == "Table") {
-      element = React.createElement(FormBank[this.props.element.type], {text: this.props.text, updateElementText: this.updateElementText, addRow: this.addRow, tableRows: this.props.tableRows, tableRowCount: this.props.tableRowCount})
+      element = React.createElement(FormBank[this.props.element.type], {text: this.props.text, updateElementText: this.updateElementText, addRow: this.addRow, tableRows: this.props.tableRows})
     } else {
       element = React.createElement(FormBank[this.props.element.type], {text: this.props.text, updateElementText: this.updateElementText});
     }
