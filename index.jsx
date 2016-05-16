@@ -102,8 +102,11 @@ var FormBank = {
       if (this.props.columnCount == null) {
         this.props.addColumn();
       }
-      var newRow = React.createElement(FormBank[event.target.value], {addTableElement: "YES"});
+      var newRow = React.createElement(FormBank[event.target.value], {columns: [], addTableElement: "add", updateElementText: "update"});
+      // ^ ^ ^ creation of newRow should be in Render of table, not this function.
+      // var newRow = {object representing a new row}
       this.props.addRow(newRow);
+      // ^ ^ ^ still want to do this, just with an object tht represents the data, not the actual react component.
     },
     addColumn: function(event) {
       event.preventDefault();
@@ -119,7 +122,7 @@ var FormBank = {
       var NewRow = FormBank["NewRow"];
 
       for (var i = 0; i < this.props.tableRows.length; i++) {
-        rows.push(<NewRow key={i} element={this.props.tableRows[i]} columnCount={this.props.columnCount} updateElementText={this.updateElementText} addTableElement={this.props.addTableElement}/>);
+        rows.push(<NewRow key={i} element={this.props.tableRows[i]} columns={this.props.columns} columnCount={this.props.columnCount} updateElementText={this.updateElementText} addTableElement={this.props.addTableElement}/>);
       }
 
       for (var i = 0; i < this.props.columnCount; i++) {
@@ -168,6 +171,7 @@ var FormBank = {
       for (var i = 0; i < this.props.columnCount; i++) {
         columns.push(<TableCell key={i} element={this.props.columnCount[i]} updateElementText={this.props.updateElementText} addTableElement={this.props.addTableElement}/>)
       }
+      //
 
       return(
         <tr>
@@ -278,17 +282,40 @@ var FormBuilder = React.createClass({
     // when we reset state of the parent it should re-render the TableCell not as an unselected dropdown, but
     // as a real interactive form. (but not a FormElement as those are just the top-level forms that are stacked vertically in the builder)
   },
+  rows = [
+    columns = [{typ: "Select", value: 10},2,3,4],
+    [1,2,3,4]
+  ]
   addRow: function(newRow, id) {
     var currentForm = this.state.currentForm;
     currentForm[id].tableRows.push(newRow);
+    // ^ ^ ^ push in an object, not a React component. the object should be defined in newRow in FormBank
     this.setState({currentForm: currentForm});
   },
   addColumn: function(id) {
     var currentForm = this.state.currentForm;
+    var tableRows = currentForm[id].tableRows;
+    console.log(tableRows);
     currentForm[id].columnCount += 1;
+    for (var row in currentForm[id].tableRows) {
+      console.log(row.props);
+    }
+
+
     this.setState({currentForm: currentForm});
     // this should be pushing new indices into the newRow array, so that each index can be tracked in parent's state.
-    // 
+    // where formElements[i] is the table,
+    // .tableRows is the array of rows, THEN:
+
+    // OPTION A:
+    // add an empty cell to the end of EACH row in the table
+
+    // OPTION B:
+    // add an empty cell to the end of ONLY of a selected row.
+    // access it via something like: this.props.formElements[i].tableRows[i2].columnRows.push(cell)
+    // .tableRows[i2] is the index for the specific row we want to select within the table,
+    // .columnRows is the array of columns for the selected row,
+    // then we push a new index to the end of the columns array.
   },
   updateElementText: function(newText, id) {
     var currentForm = this.state.currentForm;
@@ -337,7 +364,7 @@ var Builder = React.createClass({
 
     for (var i = 0; i < this.props.formElements.length; i++) {
       if (this.props.formElements[i].type == "Table") {
-        formElements.push(<FormElement id={i} text={this.props.formElements[i].text} key={i} element={this.props.formElements[i]} deleteElement={this.props.deleteElement} moveElementUp={this.props.moveElementUp} moveElementDown={this.props.moveElementDown} updateElementText={this.props.updateElementText} addRow={this.props.addRow} tableRows={this.props.formElements[i].tableRows} columnCount={this.props.formElements[i].columnCount} addColumn={this.props.addColumn} addTableElement={this.props.addTableElement}/>)
+        formElements.push(<FormElement id={i} text={this.props.formElements[i].text} key={i} element={this.props.formElements[i]} deleteElement={this.props.deleteElement} moveElementUp={this.props.moveElementUp} moveElementDown={this.props.moveElementDown} updateElementText={this.props.updateElementText} addRow={this.props.addRow} tableRows={this.props.formElements[i].tableRows} columns={this.props.formElements[i].columns} columnCount={this.props.formElements[i].columnCount} addColumn={this.props.addColumn} addTableElement={this.props.addTableElement}/>)
       } else {
         formElements.push(<FormElement id={i} text={this.props.formElements[i].text} key={i} element={this.props.formElements[i]} deleteElement={this.props.deleteElement} moveElementUp={this.props.moveElementUp} moveElementDown={this.props.moveElementDown} updateElementText={this.props.updateElementText}/>)
       }
@@ -396,7 +423,7 @@ var FormElement = React.createClass({
   render: function() {
     var element;
     if (this.props.element.type == "Table") {
-      element = React.createElement(FormBank[this.props.element.type], {text: this.props.text, updateElementText: this.updateElementText, addRow: this.addRow, tableRows: this.props.tableRows, columnCount: this.props.columnCount, addColumn: this.addColumn, addTableElement: this.addTableElement})
+      element = React.createElement(FormBank[this.props.element.type], {text: this.props.text, updateElementText: this.updateElementText, addRow: this.addRow, tableRows: this.props.tableRows, columns: this.props.columns, columnCount: this.props.columnCount, addColumn: this.addColumn, addTableElement: this.addTableElement})
     } else {
       element = React.createElement(FormBank[this.props.element.type], {text: this.props.text, updateElementText: this.updateElementText});
     }
