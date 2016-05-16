@@ -102,10 +102,14 @@ var FormBank = {
       if (this.props.columnCount == null) {
         this.props.addColumn();
       }
-      var newRow = React.createElement(FormBank[event.target.value], {columns: [], addTableElement: "add", updateElementText: "update"});
+
+      var newRowObject = {columns: []}
+      var newCellObject = {confirmation: "I'm a cell"}
+
+      // var newRow = React.createElement(FormBank[event.target.value], {columns: [], addTableElement: "add", updateElementText: "update"});
       // ^ ^ ^ creation of newRow should be in Render of table, not this function.
       // var newRow = {object representing a new row}
-      this.props.addRow(newRow);
+      this.props.addRow(newRowObject, newCellObject);
       // ^ ^ ^ still want to do this, just with an object tht represents the data, not the actual react component.
     },
     addColumn: function(event) {
@@ -122,7 +126,7 @@ var FormBank = {
       var NewRow = FormBank["NewRow"];
 
       for (var i = 0; i < this.props.tableRows.length; i++) {
-        rows.push(<NewRow key={i} element={this.props.tableRows[i]} columns={this.props.columns} columnCount={this.props.columnCount} updateElementText={this.updateElementText} addTableElement={this.props.addTableElement}/>);
+        rows.push(<NewRow key={i} element={this.props.tableRows[i]} columns={this.props.tableRows[i].columns} columnCount={this.props.columnCount} updateElementText={this.updateElementText} addTableElement={this.props.addTableElement}/>);
       }
 
       for (var i = 0; i < this.props.columnCount; i++) {
@@ -157,7 +161,7 @@ var FormBank = {
   }),
   NewRow: React.createClass({
     getInitialState: function() {
-      return {columnCount: this.props.columnCount}
+      return {columns: this.props.columns}
     },
 
     // addTableElement: function() {
@@ -168,10 +172,11 @@ var FormBank = {
       var columns = [];
       var TableCell = FormBank["TableCell"];
 
-      for (var i = 0; i < this.props.columnCount; i++) {
-        columns.push(<TableCell key={i} element={this.props.columnCount[i]} updateElementText={this.props.updateElementText} addTableElement={this.props.addTableElement}/>)
+      // columns.push(<TableCell key={0} element={this.props.columns[0]} updateElementText={this.props.updateElementText} addTableElement={this.props.addTableElement}/>)
+
+      for (var i = 0; i < this.props.columns.length; i++) {
+        columns.push(<TableCell key={i} element={this.props.columns[i]} updateElementText={this.props.updateElementText} addTableElement={this.props.addTableElement}/>)
       }
-      //
 
       return(
         <tr>
@@ -282,23 +287,22 @@ var FormBuilder = React.createClass({
     // when we reset state of the parent it should re-render the TableCell not as an unselected dropdown, but
     // as a real interactive form. (but not a FormElement as those are just the top-level forms that are stacked vertically in the builder)
   },
-  rows = [
-    columns = [{typ: "Select", value: 10},2,3,4],
-    [1,2,3,4]
-  ]
-  addRow: function(newRow, id) {
+
+  addRow: function(id, newRowObject, newCellObject) {
     var currentForm = this.state.currentForm;
-    currentForm[id].tableRows.push(newRow);
+    // console.log(id, newRowObject, newCellObject);
+    newRowObject.columns.push(newCellObject);
+    currentForm[id].tableRows.push(newRowObject);
     // ^ ^ ^ push in an object, not a React component. the object should be defined in newRow in FormBank
     this.setState({currentForm: currentForm});
   },
   addColumn: function(id) {
     var currentForm = this.state.currentForm;
     var tableRows = currentForm[id].tableRows;
-    console.log(tableRows);
+    // console.log(tableRows);
     currentForm[id].columnCount += 1;
     for (var row in currentForm[id].tableRows) {
-      console.log(row.props);
+      // console.log(row.columns);
     }
 
 
@@ -408,9 +412,9 @@ var FormElement = React.createClass({
     var id = this.props.id;
     this.props.moveElementDown(id);
   },
-  addRow: function(newRow, id) {
+  addRow: function(newRowObject, newCellObject, id) {
     var id = this.props.id
-    this.props.addRow(newRow, id);
+    this.props.addRow(id, newRowObject, newCellObject);
   },
   addColumn: function(id) {
     var id = this.props.id
