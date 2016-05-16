@@ -99,12 +99,12 @@ var FormBank = {
     },
     addRow: function(event) {
       event.preventDefault();
-      if (this.props.columnCount == null) {
-        this.props.addColumn();
-      }
+      // if (this.props.columnCount == null) {
+      //   this.props.addColumn();
+      // }
 
       var newRowObject = {columns: []}
-      var newCellObject = {confirmation: "I'm a cell"}
+      var newCellObject = {confirmation: "I'm a cell"} // this one is added so that any new row contains at least 1 cell
 
       // var newRow = React.createElement(FormBank[event.target.value], {columns: [], addTableElement: "add", updateElementText: "update"});
       // ^ ^ ^ creation of newRow should be in Render of table, not this function.
@@ -114,7 +114,8 @@ var FormBank = {
     },
     addColumn: function(event) {
       event.preventDefault();
-      this.props.addColumn();
+      var newCellObject = {confirmation: "I'm a cell"};
+      this.props.addColumn(newCellObject);
     },
     // addTableCell: function(event) {
     //   event.preventDefault();
@@ -296,17 +297,27 @@ var FormBuilder = React.createClass({
     // ^ ^ ^ push in an object, not a React component. the object should be defined in newRow in FormBank
     this.setState({currentForm: currentForm});
   },
-  addColumn: function(id) {
+  addColumn: function(newCellObject, id) {
     var currentForm = this.state.currentForm;
     var tableRows = currentForm[id].tableRows;
-    // console.log(tableRows);
-    currentForm[id].columnCount += 1;
-    for (var row in currentForm[id].tableRows) {
-      // console.log(row.columns);
+
+    for (var i = 0; i < tableRows.length; i++) {
+      tableRows[i].columns.push(newCellObject);
     }
 
-
     this.setState({currentForm: currentForm});
+  },
+  // addColumn: function(id) {
+  //   var currentForm = this.state.currentForm;
+  //   var tableRows = currentForm[id].tableRows;
+  //   // console.log(tableRows);
+  //   currentForm[id].columnCount += 1;
+  //   for (var row in currentForm[id].tableRows) {
+  //     // console.log(row.columns);
+  //   }
+
+
+    // this.setState({currentForm: currentForm});
     // this should be pushing new indices into the newRow array, so that each index can be tracked in parent's state.
     // where formElements[i] is the table,
     // .tableRows is the array of rows, THEN:
@@ -320,7 +331,7 @@ var FormBuilder = React.createClass({
     // .tableRows[i2] is the index for the specific row we want to select within the table,
     // .columnRows is the array of columns for the selected row,
     // then we push a new index to the end of the columns array.
-  },
+  // },
   updateElementText: function(newText, id) {
     var currentForm = this.state.currentForm;
     currentForm[id].text = newText
@@ -416,9 +427,9 @@ var FormElement = React.createClass({
     var id = this.props.id
     this.props.addRow(id, newRowObject, newCellObject);
   },
-  addColumn: function(id) {
+  addColumn: function(newCellObject, id) {
     var id = this.props.id
-    this.props.addColumn(id);
+    this.props.addColumn(newCellObject, id);
   },
   addTableElement: function(elementType, id) {
     var id = this.props.id
