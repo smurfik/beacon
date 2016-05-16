@@ -109,6 +109,10 @@ var FormBank = {
       event.preventDefault();
       this.props.addColumn();
     },
+    // addTableCell: function(event) {
+    //   event.preventDefault();
+    //   console.log()
+    // },
     render: function() {
       var columnHeaders = [];
       var rows = [];
@@ -262,7 +266,17 @@ var FormBuilder = React.createClass({
     // NOTE TO SELF: paused here.
     // Confirmed that reference to element type to be added to TableCell worked its way all the way up the chain to parent.
     // Now need to log in state that this cell should contain this element,
-    // then reset state / re-render all the way back down to reflect this
+    // then reset state / re-render all the way back down to reflect this.
+
+    // var currentForm = this.state.currentForm;
+    // currentForm[id].tableRows[ROW INDEX].[ROW ELEMENT INDEX].cellType = elementType
+    // ABOVE: need to access a given form element that is a table, then access the proper table row by index,
+
+    // then access the proper column of that row by index.
+    // This gives us the cell in question.
+    // Then, we need to update the parent's state so that it knows that this cell is a form coming from FormBank.
+    // when we reset state of the parent it should re-render the TableCell not as an unselected dropdown, but
+    // as a real interactive form. (but not a FormElement as those are just the top-level forms that are stacked vertically in the builder)
   },
   addRow: function(newRow, id) {
     var currentForm = this.state.currentForm;
@@ -273,6 +287,8 @@ var FormBuilder = React.createClass({
     var currentForm = this.state.currentForm;
     currentForm[id].columnCount += 1;
     this.setState({currentForm: currentForm});
+    // this should be pushing new indices into the newRow array, so that each index can be tracked in parent's state.
+    // 
   },
   updateElementText: function(newText, id) {
     var currentForm = this.state.currentForm;
