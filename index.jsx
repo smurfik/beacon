@@ -100,7 +100,7 @@ var FormBank = {
     addRow: function(event) {
       event.preventDefault();
       var newRowObject = {columns: []};
-      var newCellObject = {confirmation: "I'm a cell"} // this one is added so that any new row contains at least 1 cell
+      var newCellObject = {text: "I'm a cell"} // this one is added so that any new row contains at least 1 cell
       var numberOfColumns = this.props.tableRows[0].columns.length
       for (var i = 0; i < numberOfColumns; i++) {
         newRowObject.columns.push(newCellObject);
@@ -118,7 +118,7 @@ var FormBank = {
       var NewRow = FormBank["NewRow"];
 
       for (var i = 0; i < this.props.tableRows.length; i++) {
-        rows.push(<NewRow key={i} element={this.props.tableRows[i]} columns={this.props.tableRows[i].columns} columnCount={this.props.columnCount} updateElementText={this.updateElementText} addTableElement={this.props.addTableElement}/>);
+        rows.push(<NewRow key={i} element={this.props.tableRows[i]} columns={this.props.tableRows[i].columns} updateElementText={this.updateElementText} addTableElement={this.props.addTableElement}/>);
       }
 
       for (var i = 0; i < this.props.tableRows[0].columns.length; i++) {
@@ -165,7 +165,7 @@ var FormBank = {
       var TableCell = FormBank["TableCell"];
 
       for (var i = 0; i < this.props.columns.length; i++) {
-        columns.push(<TableCell key={i} element={this.props.columns[i]} updateElementText={this.props.updateElementText} addTableElement={this.props.addTableElement}/>)
+        columns.push(<TableCell key={i} element={this.props.columns[i]} text={this.props.columns[i].text} updateElementText={this.props.updateElementText} addTableElement={this.props.addTableElement}/>)
       }
 
       return(
@@ -177,7 +177,7 @@ var FormBank = {
   }),
   TableCell: React.createClass({
     getInitialState: function() {
-      return({active: false, cellType: ""});
+      return({active: false});
     },
     // setCellType: function(event) {
     //   // var type = event.target.value;
@@ -186,6 +186,7 @@ var FormBank = {
     // },
     addTableElement: function(event) {
       this.props.addTableElement(event.target.value);
+    //   this.setState({active: true});
     },
 
     updateElementText: function(newText) {
@@ -251,7 +252,7 @@ var FormBuilder = React.createClass({
       // don't delete per same reasons as above, but for columns.
     };
     if (elementType == "Table") {
-      formElementObject = {type: elementType, text: elementType, tableRows: [{columns: [{confirmation: "I'm a cell"}]}], addRow: addRow, columnCount: null, addColumn: addColumn}
+      formElementObject = {type: elementType, text: elementType, tableRows: [{columns: [{text: "I'm a cell"}]}], addRow: addRow, addColumn: addColumn}
     } else {
       formElementObject = {type: elementType, text: elementType};
     }
@@ -262,6 +263,9 @@ var FormBuilder = React.createClass({
   addTableElement: function(elementType, id) {
     console.log("addTableElement triggered in FormBuilder");
     console.log(elementType, id);
+    var currentForm = this.state.currentForm;
+    // currentForm[id].tableRows[]
+
     // NOTE TO SELF: paused here.
     // Confirmed that reference to element type to be added to TableCell worked its way all the way up the chain to parent.
     // Now need to log in state that this cell should contain this element,
@@ -338,7 +342,7 @@ var Builder = React.createClass({
 
     for (var i = 0; i < this.props.formElements.length; i++) {
       if (this.props.formElements[i].type == "Table") {
-        formElements.push(<FormElement id={i} text={this.props.formElements[i].text} key={i} element={this.props.formElements[i]} deleteElement={this.props.deleteElement} moveElementUp={this.props.moveElementUp} moveElementDown={this.props.moveElementDown} updateElementText={this.props.updateElementText} addRow={this.props.addRow} tableRows={this.props.formElements[i].tableRows} columns={this.props.formElements[i].columns} columnCount={this.props.formElements[i].columnCount} addColumn={this.props.addColumn} addTableElement={this.props.addTableElement}/>)
+        formElements.push(<FormElement id={i} text={this.props.formElements[i].text} key={i} element={this.props.formElements[i]} deleteElement={this.props.deleteElement} moveElementUp={this.props.moveElementUp} moveElementDown={this.props.moveElementDown} updateElementText={this.props.updateElementText} addRow={this.props.addRow} tableRows={this.props.formElements[i].tableRows} columns={this.props.formElements[i].columns} addColumn={this.props.addColumn} addTableElement={this.props.addTableElement}/>)
       } else {
         formElements.push(<FormElement id={i} text={this.props.formElements[i].text} key={i} element={this.props.formElements[i]} deleteElement={this.props.deleteElement} moveElementUp={this.props.moveElementUp} moveElementDown={this.props.moveElementDown} updateElementText={this.props.updateElementText}/>)
       }
@@ -397,7 +401,7 @@ var FormElement = React.createClass({
   render: function() {
     var element;
     if (this.props.element.type == "Table") {
-      element = React.createElement(FormBank[this.props.element.type], {text: this.props.text, updateElementText: this.updateElementText, addRow: this.addRow, tableRows: this.props.tableRows, columns: this.props.columns, columnCount: this.props.columnCount, addColumn: this.addColumn, addTableElement: this.addTableElement})
+      element = React.createElement(FormBank[this.props.element.type], {text: this.props.text, updateElementText: this.updateElementText, addRow: this.addRow, tableRows: this.props.tableRows, columns: this.props.columns, addColumn: this.addColumn, addTableElement: this.addTableElement})
     } else {
       element = React.createElement(FormBank[this.props.element.type], {text: this.props.text, updateElementText: this.updateElementText});
     }
