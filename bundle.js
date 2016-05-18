@@ -130,7 +130,7 @@ var FormBank = {
     },
     addColumn: function (event) {
       event.preventDefault();
-      var newCellObject = { confirmation: "I'm a cell" };
+      var newCellObject = { text: "I'm a cell" };
       this.props.addColumn(newCellObject);
     },
     render: function () {
@@ -350,7 +350,7 @@ var FormBuilder = React.createClass({
     // as a real interactive form. (but not a FormElement as those are just the top-level forms that are stacked vertically in the builder)
   },
 
-  addRow: function (id, newRowObject) {
+  addRow: function (newRowObject, id) {
     var currentForm = this.state.currentForm;
     currentForm[id].tableRows.push(newRowObject);
     this.setState({ currentForm: currentForm });
@@ -466,11 +466,11 @@ var FormElement = React.createClass({
     var id = this.props.id;
     this.props.moveElementDown(id);
   },
-  addRow: function (newRowObject, id) {
+  addRow: function (newRowObject) {
     var id = this.props.id;
-    this.props.addRow(id, newRowObject);
+    this.props.addRow(newRowObject, id);
   },
-  addColumn: function (newCellObject, id) {
+  addColumn: function (newCellObject) {
     var id = this.props.id;
     this.props.addColumn(newCellObject, id);
   },
