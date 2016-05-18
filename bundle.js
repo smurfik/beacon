@@ -121,7 +121,7 @@ var FormBank = {
     addRow: function (event) {
       event.preventDefault();
       var newRowObject = { columns: [] };
-      var newCellObject = { text: "I'm a cell" }; // this one is added so that any new row contains at least 1 cell
+      var newCellObject = { type: "unselected", text: "I'm a cell", state: { active: false } }; // this one is added so that any new row contains at least 1 cell
       var numberOfColumns = this.props.tableRows[0].columns.length;
       for (var i = 0; i < numberOfColumns; i++) {
         newRowObject.columns.push(newCellObject);
@@ -130,7 +130,7 @@ var FormBank = {
     },
     addColumn: function (event) {
       event.preventDefault();
-      var newCellObject = { text: "I'm a cell" };
+      var newCellObject = { type: "unselected", text: "I'm a cell", state: { active: false } };
       this.props.addColumn(newCellObject);
     },
     render: function () {
@@ -139,7 +139,7 @@ var FormBank = {
       var NewRow = FormBank["NewRow"];
 
       for (var i = 0; i < this.props.tableRows.length; i++) {
-        rows.push(React.createElement(NewRow, { key: i, element: this.props.tableRows[i], columns: this.props.tableRows[i].columns, updateElementText: this.updateElementText, addTableElement: this.props.addTableElement }));
+        rows.push(React.createElement(NewRow, { id: i, key: i, element: this.props.tableRows[i], columns: this.props.tableRows[i].columns, updateElementText: this.updateElementText, changeCellToForm: this.props.changeCellToForm }));
       }
 
       for (var i = 0; i < this.props.tableRows[0].columns.length; i++) {
@@ -203,16 +203,18 @@ var FormBank = {
       return { columns: this.props.columns };
     },
 
-    // addTableElement: function() {
-    //   console.log('addTableElement triggered in NewRow');
-    // },
+    changeCellToForm: function (cellType, cellId) {
+      // console.log('addTableElement triggered in NewRow');
+      var rowId = this.props.id;
+      this.props.changeCellToForm(cellType, cellId, rowId);
+    },
 
     render: function () {
       var columns = [];
       var TableCell = FormBank["TableCell"];
 
       for (var i = 0; i < this.props.columns.length; i++) {
-        columns.push(React.createElement(TableCell, { key: i, element: this.props.columns[i], text: this.props.columns[i].text, updateElementText: this.props.updateElementText, addTableElement: this.props.addTableElement }));
+        columns.push(React.createElement(TableCell, { id: i, key: i, element: this.props.columns[i], text: this.props.columns[i].text, updateElementText: this.props.updateElementText, changeCellToForm: this.changeCellToForm }));
       }
 
       return React.createElement(
@@ -233,9 +235,11 @@ var FormBank = {
     //   // this.setState({active: true, cellType: "UserText"});
     //   this.setState({active: true, cellType: event.target.value});
     // },
-    addTableElement: function (event) {
-      this.props.addTableElement(event.target.value);
-      //   this.setState({active: true});
+    changeCellToForm: function (event) {
+      var cellId = this.props.id; // == this cell's id, passed up so that the right cell can be rerendered as a form.
+      var cellType = event.target.value;
+      this.props.changeCellToForm(cellType, cellId);
+      // this.setState({active: true});
     },
 
     updateElementText: function (newText) {
@@ -255,7 +259,7 @@ var FormBank = {
         ),
         React.createElement(
           'select',
-          { onChange: this.addTableElement },
+          { onChange: this.changeCellToForm },
           React.createElement(
             'option',
             { value: 'selected' },
@@ -281,7 +285,7 @@ var FormBank = {
           dropdown
         );
       } else {
-        cellType = React.createElement(FormBank[this.state.cellType], { text: "text", updateElementText: this.updateElementText })
+        cellType = React.createElement(FormBank[this.props.element.cellType], { text: "Now I'm a form", updateElementText: this.updateElementText })
         // React.createElement(FormBank[this.state.cellType], {text: this.props.text})
         // React.createElement(FormBank[this.state.cellType], {text: this.props.text, updateElementText: this.updateElementText})
         ;
@@ -320,7 +324,7 @@ var FormBuilder = React.createClass({
       // don't delete per same reasons as above, but for columns.
     };
     if (elementType == "Table") {
-      formElementObject = { type: elementType, text: elementType, tableRows: [{ columns: [{ text: "I'm a cell" }] }], addRow: addRow, addColumn: addColumn };
+      formElementObject = { type: elementType, text: elementType, tableRows: [{ columns: [{ type: "unselected", text: "I'm a cell", state: { active: false } }] }], addRow: addRow, addColumn: addColumn };
     } else {
       formElementObject = { type: elementType, text: elementType };
     }
@@ -363,6 +367,14 @@ var FormBuilder = React.createClass({
     }
     this.setState({ currentForm: currentForm });
   },
+  changeCellToForm: function (cellType, cellId, rowId, tableId) {
+    var currentForm = this.state.currentForm;
+    var targetCell = currentForm[tableId].tableRows[rowId].columns[cellId];
+    targetCell.type = cellType;
+    targetCell.state.active = true;
+    this.setState({ currentForm: currentForm });
+    console.log(targetCell);
+  },
   updateElementText: function (newText, id) {
     var currentForm = this.state.currentForm;
     currentForm[id].text = newText;
@@ -393,7 +405,7 @@ var FormBuilder = React.createClass({
     return React.createElement(
       'div',
       null,
-      React.createElement(Builder, { formElements: this.state.currentForm, deleteElement: this.deleteElement, moveElementUp: this.moveElementUp, moveElementDown: this.moveElementDown, updateElementText: this.updateElementText, addRow: this.addRow, addColumn: this.addColumn, addTableElement: this.addTableElement }),
+      React.createElement(Builder, { formElements: this.state.currentForm, deleteElement: this.deleteElement, moveElementUp: this.moveElementUp, moveElementDown: this.moveElementDown, updateElementText: this.updateElementText, addRow: this.addRow, addColumn: this.addColumn, changeCellToForm: this.changeCellToForm }),
       React.createElement(Toolbar, { addElement: this.addElement })
     );
   }
@@ -412,7 +424,7 @@ var Builder = React.createClass({
 
     for (var i = 0; i < this.props.formElements.length; i++) {
       if (this.props.formElements[i].type == "Table") {
-        formElements.push(React.createElement(FormElement, { id: i, text: this.props.formElements[i].text, key: i, element: this.props.formElements[i], deleteElement: this.props.deleteElement, moveElementUp: this.props.moveElementUp, moveElementDown: this.props.moveElementDown, updateElementText: this.props.updateElementText, addRow: this.props.addRow, tableRows: this.props.formElements[i].tableRows, columns: this.props.formElements[i].columns, addColumn: this.props.addColumn, addTableElement: this.props.addTableElement }));
+        formElements.push(React.createElement(FormElement, { id: i, text: this.props.formElements[i].text, key: i, element: this.props.formElements[i], deleteElement: this.props.deleteElement, moveElementUp: this.props.moveElementUp, moveElementDown: this.props.moveElementDown, updateElementText: this.props.updateElementText, addRow: this.props.addRow, tableRows: this.props.formElements[i].tableRows, columns: this.props.formElements[i].columns, addColumn: this.props.addColumn, changeCellToForm: this.props.changeCellToForm }));
       } else {
         formElements.push(React.createElement(FormElement, { id: i, text: this.props.formElements[i].text, key: i, element: this.props.formElements[i], deleteElement: this.props.deleteElement, moveElementUp: this.props.moveElementUp, moveElementDown: this.props.moveElementDown, updateElementText: this.props.updateElementText }));
       }
@@ -474,14 +486,15 @@ var FormElement = React.createClass({
     var id = this.props.id;
     this.props.addColumn(newCellObject, id);
   },
-  addTableElement: function (elementType, id) {
-    var id = this.props.id;
-    this.props.addTableElement(elementType, id);
+  changeCellToForm: function (cellType, cellId, rowId) {
+    var tableId = this.props.id;
+    // console.log("change cell to form triggered in Table FormElement");
+    this.props.changeCellToForm(cellType, cellId, rowId, tableId);
   },
   render: function () {
     var element;
     if (this.props.element.type == "Table") {
-      element = React.createElement(FormBank[this.props.element.type], { text: this.props.text, updateElementText: this.updateElementText, addRow: this.addRow, tableRows: this.props.tableRows, columns: this.props.columns, addColumn: this.addColumn, addTableElement: this.addTableElement });
+      element = React.createElement(FormBank[this.props.element.type], { text: this.props.text, updateElementText: this.updateElementText, addRow: this.addRow, tableRows: this.props.tableRows, columns: this.props.columns, addColumn: this.addColumn, changeCellToForm: this.changeCellToForm });
     } else {
       element = React.createElement(FormBank[this.props.element.type], { text: this.props.text, updateElementText: this.updateElementText });
     }
