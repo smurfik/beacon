@@ -121,7 +121,7 @@ var FormBank = {
     addRow: function (event) {
       event.preventDefault();
       var newRowObject = { columns: [] };
-      var newCellObject = { type: "unselected", text: "I'm a cell", state: { active: false } }; // this one is added so that any new row contains at least 1 cell
+      var newCellObject = { type: "unselected", text: "I'm a cell" }; // this one is added so that any new row contains at least 1 cell
       var numberOfColumns = this.props.tableRows[0].columns.length;
       for (var i = 0; i < numberOfColumns; i++) {
         newRowObject.columns.push(newCellObject);
@@ -130,7 +130,7 @@ var FormBank = {
     },
     addColumn: function (event) {
       event.preventDefault();
-      var newCellObject = { type: "unselected", text: "I'm a cell", state: { active: false } };
+      var newCellObject = { type: "unselected", text: "I'm a cell" };
       this.props.addColumn(newCellObject);
     },
     render: function () {
@@ -204,7 +204,6 @@ var FormBank = {
     },
 
     changeCellToForm: function (cellType, cellId) {
-      // console.log('addTableElement triggered in NewRow');
       var rowId = this.props.id;
       this.props.changeCellToForm(cellType, cellId, rowId);
     },
@@ -227,25 +226,14 @@ var FormBank = {
   TableCell: React.createClass({
     displayName: 'TableCell',
 
-    getInitialState: function () {
-      return { active: false };
-    },
-    // setCellType: function(event) {
-    //   // var type = event.target.value;
-    //   // this.setState({active: true, cellType: "UserText"});
-    //   this.setState({active: true, cellType: event.target.value});
-    // },
     changeCellToForm: function (event) {
       var cellId = this.props.id; // == this cell's id, passed up so that the right cell can be rerendered as a form.
       var cellType = event.target.value;
       this.props.changeCellToForm(cellType, cellId);
-      // this.setState({active: true});
     },
-
     updateElementText: function (newText) {
       this.props.updateElementText(newText.text);
     },
-
     render: function () {
       var body;
       var cellType;
@@ -278,17 +266,15 @@ var FormBank = {
         )
       );
 
-      if (this.state.active == false) {
+      if (this.props.element.type == "unselected") {
         body = React.createElement(
           'div',
           null,
           dropdown
         );
       } else {
-        cellType = React.createElement(FormBank[this.props.element.cellType], { text: "Now I'm a form", updateElementText: this.updateElementText })
-        // React.createElement(FormBank[this.state.cellType], {text: this.props.text})
-        // React.createElement(FormBank[this.state.cellType], {text: this.props.text, updateElementText: this.updateElementText})
-        ;
+        var type = this.props.element.type;
+        cellType = React.createElement(FormBank[type], { text: type, updateElementText: this.updateElementText });
         body = React.createElement(
           'div',
           null,
@@ -324,7 +310,7 @@ var FormBuilder = React.createClass({
       // don't delete per same reasons as above, but for columns.
     };
     if (elementType == "Table") {
-      formElementObject = { type: elementType, text: elementType, tableRows: [{ columns: [{ type: "unselected", text: "I'm a cell", state: { active: false } }] }], addRow: addRow, addColumn: addColumn };
+      formElementObject = { type: elementType, text: elementType, tableRows: [{ columns: [{ type: "unselected", text: "I'm a cell" }] }], addRow: addRow, addColumn: addColumn };
     } else {
       formElementObject = { type: elementType, text: elementType };
     }
@@ -332,28 +318,6 @@ var FormBuilder = React.createClass({
     currentForm.push(formElementObject);
     this.setState({ currentForm: currentForm });
   },
-  addTableElement: function (elementType, id) {
-    console.log("addTableElement triggered in FormBuilder");
-    console.log(elementType, id);
-    var currentForm = this.state.currentForm;
-    // currentForm[id].tableRows[]
-
-    // NOTE TO SELF: paused here.
-    // Confirmed that reference to element type to be added to TableCell worked its way all the way up the chain to parent.
-    // Now need to log in state that this cell should contain this element,
-    // then reset state / re-render all the way back down to reflect this.
-
-    // var currentForm = this.state.currentForm;
-    // currentForm[id].tableRows[ROW INDEX].[ROW ELEMENT INDEX].cellType = elementType
-    // ABOVE: need to access a given form element that is a table, then access the proper table row by index,
-
-    // then access the proper column of that row by index.
-    // This gives us the cell in question.
-    // Then, we need to update the parent's state so that it knows that this cell is a form coming from FormBank.
-    // when we reset state of the parent it should re-render the TableCell not as an unselected dropdown, but
-    // as a real interactive form. (but not a FormElement as those are just the top-level forms that are stacked vertically in the builder)
-  },
-
   addRow: function (newRowObject, id) {
     var currentForm = this.state.currentForm;
     currentForm[id].tableRows.push(newRowObject);
@@ -371,9 +335,7 @@ var FormBuilder = React.createClass({
     var currentForm = this.state.currentForm;
     var targetCell = currentForm[tableId].tableRows[rowId].columns[cellId];
     targetCell.type = cellType;
-    targetCell.state.active = true;
     this.setState({ currentForm: currentForm });
-    console.log(targetCell);
   },
   updateElementText: function (newText, id) {
     var currentForm = this.state.currentForm;
@@ -414,10 +376,6 @@ var FormBuilder = React.createClass({
 var Builder = React.createClass({
   displayName: 'Builder',
 
-  // addTableElement: function(elementType) {
-  //   console.log("addTableElement triggered in Builder");
-  //   console.log(elementType);
-  // },
   render: function () {
     var formElements = [];
     var body;
@@ -488,7 +446,6 @@ var FormElement = React.createClass({
   },
   changeCellToForm: function (cellType, cellId, rowId) {
     var tableId = this.props.id;
-    // console.log("change cell to form triggered in Table FormElement");
     this.props.changeCellToForm(cellType, cellId, rowId, tableId);
   },
   render: function () {
