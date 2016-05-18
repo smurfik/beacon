@@ -11,18 +11,18 @@ var FormBank = {
     displayName: 'Header',
 
     getInitialState: function () {
-      return { text: "Header" };
+      return { type: "Header", text: "Header" };
     },
-    changeState: function (newState) {
-      this.setState(newState);
+    updateElementText: function (newText) {
+      this.props.updateElementText(newText.text);
     },
     render: function () {
       return React.createElement(
         'div',
         { id: 'header-form' },
         React.createElement(RIEInput, {
-          value: this.state.text,
-          change: this.changeState,
+          value: this.props.text,
+          change: this.updateElementText,
           propName: 'text',
           className: 'form-section-header'
         })
@@ -33,18 +33,18 @@ var FormBank = {
     displayName: 'Description',
 
     getInitialState: function () {
-      return { text: "enter description here" };
+      return { type: "Description", text: "enter description here" };
     },
-    changeState: function (newState) {
-      this.setState(newState);
+    updateElementText: function (newText) {
+      this.props.updateElementText(newText.text);
     },
     render: function () {
       return React.createElement(
         'div',
         { id: 'description-form' },
         React.createElement(RIEInput, {
-          value: this.state.text,
-          change: this.changeState,
+          value: this.props.text,
+          change: this.updateElementText,
           propName: 'text',
           className: 'form-description'
         })
@@ -55,18 +55,18 @@ var FormBank = {
     displayName: 'UserText',
 
     getInitialState: function () {
-      return { text: "answer here" };
+      return { type: "UserText", text: "answer here" };
     },
-    changeState: function (newState) {
-      this.setState(newState);
+    updateElementText: function (newText) {
+      this.props.updateElementText(newText.text);
     },
     render: function () {
       return React.createElement(
         'div',
         { id: 'user-text-form' },
         React.createElement(RIEInput, {
-          value: this.state.text,
-          change: this.changeState,
+          value: this.props.text,
+          change: this.updateElementText,
           propName: 'text',
           className: 'form-user-text'
         })
@@ -77,18 +77,18 @@ var FormBank = {
     displayName: 'Dropdown',
 
     getInitialState: function () {
-      return { text: "Question" };
+      return { type: "Dropdown", text: "Question" };
     },
-    changeState: function (newState) {
-      this.setState(newState);
+    updateElementText: function (newText) {
+      this.props.updateElementText(newText.text);
     },
     render: function () {
       return React.createElement(
         'div',
         { id: 'dropdown-form' },
         React.createElement(RIEInput, {
-          value: this.state.text,
-          change: this.changeState,
+          value: this.props.text,
+          change: this.updateElementText,
           propName: 'text',
           className: 'form-question-header'
         }),
@@ -116,8 +116,8 @@ var FormBank = {
       var row = React.createElement(FormBank["NewRow"]);
       return { tableRows: [row], columnCount: 1, text: "Table Title" };
     },
-    changeState: function (newState) {
-      this.setState(newState);
+    updateElementText: function (newText) {
+      this.props.updateElementText(newText.text);
     },
     addRow: function (event) {
       event.preventDefault();
@@ -137,7 +137,7 @@ var FormBank = {
       var NewRow = FormBank["NewRow"];
 
       for (var i = 0; i < this.state.tableRows.length; i++) {
-        rows.push(React.createElement(NewRow, { key: i, element: this.state.tableRows[i], columnCount: this.state.columnCount }));
+        rows.push(React.createElement(NewRow, { key: i, element: this.state.tableRows[i], columnCount: this.state.columnCount, updateElementText: this.updateElementText }));
       }
 
       for (var i = 0; i < this.state.columnCount; i++) {
@@ -154,8 +154,8 @@ var FormBank = {
         'div',
         { id: 'table-form' },
         React.createElement(RIEInput, {
-          value: this.state.text,
-          change: this.changeState,
+          value: this.props.text,
+          change: this.updateElementText,
           propName: 'text',
           className: 'form-question-header'
         }),
@@ -206,7 +206,7 @@ var FormBank = {
       var TableCell = FormBank["TableCell"];
 
       for (var i = 0; i < this.props.columnCount; i++) {
-        columns.push(React.createElement(TableCell, { key: i, element: this.props.columnCount[i] }));
+        columns.push(React.createElement(TableCell, { key: i, element: this.props.columnCount[i], updateElementText: this.props.updateElementText }));
       }
 
       return React.createElement(
@@ -223,8 +223,15 @@ var FormBank = {
       return { active: false, cellType: "" };
     },
     setCellType: function (event) {
+      // var type = event.target.value;
+      // this.setState({active: true, cellType: "UserText"});
       this.setState({ active: true, cellType: event.target.value });
     },
+
+    updateElementText: function (newText) {
+      this.props.updateElementText(newText.text);
+    },
+
     render: function () {
       var body;
       var cellType;
@@ -264,7 +271,10 @@ var FormBank = {
           dropdown
         );
       } else {
-        cellType = React.createElement(FormBank[this.state.cellType]);
+        cellType = React.createElement(FormBank[this.state.cellType], { text: "text", updateElementText: this.updateElementText })
+        // React.createElement(FormBank[this.state.cellType], {text: this.props.text})
+        // React.createElement(FormBank[this.state.cellType], {text: this.props.text, updateElementText: this.updateElementText})
+        ;
         body = React.createElement(
           'div',
           null,
@@ -291,10 +301,15 @@ var FormBuilder = React.createClass({
   getInitialState: function () {
     return { currentForm: [] };
   },
-  addElement: function (element) {
-    var formElement = React.createElement(FormBank[element]);
+  addElement: function (elementType) {
+    var formElementObject = { type: elementType, text: elementType };
     var currentForm = this.state.currentForm;
-    currentForm.push(formElement);
+    currentForm.push(formElementObject);
+    this.setState({ currentForm: currentForm });
+  },
+  updateElementText: function (newText, id) {
+    var currentForm = this.state.currentForm;
+    currentForm[id].text = newText;
     this.setState({ currentForm: currentForm });
   },
   deleteElement: function (id) {
@@ -322,7 +337,7 @@ var FormBuilder = React.createClass({
     return React.createElement(
       'div',
       null,
-      React.createElement(Builder, { formElements: this.state.currentForm, deleteElement: this.deleteElement, moveElementUp: this.moveElementUp, moveElementDown: this.moveElementDown }),
+      React.createElement(Builder, { formElements: this.state.currentForm, deleteElement: this.deleteElement, moveElementUp: this.moveElementUp, moveElementDown: this.moveElementDown, updateElementText: this.updateElementText }),
       React.createElement(Toolbar, { addElement: this.addElement })
     );
   }
@@ -336,7 +351,7 @@ var Builder = React.createClass({
     var body;
 
     for (var i = 0; i < this.props.formElements.length; i++) {
-      formElements.push(React.createElement(FormElement, { key: i, id: i, element: this.props.formElements[i], deleteElement: this.props.deleteElement, moveElementUp: this.props.moveElementUp, moveElementDown: this.props.moveElementDown }));
+      formElements.push(React.createElement(FormElement, { id: i, text: this.props.formElements[i].text, key: i, element: this.props.formElements[i], deleteElement: this.props.deleteElement, moveElementUp: this.props.moveElementUp, moveElementDown: this.props.moveElementDown, updateElementText: this.props.updateElementText }));
     }
 
     if (this.props.formElements[0] == null) {
@@ -348,7 +363,7 @@ var Builder = React.createClass({
     } else {
       body = React.createElement(
         'div',
-        { id: 'form=element-list' },
+        { id: 'form-element-list' },
         formElements
       );
     }
@@ -368,6 +383,10 @@ var Builder = React.createClass({
 var FormElement = React.createClass({
   displayName: 'FormElement',
 
+  updateElementText: function (newText, id) {
+    var id = this.props.id;
+    this.props.updateElementText(newText, id);
+  },
   deleteElement: function (event, id) {
     event.preventDefault();
     var id = this.props.id;
@@ -384,10 +403,11 @@ var FormElement = React.createClass({
     this.props.moveElementDown(id);
   },
   render: function () {
+    var element = React.createElement(FormBank[this.props.element.type], { text: this.props.text, updateElementText: this.updateElementText });
     return React.createElement(
       'div',
       { className: 'form-element' },
-      this.props.element,
+      element,
       React.createElement(
         'button',
         { onClick: this.deleteElement },
