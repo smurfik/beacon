@@ -342,7 +342,14 @@ var FormBuilder = React.createClass({
     targetCell.type = cellType;
     this.setState({ currentForm: currentForm });
   },
-  updateElementText: function (newText, cellId, rowId, tableId) {
+  updateFormElementText: function (newText, tableId) {
+    var currentForm = this.state.currentForm;
+    console.log("updateElementText triggered in FormBuilder: ", newText, "cell id: ", "table id: ", tableId);
+    var targetCell = currentForm[tableId];
+    targetCell.text = newText;
+    this.setState({ currentForm: currentForm });
+  },
+  updateTableElementText: function (newText, cellId, rowId, tableId) {
     var currentForm = this.state.currentForm;
     console.log("updateElementText triggered in FormBuilder: ", newText, "cell id: ", cellId, "row id: ", rowId, "table id: ", tableId);
     var targetCell = currentForm[tableId].tableRows[rowId].columns[cellId];
@@ -374,7 +381,7 @@ var FormBuilder = React.createClass({
     return React.createElement(
       'div',
       null,
-      React.createElement(Builder, { formElements: this.state.currentForm, deleteElement: this.deleteElement, moveElementUp: this.moveElementUp, moveElementDown: this.moveElementDown, updateElementText: this.updateElementText, addRow: this.addRow, addColumn: this.addColumn, changeCellToForm: this.changeCellToForm }),
+      React.createElement(Builder, { formElements: this.state.currentForm, deleteElement: this.deleteElement, moveElementUp: this.moveElementUp, moveElementDown: this.moveElementDown, updateFormElementText: this.updateFormElementText, updateTableElementText: this.updateTableElementText, addRow: this.addRow, addColumn: this.addColumn, changeCellToForm: this.changeCellToForm }),
       React.createElement(Toolbar, { addElement: this.addElement })
     );
   }
@@ -389,9 +396,9 @@ var Builder = React.createClass({
 
     for (var i = 0; i < this.props.formElements.length; i++) {
       if (this.props.formElements[i].type == "Table") {
-        formElements.push(React.createElement(FormElement, { id: i, text: this.props.formElements[i].text, key: i, element: this.props.formElements[i], deleteElement: this.props.deleteElement, moveElementUp: this.props.moveElementUp, moveElementDown: this.props.moveElementDown, updateElementText: this.props.updateElementText, addRow: this.props.addRow, tableRows: this.props.formElements[i].tableRows, columns: this.props.formElements[i].columns, addColumn: this.props.addColumn, changeCellToForm: this.props.changeCellToForm }));
+        formElements.push(React.createElement(FormElement, { id: i, text: this.props.formElements[i].text, key: i, element: this.props.formElements[i], deleteElement: this.props.deleteElement, moveElementUp: this.props.moveElementUp, moveElementDown: this.props.moveElementDown, updateFormElementText: this.props.updateFormElementText, updateTableElementText: this.props.updateTableElementText, addRow: this.props.addRow, tableRows: this.props.formElements[i].tableRows, columns: this.props.formElements[i].columns, addColumn: this.props.addColumn, changeCellToForm: this.props.changeCellToForm }));
       } else {
-        formElements.push(React.createElement(FormElement, { id: i, text: this.props.formElements[i].text, key: i, element: this.props.formElements[i], deleteElement: this.props.deleteElement, moveElementUp: this.props.moveElementUp, moveElementDown: this.props.moveElementDown, updateElementText: this.props.updateElementText }));
+        formElements.push(React.createElement(FormElement, { id: i, text: this.props.formElements[i].text, key: i, element: this.props.formElements[i], deleteElement: this.props.deleteElement, moveElementUp: this.props.moveElementUp, moveElementDown: this.props.moveElementDown, updateFormElementText: this.props.updateFormElementText }));
       }
     }
 
@@ -426,8 +433,12 @@ var FormElement = React.createClass({
 
   updateElementText: function (newText, cellId, rowId) {
     var tableId = this.props.id;
-    console.log("updateElementText triggered in FormElement: ", newText, "cell id: ", cellId, "row id: ", rowId, "table id: ", tableId);
-    this.props.updateElementText(newText, cellId, rowId, tableId);
+    if (cellId == undefined) {
+      this.props.updateFormElementText(newText, tableId);
+    } else {
+      this.props.updateTableElementText(newText, cellId, rowId, tableId);
+      console.log("updateElementText triggered in FormElement: ", newText, "cell id: ", cellId, "row id: ", rowId, "table id: ", tableId);
+    }
   },
   deleteElement: function (event, id) {
     event.preventDefault();
