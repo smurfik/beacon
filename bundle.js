@@ -14,8 +14,7 @@ var FormBank = {
       return { type: "Header", text: "Header" };
     },
     updateElementText: function (newText) {
-      var newText = newText.text; // newText is an object, this helps us just pass the text string up to parent.
-      this.props.updateElementText(newText);
+      this.props.updateElementText(newText.text);
     },
     render: function () {
       return React.createElement(
@@ -37,8 +36,7 @@ var FormBank = {
       return { type: "Description", text: "enter description here" };
     },
     updateElementText: function (newText) {
-      var newText = newText.text; // newText is an object, this helps us just pass the text string up to parent.
-      this.props.updateElementText(newText);
+      this.props.updateElementText(newText.text);
     },
     render: function () {
       return React.createElement(
@@ -60,8 +58,7 @@ var FormBank = {
       return { type: "UserText", text: "answer here" };
     },
     updateElementText: function (newText) {
-      var newText = newText.text; // newText is an object, this helps us just pass the text string up to parent.
-      this.props.updateElementText(newText);
+      this.props.updateElementText(newText.text);
     },
     render: function () {
       return React.createElement(
@@ -83,8 +80,7 @@ var FormBank = {
       return { type: "Dropdown", text: "Question" };
     },
     updateElementText: function (newText) {
-      var newText = newText.text; // newText is an object, this helps us just pass the text string up to parent.
-      this.props.updateElementText(newText);
+      this.props.updateElementText(newText.text);
     },
     render: function () {
       return React.createElement(
