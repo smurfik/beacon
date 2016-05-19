@@ -51,7 +51,8 @@ var FormBank = {
       return({type: "UserText", text: "answer here"});
     },
     updateElementText: function(newText) {
-      this.props.updateElementText(newText.text);
+      var newText = newText.text;// newText is an object, this helps us just pass the text string up to parent.
+      this.props.updateElementText(newText);
     },
     render: function() {
       return(
@@ -94,9 +95,6 @@ var FormBank = {
     getInitialState: function() {
       return {text: "Table Title"}
     },
-    updateElementText: function(newText) {
-      this.props.updateElementText(newText.text);
-    },
     addRow: function(event) {
       event.preventDefault();
       var newRowObject = {columns: []};
@@ -112,13 +110,17 @@ var FormBank = {
       var newCellObject = {type: "unselected", text: "I'm a cell"};
       this.props.addColumn(newCellObject);
     },
+    updateElementText: function(newText, cellId, rowId) {
+      console.log("updateElementText triggered in Table: ", newText, "cell id: ", cellId, "row id: ", rowId);
+      this.props.updateElementText(newText, cellId, rowId);
+    },
     render: function() {
       var columnHeaders = [];
       var rows = [];
       var NewRow = FormBank["NewRow"];
 
       for (var i = 0; i < this.props.tableRows.length; i++) {
-        rows.push(<NewRow id={i} key={i} element={this.props.tableRows[i]} columns={this.props.tableRows[i].columns} updateElementText={this.updateElementText} changeCellToForm={this.props.changeCellToForm}/>);
+        rows.push(<NewRow id={i} key={i} element={this.props.tableRows[i]} columns={this.props.tableRows[i].columns} changeCellToForm={this.props.changeCellToForm} updateElementText={this.updateElementText}/>);
       }
 
       for (var i = 0; i < this.props.tableRows[0].columns.length; i++) {
@@ -156,13 +158,17 @@ var FormBank = {
       var rowId = this.props.id
       this.props.changeCellToForm(cellType, cellId, rowId);
     },
-
+    updateElementText: function(newText, cellId) {
+      var rowId = this.props.id
+      console.log("updateElementText triggered in NewRow: ", newText, "cell id: ", cellId, "row id: ", rowId);
+      this.props.updateElementText(newText, cellId, rowId);
+    },
     render: function() {
       var columns = [];
       var TableCell = FormBank["TableCell"];
 
       for (var i = 0; i < this.props.columns.length; i++) {
-        columns.push(<TableCell id={i} key={i} element={this.props.columns[i]} type={this.props.columns[i].type} text={this.props.columns[i].text} updateElementText={this.props.updateElementText} changeCellToForm={this.changeCellToForm}/>)
+        columns.push(<TableCell id={i} key={i} element={this.props.columns[i]} type={this.props.columns[i].type} text={this.props.columns[i].text} changeCellToForm={this.changeCellToForm} updateElementText={this.updateElementText}/>)
       }
 
       return(
@@ -179,7 +185,9 @@ var FormBank = {
       this.props.changeCellToForm(cellType, cellId);
     },
     updateElementText: function(newText) {
-      this.props.updateElementText(newText.text);
+      var cellId = this.props.id // == this cell's id, passed up so that the right cell's contents can be updated.
+      console.log("updateElementText triggered in TableCell: ", newText, cellId);
+      this.props.updateElementText(newText, cellId);
     },
     render: function() {
       var body;
@@ -266,9 +274,11 @@ var FormBuilder = React.createClass({
     targetCell.type = cellType;
     this.setState({currentForm: currentForm});
   },
-  updateElementText: function(newText, id) {
+  updateElementText: function(newText, cellId, rowId, tableId) {
     var currentForm = this.state.currentForm;
-    currentForm[id].text = newText
+    console.log("updateElementText triggered in FormBuilder: ", newText, "cell id: ", cellId, "row id: ", rowId, "table id: ", tableId);
+    var targetCell = currentForm[tableId].tableRows[rowId].columns[cellId];
+    targetCell.text = newText;
     this.setState({currentForm: currentForm});
   },
   deleteElement: function(id) {
@@ -334,9 +344,10 @@ var Builder = React.createClass({
 });
 
 var FormElement = React.createClass({
-  updateElementText: function(newText, id) {
-    var id = this.props.id
-    this.props.updateElementText(newText, id);
+  updateElementText: function(newText, cellId, rowId) {
+    var tableId = this.props.id
+    console.log("updateElementText triggered in FormElement: ", newText, "cell id: ", cellId, "row id: ", rowId, "table id: ", tableId);
+    this.props.updateElementText(newText, cellId, rowId, tableId);
   },
   deleteElement: function(event, id) {
     event.preventDefault();
