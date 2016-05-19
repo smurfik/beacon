@@ -14,7 +14,8 @@ var FormBank = {
       return { type: "Header", text: "Header" };
     },
     updateElementText: function (newText) {
-      this.props.updateElementText(newText.text);
+      var newText = newText.text; // newText is an object, this helps us just pass the text string up to parent.
+      this.props.updateElementText(newText);
     },
     render: function () {
       return React.createElement(
@@ -36,7 +37,8 @@ var FormBank = {
       return { type: "Description", text: "enter description here" };
     },
     updateElementText: function (newText) {
-      this.props.updateElementText(newText.text);
+      var newText = newText.text; // newText is an object, this helps us just pass the text string up to parent.
+      this.props.updateElementText(newText);
     },
     render: function () {
       return React.createElement(
@@ -81,7 +83,8 @@ var FormBank = {
       return { type: "Dropdown", text: "Question" };
     },
     updateElementText: function (newText) {
-      this.props.updateElementText(newText.text);
+      var newText = newText.text; // newText is an object, this helps us just pass the text string up to parent.
+      this.props.updateElementText(newText);
     },
     render: function () {
       return React.createElement(
@@ -132,7 +135,6 @@ var FormBank = {
       this.props.addColumn(newCellObject);
     },
     updateElementText: function (newText, cellId, rowId) {
-      console.log("updateElementText triggered in Table: ", newText, "cell id: ", cellId, "row id: ", rowId);
       this.props.updateElementText(newText, cellId, rowId);
     },
     render: function () {
@@ -207,7 +209,6 @@ var FormBank = {
     },
     updateElementText: function (newText, cellId) {
       var rowId = this.props.id;
-      console.log("updateElementText triggered in NewRow: ", newText, "cell id: ", cellId, "row id: ", rowId);
       this.props.updateElementText(newText, cellId, rowId);
     },
     render: function () {
@@ -235,7 +236,6 @@ var FormBank = {
     },
     updateElementText: function (newText) {
       var cellId = this.props.id; // == this cell's id, passed up so that the right cell's contents can be updated.
-      console.log("updateElementText triggered in TableCell: ", newText, cellId);
       this.props.updateElementText(newText, cellId);
     },
     render: function () {
@@ -344,14 +344,12 @@ var FormBuilder = React.createClass({
   },
   updateFormElementText: function (newText, tableId) {
     var currentForm = this.state.currentForm;
-    console.log("updateElementText triggered in FormBuilder: ", newText, "cell id: ", "table id: ", tableId);
     var targetCell = currentForm[tableId];
     targetCell.text = newText;
     this.setState({ currentForm: currentForm });
   },
   updateTableElementText: function (newText, cellId, rowId, tableId) {
     var currentForm = this.state.currentForm;
-    console.log("updateElementText triggered in FormBuilder: ", newText, "cell id: ", cellId, "row id: ", rowId, "table id: ", tableId);
     var targetCell = currentForm[tableId].tableRows[rowId].columns[cellId];
     targetCell.text = newText;
     this.setState({ currentForm: currentForm });
@@ -437,7 +435,6 @@ var FormElement = React.createClass({
       this.props.updateFormElementText(newText, tableId);
     } else {
       this.props.updateTableElementText(newText, cellId, rowId, tableId);
-      console.log("updateElementText triggered in FormElement: ", newText, "cell id: ", cellId, "row id: ", rowId, "table id: ", tableId);
     }
   },
   deleteElement: function (event, id) {
