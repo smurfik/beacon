@@ -121,9 +121,9 @@ var FormBank = {
     addRow: function (event) {
       event.preventDefault();
       var newRowObject = { columns: [] };
-      var newCellObject = { type: "unselected", text: "I'm a cell" }; // this one is added so that any new row contains at least 1 cell
       var numberOfColumns = this.props.tableRows[0].columns.length;
       for (var i = 0; i < numberOfColumns; i++) {
+        var newCellObject = { type: "unselected", text: "I'm a cell" }; // this one is added so that any new row contains at least 1 cell
         newRowObject.columns.push(newCellObject);
       }
       this.props.addRow(newRowObject);
@@ -199,10 +199,6 @@ var FormBank = {
   NewRow: React.createClass({
     displayName: 'NewRow',
 
-    getInitialState: function () {
-      return { columns: this.props.columns };
-    },
-
     changeCellToForm: function (cellType, cellId) {
       var rowId = this.props.id;
       this.props.changeCellToForm(cellType, cellId, rowId);
@@ -213,7 +209,7 @@ var FormBank = {
       var TableCell = FormBank["TableCell"];
 
       for (var i = 0; i < this.props.columns.length; i++) {
-        columns.push(React.createElement(TableCell, { id: i, key: i, element: this.props.columns[i], text: this.props.columns[i].text, updateElementText: this.props.updateElementText, changeCellToForm: this.changeCellToForm }));
+        columns.push(React.createElement(TableCell, { id: i, key: i, element: this.props.columns[i], type: this.props.columns[i].type, text: this.props.columns[i].text, updateElementText: this.props.updateElementText, changeCellToForm: this.changeCellToForm }));
       }
 
       return React.createElement(
@@ -266,14 +262,14 @@ var FormBank = {
         )
       );
 
-      if (this.props.element.type == "unselected") {
+      if (this.props.type == "unselected") {
         body = React.createElement(
           'div',
           null,
           dropdown
         );
       } else {
-        var type = this.props.element.type;
+        var type = this.props.type;
         cellType = React.createElement(FormBank[type], { text: type, updateElementText: this.updateElementText });
         body = React.createElement(
           'div',
