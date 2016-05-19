@@ -109,8 +109,11 @@ var FormBank = {
       var newCellObject = {type: "unselected", text: "[Enter question]"};
       this.props.addColumn(newCellObject);
     },
-    updateElementText: function(newText, cellId, rowId) {
-      this.props.updateElementText(newText, cellId, rowId);
+    updateTableElementText: function(newText, cellId, rowId) {
+      this.props.updateTableElementText(newText, cellId, rowId);
+    },
+    updateTableTitleText: function(newText){
+      this.props.updateFormElementText(newText.text);
     },
     render: function() {
       var columnHeaders = [];
@@ -118,7 +121,7 @@ var FormBank = {
       var NewRow = FormBank["NewRow"];
 
       for (var i = 0; i < this.props.tableRows.length; i++) {
-        rows.push(<NewRow id={i} key={i} element={this.props.tableRows[i]} columns={this.props.tableRows[i].columns} changeCellToForm={this.props.changeCellToForm} updateElementText={this.updateElementText}/>);
+        rows.push(<NewRow id={i} key={i} element={this.props.tableRows[i]} columns={this.props.tableRows[i].columns} changeCellToForm={this.props.changeCellToForm} updateElementText={this.updateTableElementText}/>);
       }
 
       for (var i = 0; i < this.props.tableRows[0].columns.length; i++) {
@@ -129,7 +132,7 @@ var FormBank = {
         <div id="table-form">
           <RIEInput
             value={this.props.text}
-            change={this.updateElementText}
+            change={this.updateTableTitleText}
             propName="text"
             className="form-question-header"
           />
@@ -384,7 +387,7 @@ var FormElement = React.createClass({
   render: function() {
     var element;
     if (this.props.element.type == "Table") {
-      element = React.createElement(FormBank[this.props.element.type], {text: this.props.text, updateElementText: this.updateElementText, addRow: this.addRow, tableRows: this.props.tableRows, columns: this.props.columns, addColumn: this.addColumn, changeCellToForm: this.changeCellToForm})
+      element = React.createElement(FormBank[this.props.element.type], {text: this.props.text, updateTableElementText: this.updateElementText, updateFormElementText: this.updateElementText, addRow: this.addRow, tableRows: this.props.tableRows, columns: this.props.columns, addColumn: this.addColumn, changeCellToForm: this.changeCellToForm})
     } else {
       element = React.createElement(FormBank[this.props.element.type], {text: this.props.text, updateElementText: this.updateElementText});
     }
