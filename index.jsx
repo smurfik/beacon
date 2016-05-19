@@ -106,8 +106,7 @@ var FormBank = {
     },
     addColumn: function(event) {
       event.preventDefault();
-      var newCellObject = {type: "unselected", text: "[Enter question]"};
-      this.props.addColumn(newCellObject);
+      this.props.addColumn();
     },
     updateTableElementText: function(newText, cellId, rowId) {
       this.props.updateTableElementText(newText, cellId, rowId);
@@ -260,10 +259,11 @@ var FormBuilder = React.createClass({
     currentForm[id].tableRows.push(newRowObject);
     this.setState({currentForm: currentForm});
   },
-  addColumn: function(newCellObject, id) {
+  addColumn: function(id) {
     var currentForm = this.state.currentForm;
     var tableRows = currentForm[id].tableRows;
     for (var i = 0; i < tableRows.length; i++) {
+      var newCellObject = {type: "unselected", text: "[Enter question]"};
       tableRows[i].columns.push(newCellObject);
     }
     this.setState({currentForm: currentForm});
@@ -376,9 +376,9 @@ var FormElement = React.createClass({
     var id = this.props.id
     this.props.addRow(newRowObject, id);
   },
-  addColumn: function(newCellObject) {
+  addColumn: function() {
     var id = this.props.id
-    this.props.addColumn(newCellObject, id);
+    this.props.addColumn(id);
   },
   changeCellToForm: function(cellType, cellId, rowId) {
     var tableId = this.props.id
