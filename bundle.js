@@ -121,14 +121,14 @@ var FormBank = {
       var newRowObject = { columns: [] };
       var numberOfColumns = this.props.tableRows[0].columns.length;
       for (var i = 0; i < numberOfColumns; i++) {
-        var newCellObject = { type: "unselected", text: "I'm a cell" }; // this one is added so that any new row contains at least 1 cell
+        var newCellObject = { type: "unselected", text: "[Enter question]" }; // this one is added so that any new row contains at least 1 cell
         newRowObject.columns.push(newCellObject);
       }
       this.props.addRow(newRowObject);
     },
     addColumn: function (event) {
       event.preventDefault();
-      var newCellObject = { type: "unselected", text: "I'm a cell" };
+      var newCellObject = { type: "unselected", text: "[Enter question]" };
       this.props.addColumn(newCellObject);
     },
     updateElementText: function (newText, cellId, rowId) {
@@ -278,7 +278,8 @@ var FormBank = {
         );
       } else {
         var type = this.props.type;
-        cellType = React.createElement(FormBank[type], { text: type, updateElementText: this.updateElementText });
+        var text = this.props.text;
+        cellType = React.createElement(FormBank[type], { text: text, updateElementText: this.updateElementText });
         body = React.createElement(
           'div',
           null,
@@ -314,7 +315,7 @@ var FormBuilder = React.createClass({
       // don't delete per same reasons as above, but for columns.
     };
     if (elementType == "Table") {
-      formElementObject = { type: elementType, text: elementType, tableRows: [{ columns: [{ type: "unselected", text: "I'm a cell" }] }], addRow: addRow, addColumn: addColumn };
+      formElementObject = { type: elementType, text: elementType, tableRows: [{ columns: [{ type: "unselected", text: "[Enter question]" }] }], addRow: addRow, addColumn: addColumn };
     } else {
       formElementObject = { type: elementType, text: elementType };
     }
