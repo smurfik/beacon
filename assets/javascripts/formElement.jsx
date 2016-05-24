@@ -42,12 +42,24 @@ module.exports = React.createClass({
   render: function() {
     var element;
     if (this.props.element.type == "Table") {
-      element = React.createElement(FormBank[this.props.element.type], {text: this.props.text, updateTableElementText: this.updateElementText, updateFormElementText: this.updateElementText, addRow: this.addRow, tableRows: this.props.tableRows, columns: this.props.columns, addColumn: this.addColumn, changeCellToForm: this.changeCellToForm})
+      // console.log(this.props.element.type);
+
+      element = React.createElement(FormBank["Table"], {text: this.props.text, updateTableElementText: this.updateElementText, updateFormElementText: this.updateElementText, addRow: this.addRow, tableRows: this.props.tableRows, addColumn: this.addColumn, changeCellToForm: this.changeCellToForm});
+      // element = React.createElement(FormBank[this.props.element.type], {text: this.props.text, tableRows: this.props.tableRows, updateTableElementText: this.updateElementText, updateFormElementText: this.updateElementText});
+
+      // debugger
+      // console.log(this.props.tableRows[0].columns);
+      // console.log(element);
+
+      // console.log(element.columns);    --> undefined
+        // console.log(this.props.columns); --> undefined
     } else {
       element = React.createElement(FormBank[this.props.element.type], {text: this.props.text, updateElementText: this.updateElementText});
+      debugger
     }
     return (
       <div className="form-element">
+        <h1>ELEMENT WORKS</h1>
         {element}
         <button onClick={this.deleteElement}>Delete</button>
         <button onClick={this.moveElementUp}>Move Up</button>

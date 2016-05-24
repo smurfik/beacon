@@ -10,7 +10,8 @@ module.exports = React.createClass({
 
     for (var i = 0; i < this.props.formElements.length; i++) {
       if (this.props.formElements[i].type == "Table") {
-        formElements.push(<FormElement id={i} text={this.props.formElements[i].text} key={i} element={this.props.formElements[i]} deleteElement={this.props.deleteElement} moveElementUp={this.props.moveElementUp} moveElementDown={this.props.moveElementDown} updateFormElementText={this.props.updateFormElementText} updateTableElementText={this.props.updateTableElementText} addRow={this.props.addRow} tableRows={this.props.formElements[i].tableRows} columns={this.props.formElements[i].columns} addColumn={this.props.addColumn} changeCellToForm={this.props.changeCellToForm}/>)
+        formElements.push(<FormElement id={i} text={this.props.formElements[i].text} key={i} element={this.props.formElements[i]} deleteElement={this.props.deleteElement} moveElementUp={this.props.moveElementUp} moveElementDown={this.props.moveElementDown} updateFormElementText={this.props.updateFormElementText} updateTableElementText={this.props.updateTableElementText} addRow={this.props.addRow} tableRows={this.props.formElements[i].tableRows} addColumn={this.props.addColumn} changeCellToForm={this.props.changeCellToForm}/>)
+        // console.log("formElements 0: ", formElements[0]);
       } else {
         formElements.push(<FormElement id={i} text={this.props.formElements[i].text} key={i} element={this.props.formElements[i]} deleteElement={this.props.deleteElement} moveElementUp={this.props.moveElementUp} moveElementDown={this.props.moveElementDown} updateFormElementText={this.props.updateFormElementText}/>)
       }

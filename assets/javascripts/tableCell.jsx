@@ -36,6 +36,7 @@ module.exports = React.createClass({
     } else {
       var type = this.props.type;
       var text = this.props.text;
+      console.log(FormBank[type]);
       cellType = (
         React.createElement(FormBank[type], {text: text, updateElementText: this.updateElementText})
       )
