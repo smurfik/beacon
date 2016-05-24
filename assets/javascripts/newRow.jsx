@@ -1,7 +1,7 @@
-var React = require('react');
-var riek = require('riek')
-var RIEInput = riek.RIEInput;
-var FormBank = require('./formBank.js');
+var React     = require('react');
+var riek      = require('riek')
+var RIEInput  = riek.RIEInput;
+var FormBank  = require('./formBank.js');
 var TableCell = require('./tableCell.jsx');
 
 module.exports = React.createClass({

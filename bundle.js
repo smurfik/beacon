@@ -276,7 +276,16 @@ module.exports = React.createClass({
 var React = require('react');
 var riek = require('riek');
 var RIEInput = riek.RIEInput;
-var FormBank = require('./formBank.js');
+var Header = require('./headerForm.jsx');
+var Description = require('./descriptionForm.jsx');
+var UserText = require('./userTextForm.jsx');
+var Dropdown = require('./dropdownForm.jsx');
+var localFormBank = {
+  Header: Header,
+  Description: Description,
+  UserText: UserText,
+  Dropdown: Dropdown
+};
 
 module.exports = React.createClass({
   displayName: 'exports',
@@ -292,7 +301,6 @@ module.exports = React.createClass({
   },
   render: function () {
     var body;
-    var cellType;
     var dropdown = React.createElement(
       'div',
       { className: 'form-type-selector' },
@@ -329,17 +337,14 @@ module.exports = React.createClass({
         dropdown
       );
     } else {
-      var type = this.props.type;
-      var text = this.props.text;
-      cellType = React.createElement(FormBank[type], { text: text, updateElementText: this.updateElementText });
+      var cellBody = React.createElement(localFormBank[this.props.type], { text: this.props.text, updateElementText: this.updateElementText });
       body = React.createElement(
         'div',
         null,
-        cellType,
+        cellBody,
         dropdown
       );
     }
-
     return React.createElement(
       'td',
       null,
@@ -348,7 +353,7 @@ module.exports = React.createClass({
   }
 });
 
-},{"./formBank.js":4,"react":178,"riek":184}],9:[function(require,module,exports){
+},{"./descriptionForm.jsx":2,"./dropdownForm.jsx":3,"./headerForm.jsx":6,"./userTextForm.jsx":11,"react":178,"riek":184}],9:[function(require,module,exports){
 var React = require('react');
 var riek = require('riek');
 var RIEInput = riek.RIEInput;

@@ -1,7 +1,16 @@
-var React = require('react');
-var riek = require('riek')
-var RIEInput = riek.RIEInput;
-var FormBank = require('./formBank.js');
+var React       = require('react');
+var riek        = require('riek')
+var RIEInput    = riek.RIEInput;
+var Header      = require('./headerForm.jsx');
+var Description = require('./descriptionForm.jsx');
+var UserText    = require('./userTextForm.jsx');
+var Dropdown    = require('./dropdownForm.jsx');
+var localFormBank = {
+  Header: Header,
+  Description: Description,
+  UserText: UserText,
+  Dropdown: Dropdown,
+};
 
 module.exports = React.createClass({
   changeCellToForm: function(event) {
@@ -15,14 +24,13 @@ module.exports = React.createClass({
   },
   render: function() {
     var body;
-    var cellType;
     var dropdown = (
       <div className="form-type-selector">
         <span>Select Form Type:</span>
         <select onChange={this.changeCellToForm}>
           <option value="selected">[select]</option>
           <option value="UserText">Text</option>
-          <option value="Dropdown">Dropdown</option>
+        <option value="Dropdown">Dropdown</option>
         </select>
       </div>
     )
@@ -34,19 +42,16 @@ module.exports = React.createClass({
         </div>
       )
     } else {
-      var type = this.props.type;
-      var text = this.props.text;
-      cellType = (
-        React.createElement(FormBank[type], {text: text, updateElementText: this.updateElementText})
+      var cellBody = (
+        React.createElement(localFormBank[this.props.type], {text: this.props.text, updateElementText: this.updateElementText})
       )
       body = (
         <div>
-          {cellType}
+          {cellBody}
           {dropdown}
         </div>
       )
     }
-
     return (
       <td>
         {body}
