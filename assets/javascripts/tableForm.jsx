@@ -22,15 +22,11 @@ module.exports = React.createClass({
     event.preventDefault();
     this.props.addColumn();
   },
-  // updateTableElementText: function(newText, cellId, rowId) {
-  //   this.props.updateTableElementText(newText, cellId, rowId);
-  // },
-  // updateTableTitleText: function(newText){
-  //   this.props.updateFormElementText(newText.text);
-  // },
-
-  placeholderFunction: function(newText) {
-    console.log(newText);
+  updateTableElementText: function(newText, cellId, rowId) {
+    this.props.updateTableElementText(newText, cellId, rowId);
+  },
+  updateTableTitleText: function(newText){
+    this.props.updateFormElementText(newText.text);
   },
   render: function() {
     var columnHeaders = [];
@@ -47,7 +43,7 @@ module.exports = React.createClass({
       <div id="table-form">
         <RIEInput
           value={this.props.text}
-          change={this.placeholderFunction}
+          change={this.updateTableTitleText}
           propName="text"
           className="form-question-header"
         />
