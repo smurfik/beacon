@@ -35,14 +35,9 @@ module.exports = React.createClass({
   render: function() {
     var columnHeaders = [];
     var rows = [];
-    // var NewRow = FormBank["NewRow"];
-    console.log(NewRow);
 
     for (var i = 0; i < this.props.tableRows.length; i++) {
-      console.log("triggered TableForm, adding tableRows");
-      // rows.push(<NewRow id={i} key={i} element={this.props.tableRows[i]} columns={this.props.tableRows[i].columns} changeCellToForm={this.props.changeCellToForm}/>);
       rows.push(<NewRow id={i} key={i} element={this.props.tableRows[i]} columns={this.props.tableRows[i].columns} changeCellToForm={this.props.changeCellToForm} updateElementText={this.updateTableElementText}/>);
-      // console.log(rows[0]);
     }
 
     for (var i = 0; i < this.props.tableRows[0].columns.length; i++) {

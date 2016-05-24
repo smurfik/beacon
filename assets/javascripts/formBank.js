@@ -6,8 +6,6 @@ var Table       = require('./tableForm.jsx');
 var NewRow      = require('./newRow.jsx');
 var TableCell   = require('./tableCell.jsx');
 
-console.log(NewRow);
-
 module.exports = {
   Header: Header,
   Description: Description,

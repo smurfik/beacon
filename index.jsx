@@ -23,8 +23,6 @@ var FormBuilder = React.createClass({
     };
     if (elementType == "Table") {
       formElementObject = {type: elementType, text: elementType, tableRows: [{columns: [{type: "unselected", text: "[Enter question]"}]}], addRow: addRow, addColumn: addColumn}
-      // formElementObject = {type: elementType, text: elementType, columns: null, tableRows: [{columns: [{type: "unselected", text: "[Enter question]"}]}], addRow: addRow, addColumn: addColumn}
-      // console.log(formElementObject);
     } else {
       formElementObject = {type: elementType, text: elementType};
     }
