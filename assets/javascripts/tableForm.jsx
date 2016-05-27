@@ -1,8 +1,8 @@
-var React = require('react');
-var riek = require('riek');
-var RIEInput = riek.RIEInput;
-var FormBank = require('./formBank.js');
-var NewRow = require('./newRow.jsx');
+var React = require('react'),
+    riek = require('riek'),
+    RIEInput = riek.RIEInput,
+    FormBank = require('./formBank.js'),
+    NewRow = require('./newRow.jsx');
 
 module.exports = React.createClass({
   getInitialState: function() {
@@ -29,14 +29,24 @@ module.exports = React.createClass({
     this.props.updateFormElementText(newText.text);
   },
   render: function() {
-    var columnHeaders = [];
-    var rows = [];
+    var columnHeaders = [],
+        rows = [],
+        i;
 
-    for (var i = 0; i < this.props.tableRows.length; i++) {
-      rows.push(<NewRow id={i} key={i} element={this.props.tableRows[i]} columns={this.props.tableRows[i].columns} changeCellToForm={this.props.changeCellToForm} updateElementText={this.updateTableElementText}/>);
+    for (i = 0; i < this.props.tableRows.length; i++) {
+      rows.push(
+        <NewRow
+          id={i}
+          key={i}
+          element={this.props.tableRows[i]}
+          columns={this.props.tableRows[i].columns}
+          changeCellToForm={this.props.changeCellToForm}
+          updateElementText={this.updateTableElementText}
+        />
+      );
     }
 
-    for (var i = 0; i < this.props.tableRows[0].columns.length; i++) {
+    for (i = 0; i < this.props.tableRows[0].columns.length; i++) {
       columnHeaders.push(<th key={i}> Column {i+1} </th>);
     }
     return(

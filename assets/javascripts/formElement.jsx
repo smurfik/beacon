@@ -1,7 +1,7 @@
-var React = require('react');
-var riek = require('riek')
-var RIEInput = riek.RIEInput;
-var FormBank = require('./formBank.js');
+var React = require('react'),
+    riek = require('riek'),
+    RIEInput = riek.RIEInput,
+    FormBank = require('./formBank.js');
 
 module.exports = React.createClass({
   updateElementText: function(newText, cellId, rowId) {
@@ -14,37 +14,47 @@ module.exports = React.createClass({
   },
   deleteElement: function(event, id) {
     event.preventDefault();
-    var id = this.props.id;
-    this.props.deleteElement(id);
+    this.props.deleteElement(this.props.id);
   },
   moveElementUp: function(event, id) {
     event.preventDefault();
-    var id = this.props.id;
-    this.props.moveElementUp(id);
+    this.props.moveElementUp(this.props.id);
   },
   moveElementDown: function(event, id) {
     event.preventDefault();
-    var id = this.props.id;
-    this.props.moveElementDown(id);
+    this.props.moveElementDown(this.props.id);
   },
   addRow: function(newRowObject) {
-    var id = this.props.id
-    this.props.addRow(newRowObject, id);
+    this.props.addRow(newRowObject, this.props.id);
   },
   addColumn: function() {
-    var id = this.props.id
-    this.props.addColumn(id);
+    this.props.addColumn(this.props.id);
   },
   changeCellToForm: function(cellType, cellId, rowId) {
-    var tableId = this.props.id
+    var tableId = this.props.id // keep this var declaration here so that it's clear in the next line which table component this.props.id refers to?
     this.props.changeCellToForm(cellType, cellId, rowId, tableId);
   },
   render: function() {
     var element;
     if (this.props.element.type == "Table") {
-      element = React.createElement(FormBank["Table"], {text: this.props.text, updateTableElementText: this.updateElementText, updateFormElementText: this.updateElementText, addRow: this.addRow, tableRows: this.props.tableRows, addColumn: this.addColumn, changeCellToForm: this.changeCellToForm});
+      element = React.createElement(
+        FormBank["Table"], {
+          text: this.props.text,
+          updateTableElementText: this.updateElementText,
+          updateFormElementText: this.updateElementText,
+          addRow: this.addRow,
+          tableRows: this.props.tableRows,
+          addColumn: this.addColumn,
+          changeCellToForm: this.changeCellToForm
+        }
+      );
     } else {
-      element = React.createElement(FormBank[this.props.element.type], {text: this.props.text, updateElementText: this.updateElementText});
+      element = React.createElement(
+        FormBank[this.props.element.type], {
+          text: this.props.text,
+          updateElementText: this.updateElementText
+        }
+      );
     }
     return (
       <div className="form-element">

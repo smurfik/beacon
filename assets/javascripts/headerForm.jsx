@@ -1,6 +1,6 @@
-var React = require('react');
-var riek = require('riek')
-var RIEInput = riek.RIEInput;
+var React = require('react'),
+    riek = require('riek'),
+    RIEInput = riek.RIEInput;
 
 module.exports = React.createClass({
   getInitialState: function() {

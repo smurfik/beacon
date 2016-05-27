@@ -1,16 +1,33 @@
-var React = require('react');
-var riek = require('riek')
-var RIEInput = riek.RIEInput;
-var FormElement = require('./formElement.jsx');
+var React = require('react'),
+    riek = require('riek'),
+    RIEInput = riek.RIEInput,
+    FormElement = require('./formElement.jsx');
 
 module.exports = React.createClass({
   render: function() {
-    var formElements = [];
-    var body;
+    var formElements = [],
+        body,
+        i;
 
-    for (var i = 0; i < this.props.formElements.length; i++) {
+    for (i = 0; i < this.props.formElements.length; i++) {
       if (this.props.formElements[i].type == "Table") {
-        formElements.push(<FormElement id={i} text={this.props.formElements[i].text} key={i} element={this.props.formElements[i]} deleteElement={this.props.deleteElement} moveElementUp={this.props.moveElementUp} moveElementDown={this.props.moveElementDown} updateFormElementText={this.props.updateFormElementText} updateTableElementText={this.props.updateTableElementText} addRow={this.props.addRow} tableRows={this.props.formElements[i].tableRows} addColumn={this.props.addColumn} changeCellToForm={this.props.changeCellToForm}/>)
+        formElements.push(
+          <FormElement
+            id={i}
+            text={this.props.formElements[i].text}
+            key={i}
+            element={this.props.formElements[i]}
+            deleteElement={this.props.deleteElement}
+            moveElementUp={this.props.moveElementUp}
+            moveElementDown={this.props.moveElementDown}
+            updateFormElementText={this.props.updateFormElementText}
+            updateTableElementText={this.props.updateTableElementText}
+            addRow={this.props.addRow}
+            tableRows={this.props.formElements[i].tableRows}
+            addColumn={this.props.addColumn}
+            changeCellToForm={this.props.changeCellToForm}
+          />
+        )
       } else {
         formElements.push(<FormElement id={i} text={this.props.formElements[i].text} key={i} element={this.props.formElements[i]} deleteElement={this.props.deleteElement} moveElementUp={this.props.moveElementUp} moveElementDown={this.props.moveElementDown} updateFormElementText={this.props.updateFormElementText}/>)
       }

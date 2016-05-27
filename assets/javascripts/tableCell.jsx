@@ -1,16 +1,16 @@
-var React       = require('react');
-var riek        = require('riek')
-var RIEInput    = riek.RIEInput;
-var Header      = require('./headerForm.jsx');
-var Description = require('./descriptionForm.jsx');
-var UserText    = require('./userTextForm.jsx');
-var Dropdown    = require('./dropdownForm.jsx');
-var localFormBank = {
-  Header: Header,
-  Description: Description,
-  UserText: UserText,
-  Dropdown: Dropdown,
-};
+var React       = require('react'),
+    riek        = require('riek'),
+    RIEInput    = riek.RIEInput,
+    Header      = require('./headerForm.jsx'),
+    Description = require('./descriptionForm.jsx'),
+    UserText    = require('./userTextForm.jsx'),
+    Dropdown    = require('./dropdownForm.jsx'),
+    localFormBank = {
+      Header: Header,
+      Description: Description,
+      UserText: UserText,
+      Dropdown: Dropdown,
+    };
 
 module.exports = React.createClass({
   changeCellToForm: function(event) {
@@ -43,7 +43,12 @@ module.exports = React.createClass({
       )
     } else {
       var cellBody = (
-        React.createElement(localFormBank[this.props.type], {text: this.props.text, updateElementText: this.updateElementText})
+        React.createElement(
+          localFormBank[this.props.type], {
+            text: this.props.text,
+            updateElementText: this.updateElementText
+          }
+        )
       )
       body = (
         <div>

@@ -1,19 +1,34 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var React = require('react');
-var riek = require('riek');
-var RIEInput = riek.RIEInput;
-var FormElement = require('./formElement.jsx');
+var React = require('react'),
+    riek = require('riek'),
+    RIEInput = riek.RIEInput,
+    FormElement = require('./formElement.jsx');
 
 module.exports = React.createClass({
   displayName: 'exports',
 
   render: function () {
-    var formElements = [];
-    var body;
+    var formElements = [],
+        body,
+        i;
 
-    for (var i = 0; i < this.props.formElements.length; i++) {
+    for (i = 0; i < this.props.formElements.length; i++) {
       if (this.props.formElements[i].type == "Table") {
-        formElements.push(React.createElement(FormElement, { id: i, text: this.props.formElements[i].text, key: i, element: this.props.formElements[i], deleteElement: this.props.deleteElement, moveElementUp: this.props.moveElementUp, moveElementDown: this.props.moveElementDown, updateFormElementText: this.props.updateFormElementText, updateTableElementText: this.props.updateTableElementText, addRow: this.props.addRow, tableRows: this.props.formElements[i].tableRows, addColumn: this.props.addColumn, changeCellToForm: this.props.changeCellToForm }));
+        formElements.push(React.createElement(FormElement, {
+          id: i,
+          text: this.props.formElements[i].text,
+          key: i,
+          element: this.props.formElements[i],
+          deleteElement: this.props.deleteElement,
+          moveElementUp: this.props.moveElementUp,
+          moveElementDown: this.props.moveElementDown,
+          updateFormElementText: this.props.updateFormElementText,
+          updateTableElementText: this.props.updateTableElementText,
+          addRow: this.props.addRow,
+          tableRows: this.props.formElements[i].tableRows,
+          addColumn: this.props.addColumn,
+          changeCellToForm: this.props.changeCellToForm
+        }));
       } else {
         formElements.push(React.createElement(FormElement, { id: i, text: this.props.formElements[i].text, key: i, element: this.props.formElements[i], deleteElement: this.props.deleteElement, moveElementUp: this.props.moveElementUp, moveElementDown: this.props.moveElementDown, updateFormElementText: this.props.updateFormElementText }));
       }
@@ -46,9 +61,9 @@ module.exports = React.createClass({
 });
 
 },{"./formElement.jsx":5,"react":178,"riek":184}],2:[function(require,module,exports){
-var React = require('react');
-var riek = require('riek');
-var RIEInput = riek.RIEInput;
+var React = require('react'),
+    riek = require('riek'),
+    RIEInput = riek.RIEInput;
 
 module.exports = React.createClass({
   displayName: 'exports',
@@ -74,9 +89,9 @@ module.exports = React.createClass({
 });
 
 },{"react":178,"riek":184}],3:[function(require,module,exports){
-var React = require('react');
-var riek = require('riek');
-var RIEInput = riek.RIEInput;
+var React = require('react'),
+    riek = require('riek'),
+    RIEInput = riek.RIEInput;
 
 module.exports = React.createClass({
   displayName: 'exports',
@@ -116,13 +131,13 @@ module.exports = React.createClass({
 });
 
 },{"react":178,"riek":184}],4:[function(require,module,exports){
-var Header = require('./headerForm.jsx');
-var Description = require('./descriptionForm.jsx');
-var UserText = require('./userTextForm.jsx');
-var Dropdown = require('./dropdownForm.jsx');
-var Table = require('./tableForm.jsx');
-var NewRow = require('./newRow.jsx');
-var TableCell = require('./tableCell.jsx');
+var Header = require('./headerForm.jsx'),
+    Description = require('./descriptionForm.jsx'),
+    UserText = require('./userTextForm.jsx'),
+    Dropdown = require('./dropdownForm.jsx'),
+    Table = require('./tableForm.jsx'),
+    NewRow = require('./newRow.jsx'),
+    TableCell = require('./tableCell.jsx');
 
 module.exports = {
   Header: Header,
@@ -138,10 +153,10 @@ module.exports = {
 };
 
 },{"./descriptionForm.jsx":2,"./dropdownForm.jsx":3,"./headerForm.jsx":6,"./newRow.jsx":7,"./tableCell.jsx":8,"./tableForm.jsx":9,"./userTextForm.jsx":11}],5:[function(require,module,exports){
-var React = require('react');
-var riek = require('riek');
-var RIEInput = riek.RIEInput;
-var FormBank = require('./formBank.js');
+var React = require('react'),
+    riek = require('riek'),
+    RIEInput = riek.RIEInput,
+    FormBank = require('./formBank.js');
 
 module.exports = React.createClass({
   displayName: 'exports',
@@ -157,37 +172,43 @@ module.exports = React.createClass({
   },
   deleteElement: function (event, id) {
     event.preventDefault();
-    var id = this.props.id;
-    this.props.deleteElement(id);
+    this.props.deleteElement(this.props.id);
   },
   moveElementUp: function (event, id) {
     event.preventDefault();
-    var id = this.props.id;
-    this.props.moveElementUp(id);
+    this.props.moveElementUp(this.props.id);
   },
   moveElementDown: function (event, id) {
     event.preventDefault();
-    var id = this.props.id;
-    this.props.moveElementDown(id);
+    this.props.moveElementDown(this.props.id);
   },
   addRow: function (newRowObject) {
-    var id = this.props.id;
-    this.props.addRow(newRowObject, id);
+    this.props.addRow(newRowObject, this.props.id);
   },
   addColumn: function () {
-    var id = this.props.id;
-    this.props.addColumn(id);
+    this.props.addColumn(this.props.id);
   },
   changeCellToForm: function (cellType, cellId, rowId) {
-    var tableId = this.props.id;
+    var tableId = this.props.id; // keep this var declaration here so that it's clear in the next line which table component this.props.id refers to?
     this.props.changeCellToForm(cellType, cellId, rowId, tableId);
   },
   render: function () {
     var element;
     if (this.props.element.type == "Table") {
-      element = React.createElement(FormBank["Table"], { text: this.props.text, updateTableElementText: this.updateElementText, updateFormElementText: this.updateElementText, addRow: this.addRow, tableRows: this.props.tableRows, addColumn: this.addColumn, changeCellToForm: this.changeCellToForm });
+      element = React.createElement(FormBank["Table"], {
+        text: this.props.text,
+        updateTableElementText: this.updateElementText,
+        updateFormElementText: this.updateElementText,
+        addRow: this.addRow,
+        tableRows: this.props.tableRows,
+        addColumn: this.addColumn,
+        changeCellToForm: this.changeCellToForm
+      });
     } else {
-      element = React.createElement(FormBank[this.props.element.type], { text: this.props.text, updateElementText: this.updateElementText });
+      element = React.createElement(FormBank[this.props.element.type], {
+        text: this.props.text,
+        updateElementText: this.updateElementText
+      });
     }
     return React.createElement(
       'div',
@@ -213,9 +234,9 @@ module.exports = React.createClass({
 });
 
 },{"./formBank.js":4,"react":178,"riek":184}],6:[function(require,module,exports){
-var React = require('react');
-var riek = require('riek');
-var RIEInput = riek.RIEInput;
+var React = require('react'),
+    riek = require('riek'),
+    RIEInput = riek.RIEInput;
 
 module.exports = React.createClass({
   displayName: 'exports',
@@ -241,11 +262,11 @@ module.exports = React.createClass({
 });
 
 },{"react":178,"riek":184}],7:[function(require,module,exports){
-var React = require('react');
-var riek = require('riek');
-var RIEInput = riek.RIEInput;
-var FormBank = require('./formBank.js');
-var TableCell = require('./tableCell.jsx');
+var React = require('react'),
+    riek = require('riek'),
+    RIEInput = riek.RIEInput,
+    FormBank = require('./formBank.js'),
+    TableCell = require('./tableCell.jsx');
 
 module.exports = React.createClass({
   displayName: 'exports',
@@ -259,9 +280,10 @@ module.exports = React.createClass({
     this.props.updateElementText(newText, cellId, rowId);
   },
   render: function () {
-    var columns = [];
+    var columns = [],
+        i;
 
-    for (var i = 0; i < this.props.columns.length; i++) {
+    for (i = 0; i < this.props.columns.length; i++) {
       columns.push(React.createElement(TableCell, { id: i, key: i, element: this.props.columns[i], type: this.props.columns[i].type, text: this.props.columns[i].text, changeCellToForm: this.changeCellToForm, updateElementText: this.updateElementText }));
     }
 
@@ -274,14 +296,14 @@ module.exports = React.createClass({
 });
 
 },{"./formBank.js":4,"./tableCell.jsx":8,"react":178,"riek":184}],8:[function(require,module,exports){
-var React = require('react');
-var riek = require('riek');
-var RIEInput = riek.RIEInput;
-var Header = require('./headerForm.jsx');
-var Description = require('./descriptionForm.jsx');
-var UserText = require('./userTextForm.jsx');
-var Dropdown = require('./dropdownForm.jsx');
-var localFormBank = {
+var React = require('react'),
+    riek = require('riek'),
+    RIEInput = riek.RIEInput,
+    Header = require('./headerForm.jsx'),
+    Description = require('./descriptionForm.jsx'),
+    UserText = require('./userTextForm.jsx'),
+    Dropdown = require('./dropdownForm.jsx'),
+    localFormBank = {
   Header: Header,
   Description: Description,
   UserText: UserText,
@@ -338,7 +360,10 @@ module.exports = React.createClass({
         dropdown
       );
     } else {
-      var cellBody = React.createElement(localFormBank[this.props.type], { text: this.props.text, updateElementText: this.updateElementText });
+      var cellBody = React.createElement(localFormBank[this.props.type], {
+        text: this.props.text,
+        updateElementText: this.updateElementText
+      });
       body = React.createElement(
         'div',
         null,
@@ -355,11 +380,11 @@ module.exports = React.createClass({
 });
 
 },{"./descriptionForm.jsx":2,"./dropdownForm.jsx":3,"./headerForm.jsx":6,"./userTextForm.jsx":11,"react":178,"riek":184}],9:[function(require,module,exports){
-var React = require('react');
-var riek = require('riek');
-var RIEInput = riek.RIEInput;
-var FormBank = require('./formBank.js');
-var NewRow = require('./newRow.jsx');
+var React = require('react'),
+    riek = require('riek'),
+    RIEInput = riek.RIEInput,
+    FormBank = require('./formBank.js'),
+    NewRow = require('./newRow.jsx');
 
 module.exports = React.createClass({
   displayName: 'exports',
@@ -388,14 +413,22 @@ module.exports = React.createClass({
     this.props.updateFormElementText(newText.text);
   },
   render: function () {
-    var columnHeaders = [];
-    var rows = [];
+    var columnHeaders = [],
+        rows = [],
+        i;
 
-    for (var i = 0; i < this.props.tableRows.length; i++) {
-      rows.push(React.createElement(NewRow, { id: i, key: i, element: this.props.tableRows[i], columns: this.props.tableRows[i].columns, changeCellToForm: this.props.changeCellToForm, updateElementText: this.updateTableElementText }));
+    for (i = 0; i < this.props.tableRows.length; i++) {
+      rows.push(React.createElement(NewRow, {
+        id: i,
+        key: i,
+        element: this.props.tableRows[i],
+        columns: this.props.tableRows[i].columns,
+        changeCellToForm: this.props.changeCellToForm,
+        updateElementText: this.updateTableElementText
+      }));
     }
 
-    for (var i = 0; i < this.props.tableRows[0].columns.length; i++) {
+    for (i = 0; i < this.props.tableRows[0].columns.length; i++) {
       columnHeaders.push(React.createElement(
         'th',
         { key: i },
@@ -507,9 +540,9 @@ module.exports = React.createClass({
 });
 
 },{"react":178}],11:[function(require,module,exports){
-var React = require('react');
-var riek = require('riek');
-var RIEInput = riek.RIEInput;
+var React = require('react'),
+    riek = require('riek'),
+    RIEInput = riek.RIEInput;
 
 module.exports = React.createClass({
   displayName: 'exports',

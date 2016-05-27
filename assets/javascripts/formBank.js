@@ -1,10 +1,10 @@
-var Header      = require('./headerForm.jsx');
-var Description = require('./descriptionForm.jsx');
-var UserText    = require('./userTextForm.jsx');
-var Dropdown    = require('./dropdownForm.jsx');
-var Table       = require('./tableForm.jsx');
-var NewRow      = require('./newRow.jsx');
-var TableCell   = require('./tableCell.jsx');
+var Header      = require('./headerForm.jsx'),
+    Description = require('./descriptionForm.jsx'),
+    UserText    = require('./userTextForm.jsx'),
+    Dropdown    = require('./dropdownForm.jsx'),
+    Table       = require('./tableForm.jsx'),
+    NewRow      = require('./newRow.jsx'),
+    TableCell   = require('./tableCell.jsx');
 
 module.exports = {
   Header: Header,

@@ -1,8 +1,8 @@
-var React     = require('react');
-var riek      = require('riek')
-var RIEInput  = riek.RIEInput;
-var FormBank  = require('./formBank.js');
-var TableCell = require('./tableCell.jsx');
+var React     = require('react'),
+    riek      = require('riek'),
+    RIEInput  = riek.RIEInput,
+    FormBank  = require('./formBank.js'),
+    TableCell = require('./tableCell.jsx');
 
 module.exports = React.createClass({
   changeCellToForm: function(cellType, cellId) {
@@ -14,9 +14,10 @@ module.exports = React.createClass({
     this.props.updateElementText(newText, cellId, rowId);
   },
   render: function() {
-    var columns = [];
+    var columns = [],
+        i;
 
-    for (var i = 0; i < this.props.columns.length; i++) {
+    for (i = 0; i < this.props.columns.length; i++) {
       columns.push(<TableCell id={i} key={i} element={this.props.columns[i]} type={this.props.columns[i].type} text={this.props.columns[i].text} changeCellToForm={this.changeCellToForm} updateElementText={this.updateElementText}/>)
     }
 
