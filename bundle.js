@@ -58,7 +58,7 @@ module.exports = React.createClass({
     }
     return React.createElement(
       'div',
-      { id: 'preview-pane' },
+      { id: 'builder-pane' },
       React.createElement(
         'header',
         null,

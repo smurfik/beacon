@@ -54,7 +54,7 @@ module.exports = React.createClass({
       )
     }
     return(
-      <div id="preview-pane">
+      <div id="builder-pane">
         <header>
           <h1>Builder</h1>
           <button id="open-modal-button" onClick={this.props.openModal}>Preview</button>
