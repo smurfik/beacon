@@ -21,17 +21,17 @@ module.exports = React.createClass({
     return(
       <div id="user-text-form">
         <RIEInput
-          value={this.props.formName}
-          change={this.updateFormName}
-          propName="formName"
-          className="userText-formName"
-          />
+          value     = {this.props.formName}
+          change    = {this.updateFormName}
+          propName  = "formName"
+          className = "userText-formName"
+        />
         <RIEInput
-          value={this.props.formContent}
-          change={this.updateFormContent}
-          propName="formContent"
-          className="userText-formContent"
-          />
+          value     = {this.props.formContent}
+          change    = {this.updateFormContent}
+          propName  = "formContent"
+          className = "userText-formContent"
+        />
       </div>
     )
   }

@@ -110,7 +110,8 @@ module.exports = React.createClass({
 },{"react":180,"riek":186}],3:[function(require,module,exports){
 var React = require('react'),
     riek = require('riek'),
-    RIEInput = riek.RIEInput;
+    RIEInput = riek.RIEInput,
+    sectionToUpdate;
 
 module.exports = React.createClass({
   displayName: 'exports',
@@ -118,22 +119,32 @@ module.exports = React.createClass({
   getInitialState: function () {
     return { type: "Dropdown", text: "Question" };
   },
-  updateElementText: function (newText) {
-    this.props.updateElementText(newText.text);
+  updateFormName: function (newText) {
+    sectionToUpdate = "formName";
+    this.props.updateFormElement(newText.formName, sectionToUpdate);
+    // console.log("updateFormContent triggered in dropdown form module: *", newText.formName, "*", sectionToUpdate);
   },
+  updateFormContent: function (newText) {
+    sectionToUpdate = "formContent";
+    this.props.updateFormElement(newText.formContent, sectionToUpdate);
+    // console.log("updateFormContent triggered in dropdown form module: *", newText.formContent, "*", sectionToUpdate);
+  },
+  // updateElementText: function(newText) {
+  //   this.props.updateElementText(newText.text);
+  // },
   render: function () {
     return React.createElement(
       'div',
       { id: 'dropdown-form' },
       React.createElement(RIEInput, {
-        value: this.props.text,
-        change: this.updateElementText,
-        propName: 'text',
-        className: 'form-question-header'
+        value: this.props.formName,
+        change: this.updateFormName,
+        propName: 'formName',
+        className: 'dropdown-formName'
       }),
       React.createElement(
         'select',
-        null,
+        { className: 'dropdown-formContent' },
         React.createElement(
           'option',
           { value: 'value1' },
