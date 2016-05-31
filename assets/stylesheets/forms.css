@@ -64,7 +64,7 @@
   color: hsl(0, 0%, 50%);
 }
 
-.userText-formContent {
+.userText-formContent, .description-formContent {
   margin: 5px;
   color: hsl(0, 0%, 50%);
   border-bottom: 1px dotted hsl(0, 0%, 50%);
@@ -72,4 +72,9 @@
 
 .dropdown-formContent {
   margin: 5px;
+}
+
+.header-formContent, .description-formContent {
+  color: black;
+  border: none;
 }

@@ -82,7 +82,8 @@ module.exports = React.createClass({
 },{"./formElement.jsx":5,"react":180,"riek":186}],2:[function(require,module,exports){
 var React = require('react'),
     riek = require('riek'),
-    RIEInput = riek.RIEInput;
+    RIEInput = riek.RIEInput,
+    sectionToUpdate;
 
 module.exports = React.createClass({
   displayName: 'exports',
@@ -90,18 +91,19 @@ module.exports = React.createClass({
   getInitialState: function () {
     return { type: "Description", text: "enter description here" };
   },
-  updateElementText: function (newText) {
-    this.props.updateElementText(newText.text);
+  updateFormContent: function (newText) {
+    sectionToUpdate = "formContent";
+    this.props.updateFormElement(newText.formContent, sectionToUpdate);
   },
   render: function () {
     return React.createElement(
       'div',
       { id: 'description-form' },
       React.createElement(RIEInput, {
-        value: this.props.text,
-        change: this.updateElementText,
-        propName: 'text',
-        className: 'form-description'
+        value: this.props.formContent,
+        change: this.updateFormContent,
+        propName: 'formContent',
+        className: 'description-formContent'
       })
     );
   }
