@@ -78,7 +78,7 @@ var FormBuilder = React.createClass({
     targetCell.text = newText;
     this.setState({currentForm: currentForm});
   },
-  
+
   deleteElement: function(id) {
     var currentForm = this.state.currentForm;
     currentForm.splice(id, 1);
@@ -106,8 +106,9 @@ var FormBuilder = React.createClass({
         <Modal
           isOpen={this.state.isModalOpen}
           closeModal={this.closeModal}
-          previewFormElements={this.state.currentForm}>
-        ></Modal>
+          previewFormElements={this.state.currentForm}
+          updateFormElement={this.updateFormElement}>
+        </Modal>
         <Builder
           formElements={this.state.currentForm}
           deleteElement={this.deleteElement}

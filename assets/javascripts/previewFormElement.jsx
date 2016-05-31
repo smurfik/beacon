@@ -4,12 +4,12 @@ var React = require('react'),
     FormBank = require('./formBank.js');
 
 module.exports = React.createClass({
-  updateElementText: function(newText, cellId, rowId) {
-    var tableId = this.props.id;
+  updateFormElement: function(newText, sectionToUpdate, cellId, rowId) {
+    var formElementId = this.props.id;
     if (cellId == undefined) { //i.e. if we are updating the text of a standard form element in builder, not a tableCell, which is form within a Table
-      this.props.updateFormElementText(newText, tableId);
+      this.props.updateFormElement(newText, formElementId, sectionToUpdate);
     } else {
-      this.props.updateTableElementText(newText, cellId, rowId, tableId);
+      this.props.updateTableFormElement(newText, sectionToUpdate, cellId, rowId, formElementId);
     }
   },
   render: function() {
@@ -24,10 +24,11 @@ module.exports = React.createClass({
     } else {
       element = React.createElement(
         FormBank[this.props.element.type], {
-          text: this.props.text,
-          updateElementText: this.updateElementText
+          formName:          this.props.formName,
+          formContent:       this.props.formContent,
+          updateFormElement: this.updateFormElement
         }
-      );
+      )
     }
     return (
       <div className="preview-form-element">

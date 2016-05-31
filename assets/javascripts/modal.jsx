@@ -27,10 +27,11 @@ module.exports = React.createClass({
         previewFormElements.push(
           <PreviewFormElement
             id={i}
-            text={this.props.previewFormElements[i].text}
             key={i}
             element={this.props.previewFormElements[i]}
-            updateElementText={this.props.updateElementText}
+            formName={this.props.previewFormElements[i].formName}
+            formContent={this.props.previewFormElements[i].formContent}
+            updateFormElement={this.props.updateFormElement}
           />
         )
       }

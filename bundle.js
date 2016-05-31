@@ -228,12 +228,6 @@ module.exports = React.createClass({
         formName: this.props.formName,
         formContent: this.props.formContent,
         updateFormElement: this.updateFormElement
-
-        // updateFormName:    this.updateFormName,
-        // updateFormContent: this.updateFormContent
-
-        // text: this.props.text,
-        // updateElementText: this.updateElementText
       });
     }
     return React.createElement(
@@ -316,10 +310,11 @@ module.exports = React.createClass({
       } else {
         previewFormElements.push(React.createElement(PreviewFormElement, {
           id: i,
-          text: this.props.previewFormElements[i].text,
           key: i,
           element: this.props.previewFormElements[i],
-          updateElementText: this.props.updateElementText
+          formName: this.props.previewFormElements[i].formName,
+          formContent: this.props.previewFormElements[i].formContent,
+          updateFormElement: this.props.updateFormElement
         }));
       }
     }
@@ -413,13 +408,13 @@ var React = require('react'),
 module.exports = React.createClass({
   displayName: 'exports',
 
-  updateElementText: function (newText, cellId, rowId) {
-    var tableId = this.props.id;
+  updateFormElement: function (newText, sectionToUpdate, cellId, rowId) {
+    var formElementId = this.props.id;
     if (cellId == undefined) {
       //i.e. if we are updating the text of a standard form element in builder, not a tableCell, which is form within a Table
-      this.props.updateFormElementText(newText, tableId);
+      this.props.updateFormElement(newText, formElementId, sectionToUpdate);
     } else {
-      this.props.updateTableElementText(newText, cellId, rowId, tableId);
+      this.props.updateTableFormElement(newText, sectionToUpdate, cellId, rowId, formElementId);
     }
   },
   render: function () {
@@ -431,8 +426,9 @@ module.exports = React.createClass({
       });
     } else {
       element = React.createElement(FormBank[this.props.element.type], {
-        text: this.props.text,
-        updateElementText: this.updateElementText
+        formName: this.props.formName,
+        formContent: this.props.formContent,
+        updateFormElement: this.updateFormElement
       });
     }
     return React.createElement(
@@ -703,13 +699,11 @@ module.exports = React.createClass({
     sectionToUpdate = "formName";
     this.props.updateFormElement(newText.formName, sectionToUpdate);
     // console.log("updateFormContent triggered in form module: *", newText.formName, "*", sectionToUpdate);
-    // this.props.updateFormName(newText.formName);
   },
   updateFormContent: function (newText) {
     sectionToUpdate = "formContent";
     this.props.updateFormElement(newText.formContent, sectionToUpdate);
     // console.log("updateFormContent triggered in form module: *", newText.formContent, "*", sectionToUpdate);
-    // this.props.updateFormContent(newText.formContent);
   },
   render: function () {
     return React.createElement(
@@ -840,14 +834,11 @@ var FormBuilder = React.createClass({
     return React.createElement(
       'div',
       null,
-      React.createElement(
-        Modal,
-        {
-          isOpen: this.state.isModalOpen,
-          closeModal: this.closeModal,
-          previewFormElements: this.state.currentForm },
-        '>'
-      ),
+      React.createElement(Modal, {
+        isOpen: this.state.isModalOpen,
+        closeModal: this.closeModal,
+        previewFormElements: this.state.currentForm,
+        updateFormElement: this.updateFormElement }),
       React.createElement(Builder, {
         formElements: this.state.currentForm,
         deleteElement: this.deleteElement,

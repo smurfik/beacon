@@ -54,12 +54,6 @@ module.exports = React.createClass({
           formName:          this.props.formName,
           formContent:       this.props.formContent,
           updateFormElement: this.updateFormElement
-
-          // updateFormName:    this.updateFormName,
-          // updateFormContent: this.updateFormContent
-
-          // text: this.props.text,
-          // updateElementText: this.updateElementText
         }
       );
     }

@@ -11,13 +11,11 @@ module.exports = React.createClass({
     sectionToUpdate = "formName";
     this.props.updateFormElement(newText.formName, sectionToUpdate)
     // console.log("updateFormContent triggered in form module: *", newText.formName, "*", sectionToUpdate);
-    // this.props.updateFormName(newText.formName);
   },
   updateFormContent: function(newText) {
     sectionToUpdate = "formContent";
     this.props.updateFormElement(newText.formContent, sectionToUpdate)
     // console.log("updateFormContent triggered in form module: *", newText.formContent, "*", sectionToUpdate);
-    // this.props.updateFormContent(newText.formContent);
   },
   render: function() {
     return(
