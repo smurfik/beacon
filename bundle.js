@@ -122,16 +122,11 @@ module.exports = React.createClass({
   updateFormName: function (newText) {
     sectionToUpdate = "formName";
     this.props.updateFormElement(newText.formName, sectionToUpdate);
-    // console.log("updateFormContent triggered in dropdown form module: *", newText.formName, "*", sectionToUpdate);
   },
-  updateFormContent: function (newText) {
+  updateFormContent: function (event) {
     sectionToUpdate = "formContent";
-    this.props.updateFormElement(newText.formContent, sectionToUpdate);
-    // console.log("updateFormContent triggered in dropdown form module: *", newText.formContent, "*", sectionToUpdate);
+    this.props.updateFormElement(event.target.value, sectionToUpdate);
   },
-  // updateElementText: function(newText) {
-  //   this.props.updateElementText(newText.text);
-  // },
   render: function () {
     return React.createElement(
       'div',
@@ -144,16 +139,21 @@ module.exports = React.createClass({
       }),
       React.createElement(
         'select',
-        { className: 'dropdown-formContent' },
+        { className: 'dropdown-formContent', onChange: this.updateFormContent, value: this.props.formContent },
         React.createElement(
           'option',
-          { value: 'value1' },
-          'Value 1'
+          { value: 'response' },
+          ' [select] '
         ),
         React.createElement(
           'option',
-          { value: 'value2' },
-          'Value 2'
+          { value: 'Option A' },
+          ' Option A '
+        ),
+        React.createElement(
+          'option',
+          { value: 'Option A' },
+          ' Option B '
         )
       )
     );
