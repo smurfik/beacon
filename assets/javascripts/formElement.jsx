@@ -4,20 +4,12 @@ var React = require('react'),
     FormBank = require('./formBank.js');
 
 module.exports = React.createClass({
-  updateFormName: function(newText, cellId, rowId) {
+  updateFormElement: function(newText, sectionToUpdate, cellId, rowId) {
     var formElementId = this.props.id;
     if (cellId == undefined) { //i.e. if we are updating the text of a standard form element in builder, not a tableCell, which is form within a Table
-      this.props.updateFormName(newText, formElementId);
+      this.props.updateFormElement(newText, formElementId, sectionToUpdate);
     } else {
-      this.props.updateTableFormName(newText, cellId, rowId, formElementId);
-    }
-  },
-  updateFormContent: function(newText, cellId, rowId) {
-    var formElementId = this.props.id;
-    if (cellId == undefined) { //i.e. if we are updating the text of a standard form element in builder, not a tableCell, which is form within a Table
-      this.props.updateFormContent(newText, formElementId);
-    } else {
-      this.props.updateTableFormContent(newText, cellId, rowId, formElementId);
+      this.props.updateTableFormElement(newText, cellId, rowId, formElementId, sectionToUpdate);
     }
   },
   deleteElement: function(event, id) {
@@ -61,8 +53,10 @@ module.exports = React.createClass({
         FormBank[this.props.element.type], {
           formName:          this.props.formName,
           formContent:       this.props.formContent,
-          updateFormName:    this.updateFormName,
-          updateFormContent: this.updateFormContent
+          updateFormElement: this.updateFormElement
+
+          // updateFormName:    this.updateFormName,
+          // updateFormContent: this.updateFormContent
 
           // text: this.props.text,
           // updateElementText: this.updateElementText

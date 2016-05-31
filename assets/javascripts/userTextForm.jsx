@@ -1,17 +1,23 @@
 var React = require('react'),
     riek = require('riek'),
-    RIEInput = riek.RIEInput;
+    RIEInput = riek.RIEInput,
+    sectionToUpdate;
 
 module.exports = React.createClass({
   getInitialState: function() {
     return({type: "UserText", text: "answer here"});
   },
   updateFormName: function(newText) {
-    this.props.updateFormName(newText.formName);
+    sectionToUpdate = "formName";
+    this.props.updateFormElement(newText.formName, sectionToUpdate)
+    // console.log("updateFormContent triggered in form module: *", newText.formName, "*", sectionToUpdate);
+    // this.props.updateFormName(newText.formName);
   },
   updateFormContent: function(newText) {
-    this.props.updateFormContent(newText.formContent);
-    // console.log("updateFormContent triggered in form module: *", newText.formContent, "*");
+    sectionToUpdate = "formContent";
+    this.props.updateFormElement(newText.formContent, sectionToUpdate)
+    // console.log("updateFormContent triggered in form module: *", newText.formContent, "*", sectionToUpdate);
+    // this.props.updateFormContent(newText.formContent);
   },
   render: function() {
     return(

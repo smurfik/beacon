@@ -39,10 +39,7 @@ module.exports = React.createClass({
             deleteElement={this.props.deleteElement}
             moveElementUp={this.props.moveElementUp}
             moveElementDown={this.props.moveElementDown}
-            updateFormName={this.props.updateFormName}
-            updateFormContent={this.props.updateFormContent}
-
-            updateFormElementText={this.props.updateFormElementText}
+            updateFormElement={this.props.updateFormElement}
           />
         )
       }

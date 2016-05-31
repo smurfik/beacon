@@ -57,16 +57,14 @@ var FormBuilder = React.createClass({
     targetCell.type = cellType;
     this.setState({currentForm: currentForm});
   },
-  updateFormName: function(newText, formElementId) {
+  updateFormElement: function(newText, formElementId, sectionToUpdate) {
     var currentForm = this.state.currentForm;
     var targetCell  = currentForm[formElementId];
-    targetCell.formName = newText;
-    this.setState({currentForm: currentForm});
-  },
-  updateFormContent: function(newText, formElementId) {
-    var currentForm = this.state.currentForm;
-    var targetCell  = currentForm[formElementId];
-    targetCell.formContent = newText;
+    if (sectionToUpdate == "formName") {
+      targetCell.formName = newText
+    } else if (sectionToUpdate == "formContent") {
+      targetCell.formContent = newText;
+    }
     this.setState({currentForm: currentForm});
   },
 
@@ -74,13 +72,13 @@ var FormBuilder = React.createClass({
   //  updateTableFormName
   //  updateTableFormContent
 
-
   updateTableElementText: function(newText, cellId, rowId, tableId) {
     var currentForm = this.state.currentForm;
     var targetCell = currentForm[tableId].tableRows[rowId].columns[cellId];
     targetCell.text = newText;
     this.setState({currentForm: currentForm});
   },
+  
   deleteElement: function(id) {
     var currentForm = this.state.currentForm;
     currentForm.splice(id, 1);
@@ -115,6 +113,8 @@ var FormBuilder = React.createClass({
           deleteElement={this.deleteElement}
           moveElementUp={this.moveElementUp}
           moveElementDown={this.moveElementDown}
+          updateFormElement={this.updateFormElement}
+
           updateFormName={this.updateFormName}
           updateFormContent={this.updateFormContent}
 
