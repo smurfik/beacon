@@ -267,7 +267,8 @@ module.exports = React.createClass({
 },{"./formBank.js":4,"react":180,"riek":186}],6:[function(require,module,exports){
 var React = require('react'),
     riek = require('riek'),
-    RIEInput = riek.RIEInput;
+    RIEInput = riek.RIEInput,
+    sectionToUpdate;
 
 module.exports = React.createClass({
   displayName: 'exports',
@@ -275,18 +276,19 @@ module.exports = React.createClass({
   getInitialState: function () {
     return { type: "Header", text: "Header" };
   },
-  updateElementText: function (newText) {
-    this.props.updateElementText(newText.text);
+  updateFormContent: function (newText) {
+    sectionToUpdate = "formContent";
+    this.props.updateFormElement(newText.formContent, sectionToUpdate);
   },
   render: function () {
     return React.createElement(
       'div',
       { id: 'header-form' },
       React.createElement(RIEInput, {
-        value: this.props.text,
-        change: this.updateElementText,
-        propName: 'text',
-        className: 'form-section-header'
+        value: this.props.formContent,
+        change: this.updateFormContent,
+        propName: 'formContent',
+        className: 'header-formContent'
       })
     );
   }
@@ -769,7 +771,9 @@ var FormBuilder = React.createClass({
     var addColumn = function () {
       // don't delete per same reasons as above, but for columns.
     };
-    if (elementType == "Table") {
+    if (elementType == "Header" || elementType == "Description") {
+      formElementObject = { type: elementType, formContent: elementType };
+    } else if (elementType == "Table") {
       formElementObject = { type: elementType, formName: elementType, tableRows: [{ columns: [{ type: "unselected", text: "[Enter question]" }] }], addRow: addRow, addColumn: addColumn };
     } else {
       formElementObject = { type: elementType, formName: "Question", formContent: "response" };

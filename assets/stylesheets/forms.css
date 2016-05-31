@@ -57,7 +57,7 @@
   margin-bottom: 10px;
 }
 
-.userText-formName, .dropdown-formName {
+.userText-formName, .dropdown-formName, .header-formContent {
   font-size: 18px;
   font-weight: bold;
   padding: 5px;

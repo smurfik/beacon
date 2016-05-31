@@ -28,7 +28,9 @@ var FormBuilder = React.createClass({
     var addColumn = function() {
       // don't delete per same reasons as above, but for columns.
     };
-    if (elementType == "Table") {
+    if (elementType == "Header" || elementType == "Description") {
+      formElementObject = {type: elementType, formContent: elementType};
+    } else if (elementType == "Table") {
       formElementObject = {type: elementType, formName: elementType, tableRows: [{columns: [{type: "unselected", text: "[Enter question]"}]}], addRow: addRow, addColumn: addColumn}
     } else {
       formElementObject = {type: elementType, formName: "Question", formContent: "response"};
