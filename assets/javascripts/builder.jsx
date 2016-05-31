@@ -40,6 +40,7 @@ module.exports = React.createClass({
             moveElementUp={this.props.moveElementUp}
             moveElementDown={this.props.moveElementDown}
             updateFormName={this.props.updateFormName}
+            updateFormContent={this.props.updateFormContent}
 
             updateFormElementText={this.props.updateFormElementText}
           />

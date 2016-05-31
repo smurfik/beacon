@@ -63,18 +63,18 @@ var FormBuilder = React.createClass({
     targetCell.formName = newText;
     this.setState({currentForm: currentForm});
   },
-  // add functions for:
-  //  updateFormElementContent
-  //  updateTableElementName
-  //  updateTableElementContent
-
-
-  updateFormElementText: function(newText, tableId) {
+  updateFormContent: function(newText, formElementId) {
     var currentForm = this.state.currentForm;
-    var targetCell = currentForm[tableId];
-    targetCell.text = newText;
+    var targetCell  = currentForm[formElementId];
+    targetCell.formContent = newText;
     this.setState({currentForm: currentForm});
   },
+
+  // add functions for:
+  //  updateTableFormName
+  //  updateTableFormContent
+
+
   updateTableElementText: function(newText, cellId, rowId, tableId) {
     var currentForm = this.state.currentForm;
     var targetCell = currentForm[tableId].tableRows[rowId].columns[cellId];
@@ -116,9 +116,11 @@ var FormBuilder = React.createClass({
           moveElementUp={this.moveElementUp}
           moveElementDown={this.moveElementDown}
           updateFormName={this.updateFormName}
+          updateFormContent={this.updateFormContent}
 
           updateFormElementText={this.updateFormElementText}
           updateTableElementText={this.updateTableElementText}
+
           addRow={this.addRow} addColumn={this.addColumn}
           changeCellToForm={this.changeCellToForm}
           openModal={this.openModal}

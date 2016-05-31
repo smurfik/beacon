@@ -7,12 +7,12 @@ module.exports = React.createClass({
     return({type: "UserText", text: "answer here"});
   },
   updateFormName: function(newText) {
-    // console.log("updateFormName triggered in form module: *", newText.formName, "*");
     this.props.updateFormName(newText.formName);
   },
-  // add function for:
-    // updateFormContents
-
+  updateFormContent: function(newText) {
+    this.props.updateFormContent(newText.formContent);
+    // console.log("updateFormContent triggered in form module: *", newText.formContent, "*");
+  },
   render: function() {
     return(
       <div id="user-text-form">
@@ -22,8 +22,13 @@ module.exports = React.createClass({
           propName="formName"
           className="userText-formName"
           />
+        <RIEInput
+          value={this.props.formContent}
+          change={this.updateFormContent}
+          propName="formContent"
+          className="userText-formContent"
+          />
       </div>
-      // formContents RIEInput
     )
   }
 });

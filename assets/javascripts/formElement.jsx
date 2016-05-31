@@ -9,15 +9,15 @@ module.exports = React.createClass({
     if (cellId == undefined) { //i.e. if we are updating the text of a standard form element in builder, not a tableCell, which is form within a Table
       this.props.updateFormName(newText, formElementId);
     } else {
-      this.props.updateFormName(newText, cellId, rowId, formElementId);
+      this.props.updateTableFormName(newText, cellId, rowId, formElementId);
     }
   },
-  updateElementText: function(newText, cellId, rowId) {
-    var tableId = this.props.id;
+  updateFormContent: function(newText, cellId, rowId) {
+    var formElementId = this.props.id;
     if (cellId == undefined) { //i.e. if we are updating the text of a standard form element in builder, not a tableCell, which is form within a Table
-      this.props.updateFormElementText(newText, tableId);
+      this.props.updateFormContent(newText, formElementId);
     } else {
-      this.props.updateTableElementText(newText, cellId, rowId, tableId);
+      this.props.updateTableFormContent(newText, cellId, rowId, formElementId);
     }
   },
   deleteElement: function(event, id) {
@@ -61,8 +61,8 @@ module.exports = React.createClass({
         FormBank[this.props.element.type], {
           formName:          this.props.formName,
           formContent:       this.props.formContent,
-          updateFormName:    this.updateFormName
-          // updateFormContents
+          updateFormName:    this.updateFormName,
+          updateFormContent: this.updateFormContent
 
           // text: this.props.text,
           // updateElementText: this.updateElementText
