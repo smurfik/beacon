@@ -1,5 +1,5 @@
 var React = require('react'),
-    previewFormElement = require('./previewFormElement.jsx');
+    PreviewFormElement = require('./previewFormElement.jsx');
 
 module.exports = React.createClass({
   closeModal: function() {
@@ -15,7 +15,7 @@ module.exports = React.createClass({
     for (i = 0; i < this.props.previewFormElements.length; i++) {
       if (this.props.previewFormElements[i].type == "Table") {
         previewFormElements.push(
-          <previewFormElement
+          <PreviewFormElement
             id={i}
             text={this.props.previewFormElements[i].text}
             key={i}
@@ -25,7 +25,7 @@ module.exports = React.createClass({
         )
       } else {
         previewFormElements.push(
-          <previewFormElement
+          <PreviewFormElement
             id={i}
             text={this.props.previewFormElements[i].text}
             key={i}
@@ -40,27 +40,25 @@ module.exports = React.createClass({
       bodyContent = <span>Nothing to preview</span>
     } else {
       bodyContent = (
-        <div id="preview-form-element-list">
+        <div id="preview-formElement-list">
           {previewFormElements}
         </div>
       )
     }
 
     body =  (
-      <div className="modal">
-        <div id="preview-form-modal">
-          <header>
-            <h3>Preview Form</h3>
-            <button onClick={this.closeModal}>Close preview</button>
-          </header>
-          {bodyContent}
-        </div>
+      <div id="preview-modal-body">
+        <header>
+          <h3>Preview Form</h3>
+          <button onClick={this.closeModal}>Close preview</button>
+        </header>
+        {bodyContent}
       </div>
     )
 
     if (this.props.isOpen) {
       return (
-        <div>
+        <div id="modal-container">
           {body}
         </div>
       );

@@ -78,15 +78,3 @@ header a:visited {
 .toolbar-element:hover {
   background-color: hsl(0, 0%, 70%);
 }
-
-#preview-form-modal {
-  background: hsl(0, 20%, 95%);
-  position: absolute;
-  text-align: center;
-  width: 99%;
-  height: 99%;
-  top: 8px;
-  right: 0;
-  bottom: 0;
-  left: 8px;
-}

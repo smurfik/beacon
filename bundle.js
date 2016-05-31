@@ -281,7 +281,7 @@ module.exports = React.createClass({
 
 },{"react":180,"riek":186}],7:[function(require,module,exports){
 var React = require('react'),
-    previewFormElement = require('./previewFormElement.jsx');
+    PreviewFormElement = require('./previewFormElement.jsx');
 
 module.exports = React.createClass({
   displayName: 'exports',
@@ -298,7 +298,7 @@ module.exports = React.createClass({
 
     for (i = 0; i < this.props.previewFormElements.length; i++) {
       if (this.props.previewFormElements[i].type == "Table") {
-        previewFormElements.push(React.createElement('previewFormElement', {
+        previewFormElements.push(React.createElement(PreviewFormElement, {
           id: i,
           text: this.props.previewFormElements[i].text,
           key: i,
@@ -306,7 +306,7 @@ module.exports = React.createClass({
           tableRows: this.props.previewFormElements[i].tableRows
         }));
       } else {
-        previewFormElements.push(React.createElement('previewFormElement', {
+        previewFormElements.push(React.createElement(PreviewFormElement, {
           id: i,
           text: this.props.previewFormElements[i].text,
           key: i,
@@ -325,39 +325,35 @@ module.exports = React.createClass({
     } else {
       bodyContent = React.createElement(
         'div',
-        { id: 'preview-form-element-list' },
+        { id: 'preview-formElement-list' },
         previewFormElements
       );
     }
 
     body = React.createElement(
       'div',
-      { className: 'modal' },
+      { id: 'preview-modal-body' },
       React.createElement(
-        'div',
-        { id: 'preview-form-modal' },
+        'header',
+        null,
         React.createElement(
-          'header',
+          'h3',
           null,
-          React.createElement(
-            'h3',
-            null,
-            'Preview Form'
-          ),
-          React.createElement(
-            'button',
-            { onClick: this.closeModal },
-            'Close preview'
-          )
+          'Preview Form'
         ),
-        bodyContent
-      )
+        React.createElement(
+          'button',
+          { onClick: this.closeModal },
+          'Close preview'
+        )
+      ),
+      bodyContent
     );
 
     if (this.props.isOpen) {
       return React.createElement(
         'div',
-        null,
+        { id: 'modal-container' },
         body
       );
     } else {
@@ -810,10 +806,14 @@ var FormBuilder = React.createClass({
     return React.createElement(
       'div',
       null,
-      React.createElement(Modal, {
-        isOpen: this.state.isModalOpen,
-        closeModal: this.closeModal,
-        previewFormElements: this.state.currentForm }),
+      React.createElement(
+        Modal,
+        {
+          isOpen: this.state.isModalOpen,
+          closeModal: this.closeModal,
+          previewFormElements: this.state.currentForm },
+        '>'
+      ),
       React.createElement(Builder, {
         formElements: this.state.currentForm,
         deleteElement: this.deleteElement,

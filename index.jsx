@@ -9,7 +9,7 @@ var React       = require('react'),
     Toolbar     = require('./assets/javascripts/toolbar.jsx'),
     FormBank    = require('./assets/javascripts/formBank.js'),
     Modal       = require('./assets/javascripts/modal.jsx');
-
+    
 var FormBuilder = React.createClass({
   getInitialState: function() {
     return {currentForm: [], isModalOpen: false}
@@ -97,7 +97,7 @@ var FormBuilder = React.createClass({
           isOpen={this.state.isModalOpen}
           closeModal={this.closeModal}
           previewFormElements={this.state.currentForm}>
-        </Modal>
+        ></Modal>
         <Builder
           formElements={this.state.currentForm}
           deleteElement={this.deleteElement}
