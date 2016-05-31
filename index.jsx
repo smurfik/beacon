@@ -9,7 +9,7 @@ var React       = require('react'),
     Toolbar     = require('./assets/javascripts/toolbar.jsx'),
     FormBank    = require('./assets/javascripts/formBank.js'),
     Modal       = require('./assets/javascripts/modal.jsx');
-    
+
 var FormBuilder = React.createClass({
   getInitialState: function() {
     return {currentForm: [], isModalOpen: false}
@@ -29,9 +29,9 @@ var FormBuilder = React.createClass({
       // don't delete per same reasons as above, but for columns.
     };
     if (elementType == "Table") {
-      formElementObject = {type: elementType, text: elementType, tableRows: [{columns: [{type: "unselected", text: "[Enter question]"}]}], addRow: addRow, addColumn: addColumn}
+      formElementObject = {type: elementType, formName: elementType, tableRows: [{columns: [{type: "unselected", text: "[Enter question]"}]}], addRow: addRow, addColumn: addColumn}
     } else {
-      formElementObject = {type: elementType, text: elementType};
+      formElementObject = {type: elementType, formName: elementType, formContent: "body text here"};
     }
     var currentForm = this.state.currentForm;
     currentForm.push(formElementObject);
@@ -57,6 +57,18 @@ var FormBuilder = React.createClass({
     targetCell.type = cellType;
     this.setState({currentForm: currentForm});
   },
+  updateFormName: function(newText, formElementId) {
+    var currentForm = this.state.currentForm;
+    var targetCell  = currentForm[formElementId];
+    targetCell.formName = newText;
+    this.setState({currentForm: currentForm});
+  },
+  // add functions for:
+  //  updateFormElementContent
+  //  updateTableElementName
+  //  updateTableElementContent
+
+
   updateFormElementText: function(newText, tableId) {
     var currentForm = this.state.currentForm;
     var targetCell = currentForm[tableId];
@@ -103,6 +115,8 @@ var FormBuilder = React.createClass({
           deleteElement={this.deleteElement}
           moveElementUp={this.moveElementUp}
           moveElementDown={this.moveElementDown}
+          updateFormName={this.updateFormName}
+
           updateFormElementText={this.updateFormElementText}
           updateTableElementText={this.updateTableElementText}
           addRow={this.addRow} addColumn={this.addColumn}

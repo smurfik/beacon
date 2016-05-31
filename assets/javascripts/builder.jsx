@@ -32,12 +32,15 @@ module.exports = React.createClass({
         formElements.push(
           <FormElement
             id={i}
-            text={this.props.formElements[i].text}
+            formName={this.props.formElements[i].formName}
+            formContent={this.props.formElements[i].formContent}
             key={i}
             element={this.props.formElements[i]}
             deleteElement={this.props.deleteElement}
             moveElementUp={this.props.moveElementUp}
             moveElementDown={this.props.moveElementDown}
+            updateFormName={this.props.updateFormName}
+
             updateFormElementText={this.props.updateFormElementText}
           />
         )

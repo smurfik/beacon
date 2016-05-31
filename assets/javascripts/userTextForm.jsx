@@ -6,19 +6,24 @@ module.exports = React.createClass({
   getInitialState: function() {
     return({type: "UserText", text: "answer here"});
   },
-  updateElementText: function(newText) {
-    this.props.updateElementText(newText.text);
+  updateFormName: function(newText) {
+    // console.log("updateFormName triggered in form module: *", newText.formName, "*");
+    this.props.updateFormName(newText.formName);
   },
+  // add function for:
+    // updateFormContents
+
   render: function() {
     return(
       <div id="user-text-form">
         <RIEInput
-          value={this.props.text}
-          change={this.updateElementText}
-          propName="text"
-          className="form-user-text"
+          value={this.props.formName}
+          change={this.updateFormName}
+          propName="formName"
+          className="userText-formName"
           />
       </div>
+      // formContents RIEInput
     )
   }
 });

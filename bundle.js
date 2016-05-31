@@ -32,12 +32,15 @@ module.exports = React.createClass({
       } else {
         formElements.push(React.createElement(FormElement, {
           id: i,
-          text: this.props.formElements[i].text,
+          formName: this.props.formElements[i].formName,
+          formContent: this.props.formElements[i].formContent,
           key: i,
           element: this.props.formElements[i],
           deleteElement: this.props.deleteElement,
           moveElementUp: this.props.moveElementUp,
           moveElementDown: this.props.moveElementDown,
+          updateFormName: this.props.updateFormName,
+
           updateFormElementText: this.props.updateFormElementText
         }));
       }
@@ -179,6 +182,15 @@ var React = require('react'),
 module.exports = React.createClass({
   displayName: 'exports',
 
+  updateFormName: function (newText, cellId, rowId) {
+    var formElementId = this.props.id;
+    if (cellId == undefined) {
+      //i.e. if we are updating the text of a standard form element in builder, not a tableCell, which is form within a Table
+      this.props.updateFormName(newText, formElementId);
+    } else {
+      this.props.updateFormName(newText, cellId, rowId, formElementId);
+    }
+  },
   updateElementText: function (newText, cellId, rowId) {
     var tableId = this.props.id;
     if (cellId == undefined) {
@@ -224,8 +236,13 @@ module.exports = React.createClass({
       });
     } else {
       element = React.createElement(FormBank[this.props.element.type], {
-        text: this.props.text,
-        updateElementText: this.updateElementText
+        formName: this.props.formName,
+        formContent: this.props.formContent,
+        updateFormName: this.updateFormName
+        // updateFormContents
+
+        // text: this.props.text,
+        // updateElementText: this.updateElementText
       });
     }
     return React.createElement(
@@ -690,20 +707,26 @@ module.exports = React.createClass({
   getInitialState: function () {
     return { type: "UserText", text: "answer here" };
   },
-  updateElementText: function (newText) {
-    this.props.updateElementText(newText.text);
+  updateFormName: function (newText) {
+    // console.log("updateFormName triggered in form module: *", newText.formName, "*");
+    this.props.updateFormName(newText.formName);
   },
+  // add function for:
+  // updateFormContents
+
   render: function () {
     return React.createElement(
       'div',
       { id: 'user-text-form' },
       React.createElement(RIEInput, {
-        value: this.props.text,
-        change: this.updateElementText,
-        propName: 'text',
-        className: 'form-user-text'
+        value: this.props.formName,
+        change: this.updateFormName,
+        propName: 'formName',
+        className: 'userText-formName'
       })
-    );
+    )
+    // formContents RIEInput
+    ;
   }
 });
 
@@ -741,9 +764,9 @@ var FormBuilder = React.createClass({
       // don't delete per same reasons as above, but for columns.
     };
     if (elementType == "Table") {
-      formElementObject = { type: elementType, text: elementType, tableRows: [{ columns: [{ type: "unselected", text: "[Enter question]" }] }], addRow: addRow, addColumn: addColumn };
+      formElementObject = { type: elementType, formName: elementType, tableRows: [{ columns: [{ type: "unselected", text: "[Enter question]" }] }], addRow: addRow, addColumn: addColumn };
     } else {
-      formElementObject = { type: elementType, text: elementType };
+      formElementObject = { type: elementType, formName: elementType, formContent: "body text here" };
     }
     var currentForm = this.state.currentForm;
     currentForm.push(formElementObject);
@@ -769,6 +792,17 @@ var FormBuilder = React.createClass({
     targetCell.type = cellType;
     this.setState({ currentForm: currentForm });
   },
+  updateFormName: function (newText, formElementId) {
+    var currentForm = this.state.currentForm;
+    var targetCell = currentForm[formElementId];
+    targetCell.formName = newText;
+    this.setState({ currentForm: currentForm });
+  },
+  // add functions for:
+  //  updateFormElementContent
+  //  updateTableElementName
+  //  updateTableElementContent
+
   updateFormElementText: function (newText, tableId) {
     var currentForm = this.state.currentForm;
     var targetCell = currentForm[tableId];
@@ -819,6 +853,8 @@ var FormBuilder = React.createClass({
         deleteElement: this.deleteElement,
         moveElementUp: this.moveElementUp,
         moveElementDown: this.moveElementDown,
+        updateFormName: this.updateFormName,
+
         updateFormElementText: this.updateFormElementText,
         updateTableElementText: this.updateTableElementText,
         addRow: this.addRow, addColumn: this.addColumn,
