@@ -30,7 +30,7 @@ module.exports = React.createClass({
         <select onChange={this.changeCellToForm}>
           <option value="selected">[select]</option>
           <option value="UserText">Text</option>
-        <option value="Dropdown">Dropdown</option>
+          <option value="Dropdown">Dropdown</option>
         </select>
       </div>
     )
@@ -45,8 +45,8 @@ module.exports = React.createClass({
       var cellBody = (
         React.createElement(
           localFormBank[this.props.type], {
+            formName: "Question ",
             formContent: this.props.formContent,
-            // text: this.props.text,
             updateElementText: this.updateElementText
           }
         )

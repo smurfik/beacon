@@ -537,8 +537,8 @@ module.exports = React.createClass({
       );
     } else {
       var cellBody = React.createElement(localFormBank[this.props.type], {
+        formName: "Question ",
         formContent: this.props.formContent,
-        // text: this.props.text,
         updateElementText: this.updateElementText
       });
       body = React.createElement(
