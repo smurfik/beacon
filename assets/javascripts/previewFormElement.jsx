@@ -17,7 +17,7 @@ module.exports = React.createClass({
     if (this.props.element.type == "Table") {
       element = React.createElement(
         ViewBank["Table"], {
-          text: this.props.text,
+          formName:          this.props.formName,
           tableRows: this.props.tableRows,
         }
       );
