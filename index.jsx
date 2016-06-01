@@ -28,12 +28,40 @@ var FormBuilder = React.createClass({
     var addColumn = function() {
       // don't delete per same reasons as above, but for columns.
     };
+    var updateFormName = function() {
+      // don't delete per same reasons as above, but for rows and table cells.
+    };
+    var updateFormContent = function() {
+      // don't delete per same reasons as above, but for rows and table cells.
+    };
     if (elementType == "Header" || elementType == "Description") { // any additional form elements that do not require an editable 'formName' field should go here
       formElementObject = {type: elementType, formContent: elementType};
     } else if (elementType == "Table") {
-      formElementObject = {type: elementType, formName: "Table Title", tableRows: [{columns: [{type: "unselected", formContent: "[Enter question]"}]}], addRow: addRow, addColumn: addColumn}
+      formElementObject = {
+        type: elementType,
+        formName: "Table Title",
+        addRow: addRow,
+        addColumn: addColumn,
+        tableRows:
+          [{columns:
+            [{
+              // cellId:            null,
+              type:              "unselected",
+              formName:          "Question",
+              formContent:       "[Enter question]",
+              updateFormName:    updateFormName,
+              updateFormContent: updateFormContent
+            }],
+            updateFormName: updateFormName,
+            updateFormContent: updateFormContent
+          }]
+      }
     } else {
-      formElementObject = {type: elementType, formName: "Question", formContent: "response"};
+      formElementObject = {
+        type: elementType,
+        formName: "Question",
+        formContent: "response"
+      };
     }
     var currentForm = this.state.currentForm;
     currentForm.push(formElementObject);
@@ -45,10 +73,23 @@ var FormBuilder = React.createClass({
     this.setState({currentForm: currentForm});
   },
   addColumn: function(id) {
+    var updateFormName = function() {
+      // don't delete per same reasons as above, but for rows and table cells.
+    };
+    var updateFormContent = function() {
+      // don't delete per same reasons as above, but for rows and table cells.
+    };
+    
     var currentForm = this.state.currentForm;
     var tableRows = currentForm[id].tableRows;
     for (var i = 0; i < tableRows.length; i++) {
-      var newCellObject = {type: "unselected", formContent: "[Enter question]"};
+      var newCellObject = {
+        type: "unselected",
+        formName:          "Question",
+        formContent:       "[Enter question]",
+        updateFormName:    updateFormName,
+        updateFormContent: updateFormContent
+      };
       tableRows[i].columns.push(newCellObject);
     }
     this.setState({currentForm: currentForm});
