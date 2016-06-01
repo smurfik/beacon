@@ -1,6 +1,6 @@
 var Header      = require('./headerView.jsx'),
-    Description = require('./descriptionView.jsx');
-    // UserText    = require('./userTextView.jsx'),
+    Description = require('./descriptionView.jsx'),
+    UserText    = require('./userTextView.jsx');
     // Dropdown    = require('./dropdownView.jsx'),
     // Table       = require('./tableView.jsx'),
     // NewRow      = require('./newRowView.jsx'),
@@ -9,7 +9,7 @@ var Header      = require('./headerView.jsx'),
 module.exports = {
   Header: Header,
   Description: Description,
-  // UserText: UserText,
+  UserText: UserText,
   // Dropdown: Dropdown,
   // Table: Table,
   // NewRow: NewRow,

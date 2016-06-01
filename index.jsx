@@ -60,7 +60,7 @@ var FormBuilder = React.createClass({
       formElementObject = {
         type: elementType,
         formName: "Question",
-        formContent: "response"
+        formContent: "Your answer"
       };
     }
     var currentForm = this.state.currentForm;
@@ -79,7 +79,7 @@ var FormBuilder = React.createClass({
     var updateFormContent = function() {
       // don't delete per same reasons as above, but for rows and table cells.
     };
-    
+
     var currentForm = this.state.currentForm;
     var tableRows = currentForm[id].tableRows;
     for (var i = 0; i < tableRows.length; i++) {
