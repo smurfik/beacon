@@ -14,32 +14,34 @@ module.exports = React.createClass({
         formElements.push(
           <FormElement
             id={i}
-            text={this.props.formElements[i].text}
             key={i}
             element={this.props.formElements[i]}
-            deleteElement={this.props.deleteElement}
-            moveElementUp={this.props.moveElementUp}
-            moveElementDown={this.props.moveElementDown}
-            updateFormElementText={this.props.updateFormElementText}
-            updateTableElementText={this.props.updateTableElementText}
-            addRow={this.props.addRow}
+            formName={this.props.formElements[i].formName}
             tableRows={this.props.formElements[i].tableRows}
+            addRow={this.props.addRow}
             addColumn={this.props.addColumn}
             changeCellToForm={this.props.changeCellToForm}
+
+            updateFormElementText={this.props.updateFormElementText}
+            updateTableElementText={this.props.updateTableElementText}
+
+            moveElementUp={this.props.moveElementUp}
+            moveElementDown={this.props.moveElementDown}
+            deleteElement={this.props.deleteElement}
           />
         )
       } else {
         formElements.push(
           <FormElement
             id={i}
-            formName={this.props.formElements[i].formName}
-            formContent={this.props.formElements[i].formContent}
             key={i}
             element={this.props.formElements[i]}
-            deleteElement={this.props.deleteElement}
+            formName={this.props.formElements[i].formName}
+            formContent={this.props.formElements[i].formContent}
+            updateFormElement={this.props.updateFormElement}
             moveElementUp={this.props.moveElementUp}
             moveElementDown={this.props.moveElementDown}
-            updateFormElement={this.props.updateFormElement}
+            deleteElement={this.props.deleteElement}
           />
         )
       }

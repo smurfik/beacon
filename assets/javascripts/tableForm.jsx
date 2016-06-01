@@ -2,7 +2,8 @@ var React = require('react'),
     riek = require('riek'),
     RIEInput = riek.RIEInput,
     FormBank = require('./formBank.js'),
-    NewRow = require('./newRow.jsx');
+    NewRow = require('./newRow.jsx'),
+    sectionToUpdate;
 
 module.exports = React.createClass({
   getInitialState: function() {
@@ -22,11 +23,23 @@ module.exports = React.createClass({
     event.preventDefault();
     this.props.addColumn();
   },
+  updateFormName: function(newText) {
+    sectionToUpdate = "formName";
+    this.props.updateFormElement(newText.formName, sectionToUpdate)
+    console.log("updateFormContent triggered in TABLE form module: *", newText.formName, "*", sectionToUpdate);
+  },
+  updateFormContent: function(newText) {
+    sectionToUpdate = "formContent";
+    this.props.updateFormElement(newText.formContent, sectionToUpdate)
+    // console.log("updateFormContent triggered in form module: *", newText.formContent, "*", sectionToUpdate);
+  },
+
+
+  // updateTableTitleText: function(newText){
+  //   this.props.updateFormElementText(newText.text);
+  // },
   updateTableElementText: function(newText, cellId, rowId) {
     this.props.updateTableElementText(newText, cellId, rowId);
-  },
-  updateTableTitleText: function(newText){
-    this.props.updateFormElementText(newText.text);
   },
   render: function() {
     var columnHeaders = [],
@@ -50,14 +63,14 @@ module.exports = React.createClass({
       columnHeaders.push(<th key={i}> Column {i+1} </th>);
     }
     return(
-      <div id="table-form">
+      <div className="table-form">
         <RIEInput
-          value={this.props.text}
-          change={this.updateTableTitleText}
-          propName="text"
-          className="form-question-header"
+          value={this.props.formName}
+          change={this.updateFormName}
+          propName="formName"
+          className="table-formName"
         />
-        <button id="add-column-button" onClick={this.addColumn}>Add Column</button>
+      <button className="add-column-button" onClick={this.addColumn}>Add Column</button>
         <form>
           <table>
             <thead>

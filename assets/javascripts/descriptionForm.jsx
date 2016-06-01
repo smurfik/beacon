@@ -13,7 +13,7 @@ module.exports = React.createClass({
   },
   render: function() {
     return(
-      <div id="description-form">
+      <div className="description-form">
         <RIEInput
           value     = {this.props.formContent}
           change    = {this.updateFormContent}

@@ -17,7 +17,7 @@ module.exports = React.createClass({
   },
   render: function() {
     return(
-      <div id="dropdown-form">
+      <div className="dropdown-form">
         <RIEInput
           value     = {this.props.formName}
           change    = {this.updateFormName}
