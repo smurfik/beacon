@@ -21,6 +21,7 @@ module.exports = React.createClass({
             addRow={this.props.addRow}
             addColumn={this.props.addColumn}
             changeCellToForm={this.props.changeCellToForm}
+            updateFormElement={this.props.updateFormElement}
 
             updateFormElementText={this.props.updateFormElementText}
             updateTableElementText={this.props.updateTableElementText}

@@ -18,8 +18,20 @@ module.exports = React.createClass({
         i;
 
     for (i = 0; i < this.props.columns.length; i++) {
-      columns.push(<TableCell id={i} key={i} element={this.props.columns[i]} type={this.props.columns[i].type} text={this.props.columns[i].text} changeCellToForm={this.changeCellToForm} updateElementText={this.updateElementText}/>)
+      columns.push(
+        <TableCell
+          id={i}
+          key={i}
+          element={this.props.columns[i]}
+          type={this.props.columns[i].type}
+          formContent={this.props.columns[i].formContent}
+
+          changeCellToForm={this.changeCellToForm}
+          updateElementText={this.updateElementText}
+        />
+      )
     }
+          // text={this.props.columns[i].text}
 
     return(
       <tr>

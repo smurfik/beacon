@@ -14,7 +14,7 @@ var React       = require('react'),
 
 module.exports = React.createClass({
   changeCellToForm: function(event) {
-    var cellId = this.props.id // == this cell's id, passed up so that the right cell can be rerendered as a form.
+    var cellId   = this.props.id // == this cell's id, passed up so that the right cell can be rerendered as a form.
     var cellType = event.target.value
     this.props.changeCellToForm(cellType, cellId);
   },
@@ -45,7 +45,8 @@ module.exports = React.createClass({
       var cellBody = (
         React.createElement(
           localFormBank[this.props.type], {
-            text: this.props.text,
+            formContent: this.props.formContent,
+            // text: this.props.text,
             updateElementText: this.updateElementText
           }
         )

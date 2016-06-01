@@ -46,6 +46,7 @@ module.exports = React.createClass({
           changeCellToForm: this.changeCellToForm,
           addRow: this.addRow,
           addColumn: this.addColumn,
+          updateFormElement: this.updateFormElement,
 
           updateTableElementText: this.updateElementText,
           updateFormElementText: this.updateElementText

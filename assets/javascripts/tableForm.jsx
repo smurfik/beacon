@@ -26,14 +26,14 @@ module.exports = React.createClass({
   updateFormName: function(newText) {
     sectionToUpdate = "formName";
     this.props.updateFormElement(newText.formName, sectionToUpdate)
-    console.log("updateFormContent triggered in TABLE form module: *", newText.formName, "*", sectionToUpdate);
   },
+
+  // REFACTOR THIS ONE NEXT:
   updateFormContent: function(newText) {
     sectionToUpdate = "formContent";
     this.props.updateFormElement(newText.formContent, sectionToUpdate)
     // console.log("updateFormContent triggered in form module: *", newText.formContent, "*", sectionToUpdate);
   },
-
 
   // updateTableTitleText: function(newText){
   //   this.props.updateFormElementText(newText.text);
@@ -65,10 +65,10 @@ module.exports = React.createClass({
     return(
       <div className="table-form">
         <RIEInput
-          value={this.props.formName}
-          change={this.updateFormName}
-          propName="formName"
-          className="table-formName"
+          value     = {this.props.formName}
+          change    = {this.updateFormName}
+          propName  = "formName"
+          className = "table-formName"
         />
       <button className="add-column-button" onClick={this.addColumn}>Add Column</button>
         <form>

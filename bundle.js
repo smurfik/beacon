@@ -23,6 +23,7 @@ module.exports = React.createClass({
           addRow: this.props.addRow,
           addColumn: this.props.addColumn,
           changeCellToForm: this.props.changeCellToForm,
+          updateFormElement: this.props.updateFormElement,
 
           updateFormElementText: this.props.updateFormElementText,
           updateTableElementText: this.props.updateTableElementText,
@@ -237,6 +238,7 @@ module.exports = React.createClass({
         changeCellToForm: this.changeCellToForm,
         addRow: this.addRow,
         addColumn: this.addColumn,
+        updateFormElement: this.updateFormElement,
 
         updateTableElementText: this.updateElementText,
         updateFormElementText: this.updateElementText
@@ -408,8 +410,18 @@ module.exports = React.createClass({
         i;
 
     for (i = 0; i < this.props.columns.length; i++) {
-      columns.push(React.createElement(TableCell, { id: i, key: i, element: this.props.columns[i], type: this.props.columns[i].type, text: this.props.columns[i].text, changeCellToForm: this.changeCellToForm, updateElementText: this.updateElementText }));
+      columns.push(React.createElement(TableCell, {
+        id: i,
+        key: i,
+        element: this.props.columns[i],
+        type: this.props.columns[i].type,
+        formContent: this.props.columns[i].formContent,
+
+        changeCellToForm: this.changeCellToForm,
+        updateElementText: this.updateElementText
+      }));
     }
+    // text={this.props.columns[i].text}
 
     return React.createElement(
       'tr',
@@ -525,7 +537,8 @@ module.exports = React.createClass({
       );
     } else {
       var cellBody = React.createElement(localFormBank[this.props.type], {
-        text: this.props.text,
+        formContent: this.props.formContent,
+        // text: this.props.text,
         updateElementText: this.updateElementText
       });
       body = React.createElement(
@@ -574,8 +587,9 @@ module.exports = React.createClass({
   updateFormName: function (newText) {
     sectionToUpdate = "formName";
     this.props.updateFormElement(newText.formName, sectionToUpdate);
-    console.log("updateFormContent triggered in TABLE form module: *", newText.formName, "*", sectionToUpdate);
   },
+
+  // REFACTOR THIS ONE NEXT:
   updateFormContent: function (newText) {
     sectionToUpdate = "formContent";
     this.props.updateFormElement(newText.formContent, sectionToUpdate);
