@@ -34,11 +34,11 @@ module.exports = React.createClass({
     // PASS UP CELL, ROW, ELEMENT ID AS WELL?
 
     if (sectionToUpdate == "formName") {
-      console.log("triggered in TableForm", newText, sectionToUpdate)
-      // this.props.updateFormElement(newText.formName, sectionToUpdate)
+      // console.log("triggered in TableForm", newText, sectionToUpdate)
+      this.props.updateFormElement(newText.formName, sectionToUpdate)
     } else if (sectionToUpdate == "formContent") {
-      console.log("triggered in TableForm", newText, sectionToUpdate, sectionToUpdate, cellId, rowId)
-      // this.props.updateFormElement(newText.formContent, sectionToUpdate)
+      // console.log("triggered in TableForm", newText, sectionToUpdate, sectionToUpdate, cellId, rowId)
+      this.props.updateFormElement(newText.formContent, sectionToUpdate)
     }
   },
 

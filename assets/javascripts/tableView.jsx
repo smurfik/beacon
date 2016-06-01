@@ -1,6 +1,6 @@
 var React = require('react'),
     ViewBank = require('./viewBank.js'),
-    NewRow = require('./newRow.jsx');
+    NewRowView = require('./newRowView.jsx');
 
 module.exports = React.createClass({
   // getInitialState: function() {
@@ -13,7 +13,7 @@ module.exports = React.createClass({
 
     for (i = 0; i < this.props.tableRows.length; i++) {
       rows.push(
-        <NewRow
+        <NewRowView
           id={i}
           key={i}
           element={this.props.tableRows[i]}
