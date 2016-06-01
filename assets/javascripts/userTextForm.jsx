@@ -9,14 +9,13 @@ module.exports = React.createClass({
   },
   updateFormName: function(newText) {
     sectionToUpdate = "formName";
-    // this.props.updateFormElement(newText.formName, sectionToUpdate)
-    console.log("updateFormName triggered in USERTEXT module: *", newText.formName, "*", sectionToUpdate);
+    this.props.updateFormElement(newText.formName, sectionToUpdate)
   },
-  updateFormContent: function(newText) {
-    sectionToUpdate = "formContent";
-    // this.props.updateFormElement(newText.formContent, sectionToUpdate)
-    console.log("updateFormContent triggered in USERTEXT module: *", newText.formContent, "*", sectionToUpdate);
-  },
+  // updateFormContent: function(newText) {
+  //   sectionToUpdate = "formContent";
+  //   // this.props.updateFormElement(newText.formContent, sectionToUpdate)
+  //   console.log("updateFormContent triggered in USERTEXT module: *", newText.formContent, "*", sectionToUpdate);
+  // },
   render: function() {
     return(
       <div className="userText-form">
@@ -26,12 +25,7 @@ module.exports = React.createClass({
           propName  = "formName"
           className = "userText-formName"
         />
-        <RIEInput
-          value     = {this.props.formContent}
-          change    = {this.updateFormContent}
-          propName  = "formContent"
-          className = "userText-formContent"
-        />
+        <span className="form-explainer">User answers here</span>
       </div>
     )
   }

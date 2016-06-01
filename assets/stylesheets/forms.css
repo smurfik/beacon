@@ -9,6 +9,12 @@
   font-size: 18px;
 }
 
+.form-explainer {
+  margin: 5px;
+  color: hsl(0, 0%, 50%);
+  border-bottom: 1px dotted hsl(0, 0%, 50%);
+}
+
 .header-form {
 }
 

@@ -24,7 +24,7 @@ module.exports = React.createClass({
           propName  = "formName"
           className = "dropdown-formName"
         />
-      <select className="dropdown-formContent" onChange={this.updateFormContent} value={this.props.formContent}>
+        <select className="dropdown-formContent" onChange={this.updateFormContent} value={this.props.formContent}>
           <option value = "response" > [select] </option>
           <option value = "Option A" > Option A </option>
           <option value = "Option A" > Option B </option>
