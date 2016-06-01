@@ -31,11 +31,11 @@ module.exports = React.createClass({
             element={this.props.previewFormElements[i]}
             formName={this.props.previewFormElements[i].formName}
             formContent={this.props.previewFormElements[i].formContent}
-            updateFormElement={this.props.updateFormElement}
           />
         )
       }
     }
+            // updateFormElement={this.props.updateFormElement}
 
     if (this.props.previewFormElements[0] == null) {
       bodyContent = <span>Nothing to preview</span>

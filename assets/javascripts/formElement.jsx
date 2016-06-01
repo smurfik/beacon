@@ -51,7 +51,7 @@ module.exports = React.createClass({
           updateTableElementText: this.updateElementText,
           updateFormElementText: this.updateElementText
         }
-      )
+      ) 
     } else {
       element = React.createElement(
         FormBank[this.props.element.type], {
