@@ -25,10 +25,6 @@ module.exports = React.createClass({
           changeCellToForm: this.props.changeCellToForm,
           updateFormElement: this.props.updateFormElement,
           updateTableFormElement: this.props.updateTableFormElement,
-
-          updateFormElementText: this.props.updateFormElementText,
-          updateTableElementText: this.props.updateTableElementText,
-
           moveElementUp: this.props.moveElementUp,
           moveElementDown: this.props.moveElementDown,
           deleteElement: this.props.deleteElement
@@ -299,10 +295,7 @@ module.exports = React.createClass({
         changeCellToForm: this.changeCellToForm,
         addRow: this.addRow,
         addColumn: this.addColumn,
-        updateFormElement: this.updateFormElement,
-
-        updateTableElementText: this.updateElementText,
-        updateFormElementText: this.updateElementText
+        updateFormElement: this.updateFormElement
       });
     } else {
       element = React.createElement(FormBank[this.props.element.type], {
@@ -1070,12 +1063,6 @@ var FormBuilder = React.createClass({
     var addColumn = function () {
       // don't delete per same reasons as above, but for columns.
     };
-    var updateFormTitle = function () {
-      // don't delete per same reasons as above, but for rows and table cells.
-    };
-    var updateFormContent = function () {
-      // don't delete per same reasons as above, but for rows and table cells.
-    };
     if (elementType == "Header" || elementType == "Description") {
       // any additional form elements that do not require an editable 'formContent' field should go here
       formElementObject = {
@@ -1092,12 +1079,8 @@ var FormBuilder = React.createClass({
             // cellId:          null,
             type: "unselected",
             formTitle: "Question",
-            formContent: "[Enter question]",
-            updateFormTitle: updateFormTitle,
-            updateFormContent: updateFormContent
-          }],
-          updateFormTitle: updateFormTitle,
-          updateFormContent: updateFormContent
+            formContent: "[Enter question]"
+          }]
         }]
       };
     } else {
@@ -1118,22 +1101,13 @@ var FormBuilder = React.createClass({
     this.setState({ currentForm: currentForm });
   },
   addColumn: function (id) {
-    var updateFormTitle = function () {
-      // don't delete per same reasons as above, but for rows and table cells.
-    };
-    var updateFormContent = function () {
-      // don't delete per same reasons as above, but for rows and table cells.
-    };
-
     var currentForm = this.state.currentForm;
     var tableRows = currentForm[id].tableRows;
     for (var i = 0; i < tableRows.length; i++) {
       var newCellObject = {
         type: "unselected",
         formTitle: "Question",
-        formContent: "[Enter question]",
-        updateFormTitle: updateFormTitle,
-        updateFormContent: updateFormContent
+        formContent: "[Enter question]"
       };
       tableRows[i].columns.push(newCellObject);
     }
@@ -1199,13 +1173,6 @@ var FormBuilder = React.createClass({
         moveElementDown: this.moveElementDown,
         updateFormElement: this.updateFormElement,
         updateTableFormElement: this.updateTableFormElement,
-
-        updateFormTitle: this.updateFormTitle,
-        updateFormContent: this.updateFormContent,
-
-        updateFormElementText: this.updateFormElementText,
-        updateTableElementText: this.updateTableElementText,
-
         addRow: this.addRow, addColumn: this.addColumn,
         changeCellToForm: this.changeCellToForm,
         openModal: this.openModal

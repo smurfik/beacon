@@ -28,12 +28,6 @@ var FormBuilder = React.createClass({
     var addColumn = function() {
       // don't delete per same reasons as above, but for columns.
     };
-    var updateFormTitle = function() {
-      // don't delete per same reasons as above, but for rows and table cells.
-    };
-    var updateFormContent = function() {
-      // don't delete per same reasons as above, but for rows and table cells.
-    };
     if (elementType == "Header" || elementType == "Description") { // any additional form elements that do not require an editable 'formContent' field should go here
       formElementObject = {
         type:      elementType,
@@ -52,11 +46,7 @@ var FormBuilder = React.createClass({
               type:              "unselected",
               formTitle:         "Question",
               formContent:       "[Enter question]",
-              updateFormTitle:   updateFormTitle,
-              updateFormContent: updateFormContent
             }],
-            updateFormTitle:   updateFormTitle,
-            updateFormContent: updateFormContent
           }]
       }
     } else {
@@ -77,13 +67,6 @@ var FormBuilder = React.createClass({
     this.setState({currentForm: currentForm});
   },
   addColumn: function(id) {
-    var updateFormTitle = function() {
-      // don't delete per same reasons as above, but for rows and table cells.
-    };
-    var updateFormContent = function() {
-      // don't delete per same reasons as above, but for rows and table cells.
-    };
-
     var currentForm = this.state.currentForm;
     var tableRows = currentForm[id].tableRows;
     for (var i = 0; i < tableRows.length; i++) {
@@ -91,8 +74,6 @@ var FormBuilder = React.createClass({
         type: "unselected",
         formTitle:         "Question",
         formContent:       "[Enter question]",
-        updateFormTitle:   updateFormTitle,
-        updateFormContent: updateFormContent
       };
       tableRows[i].columns.push(newCellObject);
     }
@@ -158,13 +139,6 @@ var FormBuilder = React.createClass({
           moveElementDown={this.moveElementDown}
           updateFormElement={this.updateFormElement}
           updateTableFormElement={this.updateTableFormElement}
-
-          updateFormTitle={this.updateFormTitle}
-          updateFormContent={this.updateFormContent}
-
-          updateFormElementText={this.updateFormElementText}
-          updateTableElementText={this.updateTableElementText}
-
           addRow={this.addRow} addColumn={this.addColumn}
           changeCellToForm={this.changeCellToForm}
           openModal={this.openModal}

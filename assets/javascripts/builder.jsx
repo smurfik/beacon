@@ -23,10 +23,6 @@ module.exports = React.createClass({
             changeCellToForm={this.props.changeCellToForm}
             updateFormElement={this.props.updateFormElement}
             updateTableFormElement={this.props.updateTableFormElement}
-
-            updateFormElementText={this.props.updateFormElementText}
-            updateTableElementText={this.props.updateTableElementText}
-
             moveElementUp={this.props.moveElementUp}
             moveElementDown={this.props.moveElementDown}
             deleteElement={this.props.deleteElement}

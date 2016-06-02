@@ -46,9 +46,6 @@ module.exports = React.createClass({
           addRow: this.addRow,
           addColumn: this.addColumn,
           updateFormElement: this.updateFormElement,
-
-          updateTableElementText: this.updateElementText,
-          updateFormElementText: this.updateElementText
         }
       )
     } else {
