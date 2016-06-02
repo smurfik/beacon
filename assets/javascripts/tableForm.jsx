@@ -5,9 +5,6 @@ var React = require('react'),
     NewRow = require('./newRow.jsx');
 
 module.exports = React.createClass({
-  getInitialState: function() {
-    return {text: "Table"}
-  },
   addRow: function(event) {
     event.preventDefault();
     var newRowObject = {columns: []};

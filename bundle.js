@@ -87,9 +87,6 @@ var React = require('react'),
 module.exports = React.createClass({
   displayName: 'exports',
 
-  getInitialState: function () {
-    return { type: "Description", text: "enter description here" };
-  },
   updateFormElement: function (newText) {
     this.props.updateFormElement(newText.formTitle);
   },
@@ -134,9 +131,6 @@ var React = require('react'),
 module.exports = React.createClass({
   displayName: 'exports',
 
-  getInitialState: function () {
-    return { type: "Dropdown", text: "Question" };
-  },
   updateFormElement: function (newText) {
     this.props.updateFormElement(newText.formTitle);
   },
@@ -335,9 +329,6 @@ var React = require('react'),
 module.exports = React.createClass({
   displayName: 'exports',
 
-  getInitialState: function () {
-    return { type: "Header", text: "Header" };
-  },
   updateFormElement: function (newText) {
     this.props.updateFormElement(newText.formTitle);
   },
@@ -718,9 +709,6 @@ var React = require('react'),
 module.exports = React.createClass({
   displayName: 'exports',
 
-  getInitialState: function () {
-    return { text: "Table" };
-  },
   addRow: function (event) {
     event.preventDefault();
     var newRowObject = { columns: [] };
@@ -946,9 +934,6 @@ var React = require('react'),
 module.exports = React.createClass({
   displayName: 'exports',
 
-  getInitialState: function () {
-    return { type: "UserText", text: "answer here" };
-  },
   updateFormElement: function (newText) {
     this.props.updateFormElement(newText.formTitle);
   },

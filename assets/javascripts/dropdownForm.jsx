@@ -3,9 +3,6 @@ var React = require('react'),
     RIEInput = riek.RIEInput;
 
 module.exports = React.createClass({
-  getInitialState: function() {
-    return({type: "Dropdown", text: "Question"});
-  },
   updateFormElement: function(newText) {
     this.props.updateFormElement(newText.formTitle);
   },
