@@ -7,20 +7,20 @@ module.exports = React.createClass({
   getInitialState: function() {
     return({type: "Dropdown", text: "Question"});
   },
-  updateFormName: function(newText) {
-    sectionToUpdate = "formName";
-    this.props.updateFormElement(newText.formName, sectionToUpdate)
+  updateFormElement: function(newText) {
+    this.props.updateFormElement(newText.formName);
   },
   updateFormContent: function(event) {
-    sectionToUpdate = "formContent";
-    this.props.updateFormElement(event.target.value, sectionToUpdate)
+    // This function should evolve as we change this element FROM a
+    // selectable dropdown TO a form where admin enters the values they
+    // want to appear in the user-facing dropdown
   },
   render: function() {
     return(
       <div className="dropdown-form">
         <RIEInput
           value     = {this.props.formName}
-          change    = {this.updateFormName}
+          change    = {this.updateFormElement}
           propName  = "formName"
           className = "dropdown-formName"
         />
