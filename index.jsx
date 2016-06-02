@@ -100,40 +100,23 @@ var FormBuilder = React.createClass({
     targetCell.type = cellType;
     this.setState({currentForm: currentForm});
   },
-  // updateFormElement: function(newText, formElementId, sectionToUpdate) {
   updateFormElement: function(newText, formElementId) {
     var currentForm = this.state.currentForm;
     var targetCell  = currentForm[formElementId];
-    // if (sectionToUpdate == "formName") {
-    //   targetCell.formName = newText
-    // } else if (sectionToUpdate == "formContent") {
-    //   targetCell.formContent = newText;
-    // }
     targetCell.formName = newText
     this.setState({currentForm: currentForm});
-    console.log("UFE triggered in Index", targetCell)
   },
-
   updateTableFormElement: function(newText, cellId, rowId, formElementId) {
     var currentForm = this.state.currentForm;
     var targetCell = currentForm[formElementId].tableRows[rowId].columns[cellId];
-    // console.log(targetCell);
-    // console.log(targetCell.props);
     targetCell.formName = newText;
     this.setState({currentForm: currentForm})
-    console.log("UTFE triggered in Index", targetCell)
   },
 
   // add functions for:
   //  updateTableFormName
   //  updateTableFormContent
 
-  updateTableElementText: function(newText, cellId, rowId, tableId) {
-    var currentForm = this.state.currentForm;
-    var targetCell = currentForm[tableId].tableRows[rowId].columns[cellId];
-    targetCell.text = newText;
-    this.setState({currentForm: currentForm});
-  },
 
   deleteElement: function(id) {
     var currentForm = this.state.currentForm;

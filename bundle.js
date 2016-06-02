@@ -261,22 +261,14 @@ var React = require('react'),
 module.exports = React.createClass({
   displayName: 'exports',
 
-  // updateFormElement: function(newText, sectionToUpdate, cellId, rowId) {
   updateFormElement: function (newText, cellId, rowId) {
     var formElementId = this.props.id;
     if (cellId == undefined) {
       //i.e. if we are updating the text of a standard form element in builder, not a tableCell, which is form within a Table
-      // this.props.updateFormElement(newText, formElementId, sectionToUpdate);
-      console.log("PLAIN UFE triggered in formElement", newText, formElementId);
       this.props.updateFormElement(newText, formElementId);
     } else {
-      // this.props.updateTableFormElement(newText, cellId, rowId, formElementId, sectionToUpdate);
-      // console.log("TABLE UFE triggered in formElement", newText, cellId, rowId, formElementId);
-      console.log("sanity check: newText: ", newText, "cellId: ", cellId, "rowId: ", rowId, "formElementId: ", formElementId);
       this.props.updateTableFormElement(newText, cellId, rowId, formElementId);
     }
-    // this.props.updateTableFormElement(newText, cellId, rowId, formElementId);
-    // this.props.updateFormElement(newText, cellId, rowId, formElementId);
   },
   deleteElement: function (event, id) {
     event.preventDefault();
@@ -306,7 +298,6 @@ module.exports = React.createClass({
       element = React.createElement(FormBank["Table"], {
         formName: this.props.formName,
         text: this.props.formName,
-
         tableRows: this.props.tableRows,
         changeCellToForm: this.changeCellToForm,
         addRow: this.addRow,
@@ -494,19 +485,10 @@ module.exports = React.createClass({
     var rowId = this.props.id;
     this.props.changeCellToForm(cellType, cellId, rowId);
   },
-  // updateFormElement: function(newText, sectionToUpdate, cellId) {
   updateFormElement: function (newText, cellId) {
     var rowId = this.props.id;
-    // console.log("triggered in NewRow, ", newText, sectionToUpdate, cellId, rowId);
-    // debugger
-    // this.props.updateElementText(newText, sectionToUpdate, cellId, rowId);
-    console.log("UFE triggered in newRow", newText, cellId, rowId);
     this.props.updateFormElement(newText, cellId, rowId);
   },
-  // updateElementText: function(newText, cellId) {
-  //   var rowId = this.props.id
-  //   this.props.updateElementText(newText, cellId, rowId);
-  // },
   render: function () {
     var columns = [],
         i;
@@ -520,15 +502,9 @@ module.exports = React.createClass({
         formName: this.props.columns[i].formName,
         formContent: this.props.columns[i].formContent,
         updateFormElement: this.updateFormElement,
-
         changeCellToForm: this.changeCellToForm
       }));
     }
-    // updateFormName    = {this.updateFormElement}
-    // updateFormContent = {this.updateFormElement}
-    // updateElementText={this.updateElementText}
-    // text={this.props.columns[i].text}
-
     return React.createElement(
       'tr',
       null,
@@ -634,28 +610,8 @@ module.exports = React.createClass({
   },
   updateFormElement: function (newText) {
     var cellId = this.props.id; // == this cell's id, passed up so that the right cell's contents can be updated.
-    // console.log(sectionToUpdate)
-    // debugger
-    // this.props.updateFormElement(newText, sectionToUpdate, cellId);
-    console.log("UFE triggered in tableCell", newText, cellId);
     this.props.updateFormElement(newText, cellId);
   },
-
-  // updateFormName: function(newText) {
-  //   sectionToUpdate = "formName";
-  //   console.log("updateFormName triggered in TABLECELL module: *", newText.formName, "*", sectionToUpdate, this.props.id);
-  //   // this.props.updateFormElement(newText.formName, sectionToUpdate, cellId);
-  // },
-  // updateFormContent: function(newText) {
-  //   sectionToUpdate = "formContent";
-  //   // this.props.updateFormElement(newText.formContent, sectionToUpdate)
-  //   console.log("updateFormContent triggered in TABLECELL module: *", newText.formContent, "*", sectionToUpdate);
-  // },
-
-  // updateElementText: function(newText) {
-  //   var cellId = this.props.id // == this cell's id, passed up so that the right cell's contents can be updated.
-  //   this.props.updateElementText(newText, cellId);
-  // },
   render: function () {
     var body;
     var dropdown = React.createElement(
@@ -697,21 +653,10 @@ module.exports = React.createClass({
       var cellBody = React.createElement(localFormBank[this.props.type], {
         // formName:        "Question",
         // formName:        this.props.type,
-
         cellId: this.props.id,
         formName: this.props.formName,
         formContent: this.props.formContent,
         updateFormElement: this.updateFormElement
-
-        // updateFormName:    this.updateFormName,
-        // updateFormContent: this.updateFormContent
-
-        // SOMETHING NEEDS TO BE HERE AS A PROP FOR THE CELL TO RERENDER AS A FORM:
-        // updateFormElement: this.props.updateFormElement
-        // BECAUSE REACT NEEDS TO SEE THE COMPONENT HAS THE PROP THAT IT GETS FROM ITS PARENT WHEN IT IS RENDERED AS A CHILD
-
-        // BUT WE NEED TO MAKE THE PROPS COMING FROM THE PARENT BE UPDATEFORM*NAME* AND *CONTENT* INSTEAD
-
       });
       body = React.createElement(
         'div',
@@ -812,16 +757,7 @@ module.exports = React.createClass({
     event.preventDefault();
     this.props.addColumn();
   },
-  // updateFormElement: function(newText, sectionToUpdate, cellId, rowId) {
   updateFormElement: function (newText, cellId, rowId) {
-
-    // if (sectionToUpdate == "formName") {
-    //   // console.log("triggered in TableForm", newText, sectionToUpdate)
-    //   this.props.updateFormElement(newText.formName, sectionToUpdate)
-    // } else if (sectionToUpdate == "formContent") {
-    //   // console.log("triggered in TableForm", newText, sectionToUpdate, sectionToUpdate, cellId, rowId)
-    //   this.props.updateFormElement(newText.formContent, sectionToUpdate)
-    // }
     this.props.updateFormElement(newText, cellId, rowId);
   },
 
@@ -830,19 +766,6 @@ module.exports = React.createClass({
     this.props.updateFormElement(newText.formName, sectionToUpdate);
   },
 
-  // REFACTOR THIS ONE NEXT:
-  updateFormContent: function (newText) {
-    sectionToUpdate = "formContent";
-    this.props.updateFormElement(newText.formContent, sectionToUpdate);
-    // console.log("updateFormContent triggered in form module: *", newText.formContent, "*", sectionToUpdate);
-  },
-
-  // updateTableTitleText: function(newText){
-  //   this.props.updateFormElementText(newText.text);
-  // },
-  // updateTableElementText: function(newText, cellId, rowId) {
-  //   this.props.updateTableElementText(newText, cellId, rowId);
-  // },
   render: function () {
     var columnHeaders = [],
         rows = [],
@@ -1053,21 +976,8 @@ module.exports = React.createClass({
     return { type: "UserText", text: "answer here" };
   },
   updateFormElement: function (newText) {
-    // sectionToUpdate = "formName";
-    // this.props.updateFormElement(newText.formName, sectionToUpdate);
-    console.log("UFE triggered in userTextForm", newText.formName);
     this.props.updateFormElement(newText.formName);
   },
-
-  // updateFormName: function(newText) {
-  //   sectionToUpdate = "formName";
-  //   this.props.updateFormElement(newText.formName, sectionToUpdate)
-  // },
-  // updateFormContent: function(newText) {
-  //   sectionToUpdate = "formContent";
-  //   // this.props.updateFormElement(newText.formContent, sectionToUpdate)
-  //   console.log("updateFormContent triggered in USERTEXT module: *", newText.formContent, "*", sectionToUpdate);
-  // },
   render: function () {
     return React.createElement(
       'div',
@@ -1250,40 +1160,22 @@ var FormBuilder = React.createClass({
     targetCell.type = cellType;
     this.setState({ currentForm: currentForm });
   },
-  // updateFormElement: function(newText, formElementId, sectionToUpdate) {
   updateFormElement: function (newText, formElementId) {
     var currentForm = this.state.currentForm;
     var targetCell = currentForm[formElementId];
-    // if (sectionToUpdate == "formName") {
-    //   targetCell.formName = newText
-    // } else if (sectionToUpdate == "formContent") {
-    //   targetCell.formContent = newText;
-    // }
     targetCell.formName = newText;
     this.setState({ currentForm: currentForm });
-    console.log("UFE triggered in Index", targetCell);
   },
-
   updateTableFormElement: function (newText, cellId, rowId, formElementId) {
     var currentForm = this.state.currentForm;
     var targetCell = currentForm[formElementId].tableRows[rowId].columns[cellId];
-    // console.log(targetCell);
-    // console.log(targetCell.props);
     targetCell.formName = newText;
     this.setState({ currentForm: currentForm });
-    console.log("UTFE triggered in Index", targetCell);
   },
 
   // add functions for:
   //  updateTableFormName
   //  updateTableFormContent
-
-  updateTableElementText: function (newText, cellId, rowId, tableId) {
-    var currentForm = this.state.currentForm;
-    var targetCell = currentForm[tableId].tableRows[rowId].columns[cellId];
-    targetCell.text = newText;
-    this.setState({ currentForm: currentForm });
-  },
 
   deleteElement: function (id) {
     var currentForm = this.state.currentForm;

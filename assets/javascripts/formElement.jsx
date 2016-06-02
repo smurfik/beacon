@@ -4,26 +4,13 @@ var React = require('react'),
     FormBank = require('./formBank.js');
 
 module.exports = React.createClass({
-  // updateFormElement: function(newText, sectionToUpdate, cellId, rowId) {
   updateFormElement: function(newText, cellId, rowId) {
     var formElementId = this.props.id;
     if (cellId == undefined) { //i.e. if we are updating the text of a standard form element in builder, not a tableCell, which is form within a Table
-      // this.props.updateFormElement(newText, formElementId, sectionToUpdate);
-      console.log("PLAIN UFE triggered in formElement", newText, formElementId);
       this.props.updateFormElement(newText, formElementId);
     } else {
-      // this.props.updateTableFormElement(newText, cellId, rowId, formElementId, sectionToUpdate);
-      // console.log("TABLE UFE triggered in formElement", newText, cellId, rowId, formElementId);
-      console.log("sanity check: newText: ", newText,
-      "cellId: ", cellId,
-      "rowId: ", rowId,
-      "formElementId: ", formElementId
-
-    );
       this.props.updateTableFormElement(newText, cellId, rowId, formElementId);
     }
-    // this.props.updateTableFormElement(newText, cellId, rowId, formElementId);
-    // this.props.updateFormElement(newText, cellId, rowId, formElementId);
   },
   deleteElement: function(event, id) {
     event.preventDefault();
@@ -54,7 +41,6 @@ module.exports = React.createClass({
         FormBank["Table"], {
           formName: this.props.formName,
           text: this.props.formName,
-
           tableRows: this.props.tableRows,
           changeCellToForm: this.changeCellToForm,
           addRow: this.addRow,

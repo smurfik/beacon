@@ -28,16 +28,7 @@ module.exports = React.createClass({
     event.preventDefault();
     this.props.addColumn();
   },
-  // updateFormElement: function(newText, sectionToUpdate, cellId, rowId) {
   updateFormElement: function(newText, cellId, rowId) {
-
-    // if (sectionToUpdate == "formName") {
-    //   // console.log("triggered in TableForm", newText, sectionToUpdate)
-    //   this.props.updateFormElement(newText.formName, sectionToUpdate)
-    // } else if (sectionToUpdate == "formContent") {
-    //   // console.log("triggered in TableForm", newText, sectionToUpdate, sectionToUpdate, cellId, rowId)
-    //   this.props.updateFormElement(newText.formContent, sectionToUpdate)
-    // }
     this.props.updateFormElement(newText, cellId, rowId)
   },
 
@@ -46,19 +37,6 @@ module.exports = React.createClass({
     this.props.updateFormElement(newText.formName, sectionToUpdate)
   },
 
-  // REFACTOR THIS ONE NEXT:
-  updateFormContent: function(newText) {
-    sectionToUpdate = "formContent";
-    this.props.updateFormElement(newText.formContent, sectionToUpdate)
-    // console.log("updateFormContent triggered in form module: *", newText.formContent, "*", sectionToUpdate);
-  },
-
-  // updateTableTitleText: function(newText){
-  //   this.props.updateFormElementText(newText.text);
-  // },
-  // updateTableElementText: function(newText, cellId, rowId) {
-  //   this.props.updateTableElementText(newText, cellId, rowId);
-  // },
   render: function() {
     var columnHeaders = [],
         rows = [],
