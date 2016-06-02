@@ -133,8 +133,7 @@ module.exports = React.createClass({
 },{"react":188}],4:[function(require,module,exports){
 var React = require('react'),
     riek = require('riek'),
-    RIEInput = riek.RIEInput,
-    sectionToUpdate;
+    RIEInput = riek.RIEInput;
 
 module.exports = React.createClass({
   displayName: 'exports',
@@ -549,13 +548,13 @@ var React = require('react'),
 module.exports = React.createClass({
   displayName: 'exports',
 
-  // updateFormElement: function(newText, sectionToUpdate, cellId, rowId) {
-  //   var formElementId = this.props.id;
-  //   if (cellId == undefined) { //i.e. if we are updating the text of a standard form element in builder, not a tableCell, which is form within a Table
-  //     this.props.updateFormElement(newText, formElementId, sectionToUpdate);
-  //   } else {
-  //     this.props.updateTableFormElement(newText, sectionToUpdate, cellId, rowId, formElementId);
-  //   }
+  // updatePreviewFormElement: function() {
+  // we'll need a function that passes updates in previewFormElements up to
+  // parent, so that user answers can be stored and sent in JSON format.
+
+  // the logic of this function should probably follow that in the standard
+  // formElement component -- i.e. look for cell ID to see if the element
+  // comes from within a table, or is a standard formElement.
   // },
   render: function () {
     var element;
@@ -570,7 +569,7 @@ module.exports = React.createClass({
         formContent: this.props.formContent
       });
     }
-    // updateFormElement: this.updateFormElement
+    // updatePreviewFormElement: this.updatePreviewFormElement
     return React.createElement(
       'div',
       { className: 'preview-form-element' },
@@ -949,8 +948,7 @@ module.exports = React.createClass({
 },{"react":188}],19:[function(require,module,exports){
 var React = require('react'),
     riek = require('riek'),
-    RIEInput = riek.RIEInput,
-    sectionToUpdate;
+    RIEInput = riek.RIEInput;
 
 module.exports = React.createClass({
   displayName: 'exports',

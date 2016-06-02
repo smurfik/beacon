@@ -1,7 +1,6 @@
 var React = require('react'),
     riek = require('riek'),
-    RIEInput = riek.RIEInput,
-    sectionToUpdate;
+    RIEInput = riek.RIEInput;
 
 module.exports = React.createClass({
   getInitialState: function() {
