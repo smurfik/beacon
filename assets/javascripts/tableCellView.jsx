@@ -13,7 +13,8 @@ var React       = require('react'),
 module.exports = React.createClass({
   // add handleChange later?
   render: function() {
-    var body;
+    var body,
+        dropdown;
 
     if (this.props.type == "unselected") {
       body = (
