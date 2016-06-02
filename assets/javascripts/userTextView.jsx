@@ -12,7 +12,7 @@ module.exports = React.createClass({
   render: function() {
     return(
       <div className="userText-view">
-        <h2>{this.props.formName}</h2>
+        <h2>{this.props.formTitle}</h2>
         <form>
           <input
             type="text"

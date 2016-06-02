@@ -60,10 +60,23 @@
   margin-bottom: 10px;
 }
 
-.userText-formName, .dropdown-formName, .table-formName, .header-formContent {
+.userText-formTitle, .dropdown-formTitle, .table-formTitle {
   font-size: 18px;
   font-weight: bold;
   padding: 5px;
+  color: hsl(0, 0%, 50%);
+}
+
+.header-formTitle {
+  color: hsl(0, 0%, 50%);
+  font-size: 24px;
+  font-weight: bold;
+  display: block;
+  margin: 10px 5px 10px 0px;
+}
+
+.description-formTitle {
+  margin: 5px 5px 5px 0px;
   color: hsl(0, 0%, 50%);
 }
 
@@ -75,9 +88,4 @@
 
 .dropdown-formContent {
   margin: 5px;
-}
-
-.header-formContent, .description-formContent {
-  color: black;
-  border: none;
 }

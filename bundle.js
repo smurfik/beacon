@@ -18,7 +18,7 @@ module.exports = React.createClass({
           id: i,
           key: i,
           element: this.props.formElements[i],
-          formName: this.props.formElements[i].formName,
+          formTitle: this.props.formElements[i].formTitle,
           tableRows: this.props.formElements[i].tableRows,
           addRow: this.props.addRow,
           addColumn: this.props.addColumn,
@@ -38,7 +38,7 @@ module.exports = React.createClass({
           id: i,
           key: i,
           element: this.props.formElements[i],
-          formName: this.props.formElements[i].formName,
+          formTitle: this.props.formElements[i].formTitle,
           formContent: this.props.formElements[i].formContent,
           updateFormElement: this.props.updateFormElement,
           moveElementUp: this.props.moveElementUp,
@@ -86,8 +86,7 @@ module.exports = React.createClass({
 },{"./formElement.jsx":7,"react":188,"riek":194}],2:[function(require,module,exports){
 var React = require('react'),
     riek = require('riek'),
-    RIEInput = riek.RIEInput,
-    sectionToUpdate;
+    RIEInput = riek.RIEInput;
 
 module.exports = React.createClass({
   displayName: 'exports',
@@ -95,19 +94,18 @@ module.exports = React.createClass({
   getInitialState: function () {
     return { type: "Description", text: "enter description here" };
   },
-  updateFormContent: function (newText) {
-    sectionToUpdate = "formContent";
-    this.props.updateFormElement(newText.formContent, sectionToUpdate);
+  updateFormElement: function (newText) {
+    this.props.updateFormElement(newText.formTitle);
   },
   render: function () {
     return React.createElement(
       'div',
       { className: 'description-form' },
       React.createElement(RIEInput, {
-        value: this.props.formContent,
-        change: this.updateFormContent,
-        propName: 'formContent',
-        className: 'description-formContent'
+        value: this.props.formTitle,
+        change: this.updateFormElement,
+        propName: 'formTitle',
+        className: 'description-formTitle'
       })
     );
   }
@@ -126,7 +124,7 @@ module.exports = React.createClass({
       React.createElement(
         "h2",
         null,
-        this.props.formContent
+        this.props.formTitle
       )
     );
   }
@@ -145,7 +143,7 @@ module.exports = React.createClass({
     return { type: "Dropdown", text: "Question" };
   },
   updateFormElement: function (newText) {
-    this.props.updateFormElement(newText.formName);
+    this.props.updateFormElement(newText.formTitle);
   },
   updateFormContent: function (event) {
     // This function should evolve as we change this element FROM a
@@ -157,10 +155,10 @@ module.exports = React.createClass({
       'div',
       { className: 'dropdown-form' },
       React.createElement(RIEInput, {
-        value: this.props.formName,
+        value: this.props.formTitle,
         change: this.updateFormElement,
-        propName: 'formName',
-        className: 'dropdown-formName'
+        propName: 'formTitle',
+        className: 'dropdown-formTitle'
       }),
       React.createElement(
         'select',
@@ -205,7 +203,7 @@ module.exports = React.createClass({
       React.createElement(
         "h2",
         null,
-        this.props.formName
+        this.props.formTitle
       ),
       React.createElement(
         "select",
@@ -296,8 +294,8 @@ module.exports = React.createClass({
     var element;
     if (this.props.element.type == "Table") {
       element = React.createElement(FormBank["Table"], {
-        formName: this.props.formName,
-        text: this.props.formName,
+        formTitle: this.props.formTitle,
+        text: this.props.formTitle,
         tableRows: this.props.tableRows,
         changeCellToForm: this.changeCellToForm,
         addRow: this.addRow,
@@ -309,7 +307,7 @@ module.exports = React.createClass({
       });
     } else {
       element = React.createElement(FormBank[this.props.element.type], {
-        formName: this.props.formName,
+        formTitle: this.props.formTitle,
         formContent: this.props.formContent,
         updateFormElement: this.updateFormElement
       });
@@ -340,8 +338,7 @@ module.exports = React.createClass({
 },{"./formBank.js":6,"react":188,"riek":194}],8:[function(require,module,exports){
 var React = require('react'),
     riek = require('riek'),
-    RIEInput = riek.RIEInput,
-    sectionToUpdate;
+    RIEInput = riek.RIEInput;
 
 module.exports = React.createClass({
   displayName: 'exports',
@@ -349,19 +346,18 @@ module.exports = React.createClass({
   getInitialState: function () {
     return { type: "Header", text: "Header" };
   },
-  updateFormContent: function (newText) {
-    sectionToUpdate = "formContent";
-    this.props.updateFormElement(newText.formContent, sectionToUpdate);
+  updateFormElement: function (newText) {
+    this.props.updateFormElement(newText.formTitle);
   },
   render: function () {
     return React.createElement(
       'div',
       { className: 'header-form' },
       React.createElement(RIEInput, {
-        value: this.props.formContent,
-        change: this.updateFormContent,
-        propName: 'formContent',
-        className: 'header-formContent'
+        value: this.props.formTitle,
+        change: this.updateFormElement,
+        propName: 'formTitle',
+        className: 'header-formTitle'
       })
     );
   }
@@ -380,7 +376,7 @@ module.exports = React.createClass({
       React.createElement(
         "h1",
         null,
-        this.props.formContent
+        this.props.formTitle
       )
     );
   }
@@ -409,7 +405,7 @@ module.exports = React.createClass({
           id: i,
           key: i,
           element: this.props.previewFormElements[i],
-          formName: this.props.previewFormElements[i].formName,
+          formTitle: this.props.previewFormElements[i].formTitle,
           tableRows: this.props.previewFormElements[i].tableRows
         }));
       } else {
@@ -417,7 +413,7 @@ module.exports = React.createClass({
           id: i,
           key: i,
           element: this.props.previewFormElements[i],
-          formName: this.props.previewFormElements[i].formName,
+          formTitle: this.props.previewFormElements[i].formTitle,
           formContent: this.props.previewFormElements[i].formContent
         }));
       }
@@ -566,12 +562,12 @@ module.exports = React.createClass({
     var element;
     if (this.props.element.type == "Table") {
       element = React.createElement(ViewBank["Table"], {
-        formName: this.props.formName,
+        formTitle: this.props.formTitle,
         tableRows: this.props.tableRows
       });
     } else {
       element = React.createElement(ViewBank[this.props.element.type], {
-        formName: this.props.formName,
+        formTitle: this.props.formTitle,
         formContent: this.props.formContent
       });
     }
@@ -972,17 +968,17 @@ module.exports = React.createClass({
     return { type: "UserText", text: "answer here" };
   },
   updateFormElement: function (newText) {
-    this.props.updateFormElement(newText.formName);
+    this.props.updateFormElement(newText.formTitle);
   },
   render: function () {
     return React.createElement(
       'div',
       { className: 'userText-form' },
       React.createElement(RIEInput, {
-        value: this.props.formName,
+        value: this.props.formTitle,
         change: this.updateFormElement,
-        propName: 'formName',
-        className: 'userText-formName'
+        propName: 'formTitle',
+        className: 'userText-formTitle'
       }),
       React.createElement(
         'span',
@@ -1014,7 +1010,7 @@ module.exports = React.createClass({
       React.createElement(
         "h2",
         null,
-        this.props.formName
+        this.props.formTitle
       ),
       React.createElement(
         "form",
@@ -1085,37 +1081,41 @@ var FormBuilder = React.createClass({
     var addColumn = function () {
       // don't delete per same reasons as above, but for columns.
     };
-    var updateFormName = function () {
+    var updateFormTitle = function () {
       // don't delete per same reasons as above, but for rows and table cells.
     };
     var updateFormContent = function () {
       // don't delete per same reasons as above, but for rows and table cells.
     };
     if (elementType == "Header" || elementType == "Description") {
-      // any additional form elements that do not require an editable 'formName' field should go here
-      formElementObject = { type: elementType, formContent: elementType };
+      // any additional form elements that do not require an editable 'formContent' field should go here
+      formElementObject = {
+        type: elementType,
+        formTitle: elementType
+      };
     } else if (elementType == "Table") {
       formElementObject = {
         type: elementType,
-        formName: "Table Title",
+        formTitle: "Table Title",
         addRow: addRow,
         addColumn: addColumn,
         tableRows: [{ columns: [{
-            // cellId:            null,
+            // cellId:          null,
             type: "unselected",
-            formName: "Question",
+            formTitle: "Question",
             formContent: "[Enter question]",
-            updateFormName: updateFormName,
+            updateFormTitle: updateFormTitle,
             updateFormContent: updateFormContent
           }],
-          updateFormName: updateFormName,
+          updateFormTitle: updateFormTitle,
           updateFormContent: updateFormContent
         }]
       };
     } else {
+
       formElementObject = {
         type: elementType,
-        formName: "Question",
+        formTitle: "Question",
         formContent: "Your answer"
       };
     }
@@ -1129,7 +1129,7 @@ var FormBuilder = React.createClass({
     this.setState({ currentForm: currentForm });
   },
   addColumn: function (id) {
-    var updateFormName = function () {
+    var updateFormTitle = function () {
       // don't delete per same reasons as above, but for rows and table cells.
     };
     var updateFormContent = function () {
@@ -1141,9 +1141,9 @@ var FormBuilder = React.createClass({
     for (var i = 0; i < tableRows.length; i++) {
       var newCellObject = {
         type: "unselected",
-        formName: "Question",
+        formTitle: "Question",
         formContent: "[Enter question]",
-        updateFormName: updateFormName,
+        updateFormTitle: updateFormTitle,
         updateFormContent: updateFormContent
       };
       tableRows[i].columns.push(newCellObject);
@@ -1159,18 +1159,18 @@ var FormBuilder = React.createClass({
   updateFormElement: function (newText, formElementId) {
     var currentForm = this.state.currentForm;
     var targetCell = currentForm[formElementId];
-    targetCell.formName = newText;
+    targetCell.formTitle = newText;
     this.setState({ currentForm: currentForm });
   },
   updateTableFormElement: function (newText, cellId, rowId, formElementId) {
     var currentForm = this.state.currentForm;
     var targetCell = currentForm[formElementId].tableRows[rowId].columns[cellId];
-    targetCell.formName = newText;
+    targetCell.formTitle = newText;
     this.setState({ currentForm: currentForm });
   },
 
   // add functions for:
-  //  updateTableFormName
+  //  updateTable
   //  updateTableFormContent
 
   deleteElement: function (id) {
@@ -1211,7 +1211,7 @@ var FormBuilder = React.createClass({
         updateFormElement: this.updateFormElement,
         updateTableFormElement: this.updateTableFormElement,
 
-        updateFormName: this.updateFormName,
+        updateFormTitle: this.updateFormTitle,
         updateFormContent: this.updateFormContent,
 
         updateFormElementText: this.updateFormElementText,

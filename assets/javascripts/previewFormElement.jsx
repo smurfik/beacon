@@ -17,14 +17,14 @@ module.exports = React.createClass({
     if (this.props.element.type == "Table") {
       element = React.createElement(
         ViewBank["Table"], {
-          formName:          this.props.formName,
+          formTitle:  this.props.formTitle,
           tableRows: this.props.tableRows,
         }
       );
     } else {
       element = React.createElement(
         ViewBank[this.props.element.type], {
-          formName:          this.props.formName,
+          formTitle:          this.props.formTitle,
           formContent:       this.props.formContent,
           // updateFormElement: this.updateFormElement
         }

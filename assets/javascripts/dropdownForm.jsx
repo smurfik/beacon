@@ -8,7 +8,7 @@ module.exports = React.createClass({
     return({type: "Dropdown", text: "Question"});
   },
   updateFormElement: function(newText) {
-    this.props.updateFormElement(newText.formName);
+    this.props.updateFormElement(newText.formTitle);
   },
   updateFormContent: function(event) {
     // This function should evolve as we change this element FROM a
@@ -19,10 +19,10 @@ module.exports = React.createClass({
     return(
       <div className="dropdown-form">
         <RIEInput
-          value     = {this.props.formName}
+          value     = {this.props.formTitle}
           change    = {this.updateFormElement}
-          propName  = "formName"
-          className = "dropdown-formName"
+          propName  = "formTitle"
+          className = "dropdown-formTitle"
         />
         <select className="dropdown-formContent" onChange={this.updateFormContent} value={this.props.formContent}>
           <option value = "response" > [select] </option>

@@ -39,8 +39,8 @@ module.exports = React.createClass({
     if (this.props.element.type == "Table") {
       element = React.createElement(
         FormBank["Table"], {
-          formName: this.props.formName,
-          text: this.props.formName,
+          formTitle: this.props.formTitle,
+          text: this.props.formTitle,
           tableRows: this.props.tableRows,
           changeCellToForm: this.changeCellToForm,
           addRow: this.addRow,
@@ -54,7 +54,7 @@ module.exports = React.createClass({
     } else {
       element = React.createElement(
         FormBank[this.props.element.type], {
-          formName:          this.props.formName,
+          formTitle:         this.props.formTitle,
           formContent:       this.props.formContent,
           updateFormElement: this.updateFormElement
         }

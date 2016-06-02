@@ -4,7 +4,7 @@ module.exports = React.createClass({
   render: function() {
     return(
       <div className="header-view">
-        <h1>{this.props.formContent}</h1>
+        <h1>{this.props.formTitle}</h1>
       </div>
     )
   }

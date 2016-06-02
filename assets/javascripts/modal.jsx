@@ -19,7 +19,7 @@ module.exports = React.createClass({
             id={i}
             key={i}
             element={this.props.previewFormElements[i]}
-            formName={this.props.previewFormElements[i].formName}
+            formTitle={this.props.previewFormElements[i].formTitle}
             tableRows={this.props.previewFormElements[i].tableRows}
           />
         )
@@ -29,7 +29,7 @@ module.exports = React.createClass({
             id={i}
             key={i}
             element={this.props.previewFormElements[i]}
-            formName={this.props.previewFormElements[i].formName}
+            formTitle={this.props.previewFormElements[i].formTitle}
             formContent={this.props.previewFormElements[i].formContent}
           />
         )

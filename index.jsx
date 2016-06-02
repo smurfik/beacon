@@ -28,38 +28,42 @@ var FormBuilder = React.createClass({
     var addColumn = function() {
       // don't delete per same reasons as above, but for columns.
     };
-    var updateFormName = function() {
+    var updateFormTitle = function() {
       // don't delete per same reasons as above, but for rows and table cells.
     };
     var updateFormContent = function() {
       // don't delete per same reasons as above, but for rows and table cells.
     };
-    if (elementType == "Header" || elementType == "Description") { // any additional form elements that do not require an editable 'formName' field should go here
-      formElementObject = {type: elementType, formContent: elementType};
+    if (elementType == "Header" || elementType == "Description") { // any additional form elements that do not require an editable 'formContent' field should go here
+      formElementObject = {
+        type:      elementType,
+        formTitle: elementType
+      };
     } else if (elementType == "Table") {
       formElementObject = {
-        type: elementType,
-        formName: "Table Title",
-        addRow: addRow,
-        addColumn: addColumn,
+        type:       elementType,
+        formTitle:  "Table Title",
+        addRow:     addRow,
+        addColumn:  addColumn,
         tableRows:
           [{columns:
             [{
-              // cellId:            null,
+              // cellId:          null,
               type:              "unselected",
-              formName:          "Question",
+              formTitle:         "Question",
               formContent:       "[Enter question]",
-              updateFormName:    updateFormName,
+              updateFormTitle:   updateFormTitle,
               updateFormContent: updateFormContent
             }],
-            updateFormName: updateFormName,
+            updateFormTitle:   updateFormTitle,
             updateFormContent: updateFormContent
           }]
       }
     } else {
+
       formElementObject = {
         type: elementType,
-        formName: "Question",
+        formTitle: "Question",
         formContent: "Your answer"
       };
     }
@@ -73,7 +77,7 @@ var FormBuilder = React.createClass({
     this.setState({currentForm: currentForm});
   },
   addColumn: function(id) {
-    var updateFormName = function() {
+    var updateFormTitle = function() {
       // don't delete per same reasons as above, but for rows and table cells.
     };
     var updateFormContent = function() {
@@ -85,9 +89,9 @@ var FormBuilder = React.createClass({
     for (var i = 0; i < tableRows.length; i++) {
       var newCellObject = {
         type: "unselected",
-        formName:          "Question",
+        formTitle:         "Question",
         formContent:       "[Enter question]",
-        updateFormName:    updateFormName,
+        updateFormTitle:   updateFormTitle,
         updateFormContent: updateFormContent
       };
       tableRows[i].columns.push(newCellObject);
@@ -103,20 +107,19 @@ var FormBuilder = React.createClass({
   updateFormElement: function(newText, formElementId) {
     var currentForm = this.state.currentForm;
     var targetCell  = currentForm[formElementId];
-    targetCell.formName = newText
+    targetCell.formTitle = newText
     this.setState({currentForm: currentForm});
   },
   updateTableFormElement: function(newText, cellId, rowId, formElementId) {
     var currentForm = this.state.currentForm;
     var targetCell = currentForm[formElementId].tableRows[rowId].columns[cellId];
-    targetCell.formName = newText;
+    targetCell.formTitle = newText;
     this.setState({currentForm: currentForm})
   },
 
   // add functions for:
-  //  updateTableFormName
+  //  updateTable
   //  updateTableFormContent
-
 
   deleteElement: function(id) {
     var currentForm = this.state.currentForm;
@@ -156,7 +159,7 @@ var FormBuilder = React.createClass({
           updateFormElement={this.updateFormElement}
           updateTableFormElement={this.updateTableFormElement}
 
-          updateFormName={this.updateFormName}
+          updateFormTitle={this.updateFormTitle}
           updateFormContent={this.updateFormContent}
 
           updateFormElementText={this.updateFormElementText}
