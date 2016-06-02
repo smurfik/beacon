@@ -27,7 +27,7 @@ module.exports = React.createClass({
         React.createElement(
           localViewBank[this.props.type], {
             // cellId:            this.props.id,
-            formName:          this.props.formName,
+            formTitle:         this.props.formTitle,
             formContent:       this.props.formContent,
           }
         )

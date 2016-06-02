@@ -2,8 +2,7 @@ var React     = require('react'),
     riek      = require('riek'),
     RIEInput  = riek.RIEInput,
     FormBank  = require('./formBank.js'),
-    TableCell = require('./tableCell.jsx'),
-    sectionToUpdate;
+    TableCell = require('./tableCell.jsx');
 
 module.exports = React.createClass({
   changeCellToForm: function(cellType, cellId) {
@@ -25,7 +24,7 @@ module.exports = React.createClass({
           key               = {i}
           element           = {this.props.columns[i]}
           type              = {this.props.columns[i].type}
-          formName          = {this.props.columns[i].formName}
+          formTitle         = {this.props.columns[i].formTitle}
           formContent       = {this.props.columns[i].formContent}
           updateFormElement = {this.updateFormElement}
           changeCellToForm={this.changeCellToForm}

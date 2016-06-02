@@ -2,8 +2,7 @@ var React = require('react'),
     riek = require('riek'),
     RIEInput = riek.RIEInput,
     FormBank = require('./formBank.js'),
-    NewRow = require('./newRow.jsx'),
-    sectionToUpdate;
+    NewRow = require('./newRow.jsx');
 
 module.exports = React.createClass({
   getInitialState: function() {
@@ -16,7 +15,7 @@ module.exports = React.createClass({
     for (var i = 0; i < numberOfColumns; i++) {
       var newCellObject = {
         type:        "unselected",
-        formName:    "Question",
+        formTitle:   "Question",
         formContent: "[Enter question]",
         testProp:    "test prop appears"
       } // this one is added so that any new row contains at least 1 cell
@@ -30,7 +29,7 @@ module.exports = React.createClass({
   },
   updateFormElement: function(newText, cellId, rowId) {
     if (cellId == undefined) {
-      this.props.updateFormElement(newText.formName); // this is if we're just updating the name of the Table form
+      this.props.updateFormElement(newText.formTitle); // this is if we're just updating the name of the Table form
     } else {
       this.props.updateFormElement(newText, cellId, rowId) // this is if we're updating the text within a tabel cell
     }
@@ -60,10 +59,10 @@ module.exports = React.createClass({
     return(
       <div className="table-form">
         <RIEInput
-          value     = {this.props.formName}
+          value     = {this.props.formTitle}
           change    = {this.updateFormElement}
-          propName  = "formName"
-          className = "table-formName"
+          propName  = "formTitle"
+          className = "table-formTitle"
         />
       <button className="add-column-button" onClick={this.addColumn}>Add Column</button>
         <form>

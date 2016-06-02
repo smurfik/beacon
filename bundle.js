@@ -471,8 +471,7 @@ var React = require('react'),
     riek = require('riek'),
     RIEInput = riek.RIEInput,
     FormBank = require('./formBank.js'),
-    TableCell = require('./tableCell.jsx'),
-    sectionToUpdate;
+    TableCell = require('./tableCell.jsx');
 
 module.exports = React.createClass({
   displayName: 'exports',
@@ -495,7 +494,7 @@ module.exports = React.createClass({
         key: i,
         element: this.props.columns[i],
         type: this.props.columns[i].type,
-        formName: this.props.columns[i].formName,
+        formTitle: this.props.columns[i].formTitle,
         formContent: this.props.columns[i].formContent,
         updateFormElement: this.updateFormElement,
         changeCellToForm: this.changeCellToForm
@@ -528,7 +527,7 @@ module.exports = React.createClass({
         key: i,
         element: this.props.columns[i],
         type: this.props.columns[i].type,
-        formName: this.props.columns[i].formName,
+        formTitle: this.props.columns[i].formTitle,
         formContent: this.props.columns[i].formContent
       }));
     }
@@ -593,8 +592,7 @@ var React = require('react'),
   Description: Description,
   UserText: UserText,
   Dropdown: Dropdown
-},
-    sectionToUpdate;
+};
 
 module.exports = React.createClass({
   displayName: 'exports',
@@ -647,10 +645,8 @@ module.exports = React.createClass({
       );
     } else {
       var cellBody = React.createElement(localFormBank[this.props.type], {
-        // formName:        "Question",
-        // formName:        this.props.type,
         cellId: this.props.id,
-        formName: this.props.formName,
+        formTitle: this.props.formTitle,
         formContent: this.props.formContent,
         updateFormElement: this.updateFormElement
       });
@@ -702,7 +698,7 @@ module.exports = React.createClass({
     } else {
       var cellBody = React.createElement(localViewBank[this.props.type], {
         // cellId:            this.props.id,
-        formName: this.props.formName,
+        formTitle: this.props.formTitle,
         formContent: this.props.formContent
       });
       body = React.createElement(
@@ -725,8 +721,7 @@ var React = require('react'),
     riek = require('riek'),
     RIEInput = riek.RIEInput,
     FormBank = require('./formBank.js'),
-    NewRow = require('./newRow.jsx'),
-    sectionToUpdate;
+    NewRow = require('./newRow.jsx');
 
 module.exports = React.createClass({
   displayName: 'exports',
@@ -741,7 +736,7 @@ module.exports = React.createClass({
     for (var i = 0; i < numberOfColumns; i++) {
       var newCellObject = {
         type: "unselected",
-        formName: "Question",
+        formTitle: "Question",
         formContent: "[Enter question]",
         testProp: "test prop appears"
       }; // this one is added so that any new row contains at least 1 cell
@@ -755,7 +750,7 @@ module.exports = React.createClass({
   },
   updateFormElement: function (newText, cellId, rowId) {
     if (cellId == undefined) {
-      this.props.updateFormElement(newText.formName); // this is if we're just updating the name of the Table form
+      this.props.updateFormElement(newText.formTitle); // this is if we're just updating the name of the Table form
     } else {
         this.props.updateFormElement(newText, cellId, rowId); // this is if we're updating the text within a tabel cell
       }
@@ -790,10 +785,10 @@ module.exports = React.createClass({
       'div',
       { className: 'table-form' },
       React.createElement(RIEInput, {
-        value: this.props.formName,
+        value: this.props.formTitle,
         change: this.updateFormElement,
-        propName: 'formName',
-        className: 'table-formName'
+        propName: 'formTitle',
+        className: 'table-formTitle'
       }),
       React.createElement(
         'button',
@@ -870,28 +865,24 @@ module.exports = React.createClass({
       React.createElement(
         'h2',
         null,
-        this.props.formName
+        this.props.formTitle
       ),
       React.createElement(
-        'form',
+        'table',
         null,
         React.createElement(
-          'table',
+          'thead',
           null,
           React.createElement(
-            'thead',
+            'tr',
             null,
-            React.createElement(
-              'tr',
-              null,
-              columnHeaders
-            )
-          ),
-          React.createElement(
-            'tbody',
-            null,
-            rows
+            columnHeaders
           )
+        ),
+        React.createElement(
+          'tbody',
+          null,
+          rows
         )
       )
     );

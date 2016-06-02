@@ -10,8 +10,7 @@ var React       = require('react'),
       Description: Description,
       UserText: UserText,
       Dropdown: Dropdown,
-    },
-    sectionToUpdate;
+    };
 
 module.exports = React.createClass({
   changeCellToForm: function(event) {
@@ -46,10 +45,8 @@ module.exports = React.createClass({
       var cellBody = (
         React.createElement(
           localFormBank[this.props.type], {
-            // formName:        "Question",
-            // formName:        this.props.type,
             cellId:            this.props.id,
-            formName:          this.props.formName,
+            formTitle:         this.props.formTitle,
             formContent:       this.props.formContent,
             updateFormElement: this.updateFormElement
           }

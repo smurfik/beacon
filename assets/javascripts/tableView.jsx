@@ -26,19 +26,17 @@ module.exports = React.createClass({
     }
     return(
       <div className="table-form">
-      <h2>{this.props.formName}</h2>
-        <form>
-          <table>
-            <thead>
-              <tr>
-                {columnHeaders}
-              </tr>
-            </thead>
-            <tbody>
-              {rows}
-            </tbody>
-          </table>
-        </form>
+      <h2>{this.props.formTitle}</h2>
+        <table>
+          <thead>
+            <tr>
+              {columnHeaders}
+            </tr>
+          </thead>
+          <tbody>
+            {rows}
+          </tbody>
+        </table>
       </div>
     )
   }

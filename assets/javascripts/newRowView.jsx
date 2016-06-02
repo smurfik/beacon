@@ -14,7 +14,7 @@ module.exports = React.createClass({
           key               = {i}
           element           = {this.props.columns[i]}
           type              = {this.props.columns[i].type}
-          formName          = {this.props.columns[i].formName}
+          formTitle         = {this.props.columns[i].formTitle}
           formContent       = {this.props.columns[i].formContent}
         />
       )
