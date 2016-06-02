@@ -7,10 +7,17 @@ module.exports = React.createClass({
   getInitialState: function() {
     return({type: "UserText", text: "answer here"});
   },
-  updateFormName: function(newText) {
-    sectionToUpdate = "formName";
-    this.props.updateFormElement(newText.formName, sectionToUpdate)
+  updateFormElement: function(newText) {
+    // sectionToUpdate = "formName";
+    // this.props.updateFormElement(newText.formName, sectionToUpdate);
+    console.log("UFE triggered in userTextForm", newText.formName);
+    this.props.updateFormElement(newText.formName);
   },
+
+  // updateFormName: function(newText) {
+  //   sectionToUpdate = "formName";
+  //   this.props.updateFormElement(newText.formName, sectionToUpdate)
+  // },
   // updateFormContent: function(newText) {
   //   sectionToUpdate = "formContent";
   //   // this.props.updateFormElement(newText.formContent, sectionToUpdate)
@@ -21,7 +28,7 @@ module.exports = React.createClass({
       <div className="userText-form">
         <RIEInput
           value     = {this.props.formName}
-          change    = {this.updateFormName}
+          change    = {this.updateFormElement}
           propName  = "formName"
           className = "userText-formName"
         />

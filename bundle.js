@@ -24,6 +24,7 @@ module.exports = React.createClass({
           addColumn: this.props.addColumn,
           changeCellToForm: this.props.changeCellToForm,
           updateFormElement: this.props.updateFormElement,
+          updateTableFormElement: this.props.updateTableFormElement,
 
           updateFormElementText: this.props.updateFormElementText,
           updateTableElementText: this.props.updateTableElementText,
@@ -260,14 +261,22 @@ var React = require('react'),
 module.exports = React.createClass({
   displayName: 'exports',
 
-  updateFormElement: function (newText, sectionToUpdate, cellId, rowId) {
+  // updateFormElement: function(newText, sectionToUpdate, cellId, rowId) {
+  updateFormElement: function (newText, cellId, rowId) {
     var formElementId = this.props.id;
     if (cellId == undefined) {
       //i.e. if we are updating the text of a standard form element in builder, not a tableCell, which is form within a Table
-      this.props.updateFormElement(newText, formElementId, sectionToUpdate);
+      // this.props.updateFormElement(newText, formElementId, sectionToUpdate);
+      console.log("PLAIN UFE triggered in formElement", newText, formElementId);
+      this.props.updateFormElement(newText, formElementId);
     } else {
-      this.props.updateTableFormElement(newText, cellId, rowId, formElementId, sectionToUpdate);
+      // this.props.updateTableFormElement(newText, cellId, rowId, formElementId, sectionToUpdate);
+      // console.log("TABLE UFE triggered in formElement", newText, cellId, rowId, formElementId);
+      console.log("sanity check: newText: ", newText, "cellId: ", cellId, "rowId: ", rowId, "formElementId: ", formElementId);
+      this.props.updateTableFormElement(newText, cellId, rowId, formElementId);
     }
+    // this.props.updateTableFormElement(newText, cellId, rowId, formElementId);
+    // this.props.updateFormElement(newText, cellId, rowId, formElementId);
   },
   deleteElement: function (event, id) {
     event.preventDefault();
@@ -485,11 +494,14 @@ module.exports = React.createClass({
     var rowId = this.props.id;
     this.props.changeCellToForm(cellType, cellId, rowId);
   },
-  updateFormElement: function (newText, sectionToUpdate, cellId) {
+  // updateFormElement: function(newText, sectionToUpdate, cellId) {
+  updateFormElement: function (newText, cellId) {
     var rowId = this.props.id;
-    console.log("triggered in NewRow, ", newText, sectionToUpdate, cellId, rowId);
+    // console.log("triggered in NewRow, ", newText, sectionToUpdate, cellId, rowId);
+    // debugger
     // this.props.updateElementText(newText, sectionToUpdate, cellId, rowId);
-    this.props.updateFormElement(newText, sectionToUpdate, cellId, rowId);
+    console.log("UFE triggered in newRow", newText, cellId, rowId);
+    this.props.updateFormElement(newText, cellId, rowId);
   },
   // updateElementText: function(newText, cellId) {
   //   var rowId = this.props.id
@@ -507,13 +519,13 @@ module.exports = React.createClass({
         type: this.props.columns[i].type,
         formName: this.props.columns[i].formName,
         formContent: this.props.columns[i].formContent,
-        updateFormName: this.updateFormElement,
-        updateFormContent: this.updateFormElement,
+        updateFormElement: this.updateFormElement,
 
         changeCellToForm: this.changeCellToForm
       }));
     }
-    // updateFormElement = {this.updateFormElement}
+    // updateFormName    = {this.updateFormElement}
+    // updateFormContent = {this.updateFormElement}
     // updateElementText={this.updateElementText}
     // text={this.props.columns[i].text}
 
@@ -615,17 +627,25 @@ var React = require('react'),
 module.exports = React.createClass({
   displayName: 'exports',
 
-
   changeCellToForm: function (event) {
     var cellId = this.props.id; // == this cell's id, passed up so that the right cell can be rerendered as a form.
     var cellType = event.target.value;
     this.props.changeCellToForm(cellType, cellId);
   },
-  updateFormName: function (newText) {
-    sectionToUpdate = "formName";
-    console.log("updateFormName triggered in TABLECELL module: *", newText.formName, "*", sectionToUpdate, this.props.id);
-    // this.props.updateFormElement(newText.formName, sectionToUpdate, cellId);
+  updateFormElement: function (newText) {
+    var cellId = this.props.id; // == this cell's id, passed up so that the right cell's contents can be updated.
+    // console.log(sectionToUpdate)
+    // debugger
+    // this.props.updateFormElement(newText, sectionToUpdate, cellId);
+    console.log("UFE triggered in tableCell", newText, cellId);
+    this.props.updateFormElement(newText, cellId);
   },
+
+  // updateFormName: function(newText) {
+  //   sectionToUpdate = "formName";
+  //   console.log("updateFormName triggered in TABLECELL module: *", newText.formName, "*", sectionToUpdate, this.props.id);
+  //   // this.props.updateFormElement(newText.formName, sectionToUpdate, cellId);
+  // },
   // updateFormContent: function(newText) {
   //   sectionToUpdate = "formContent";
   //   // this.props.updateFormElement(newText.formContent, sectionToUpdate)
@@ -681,8 +701,10 @@ module.exports = React.createClass({
         cellId: this.props.id,
         formName: this.props.formName,
         formContent: this.props.formContent,
-        updateFormName: this.updateFormName,
-        updateFormContent: this.updateFormContent
+        updateFormElement: this.updateFormElement
+
+        // updateFormName:    this.updateFormName,
+        // updateFormContent: this.updateFormContent
 
         // SOMETHING NEEDS TO BE HERE AS A PROP FOR THE CELL TO RERENDER AS A FORM:
         // updateFormElement: this.props.updateFormElement
@@ -790,18 +812,17 @@ module.exports = React.createClass({
     event.preventDefault();
     this.props.addColumn();
   },
-  updateFormElement: function (newText, sectionToUpdate, cellId, rowId) {
-    // console.log(newText, sectionToUpdate);
+  // updateFormElement: function(newText, sectionToUpdate, cellId, rowId) {
+  updateFormElement: function (newText, cellId, rowId) {
 
-    // PASS UP CELL, ROW, ELEMENT ID AS WELL?
-
-    if (sectionToUpdate == "formName") {
-      // console.log("triggered in TableForm", newText, sectionToUpdate)
-      this.props.updateFormElement(newText.formName, sectionToUpdate);
-    } else if (sectionToUpdate == "formContent") {
-      // console.log("triggered in TableForm", newText, sectionToUpdate, sectionToUpdate, cellId, rowId)
-      this.props.updateFormElement(newText.formContent, sectionToUpdate);
-    }
+    // if (sectionToUpdate == "formName") {
+    //   // console.log("triggered in TableForm", newText, sectionToUpdate)
+    //   this.props.updateFormElement(newText.formName, sectionToUpdate)
+    // } else if (sectionToUpdate == "formContent") {
+    //   // console.log("triggered in TableForm", newText, sectionToUpdate, sectionToUpdate, cellId, rowId)
+    //   this.props.updateFormElement(newText.formContent, sectionToUpdate)
+    // }
+    this.props.updateFormElement(newText, cellId, rowId);
   },
 
   updateFormName: function (newText) {
@@ -834,11 +855,12 @@ module.exports = React.createClass({
         element: this.props.tableRows[i],
         columns: this.props.tableRows[i].columns,
         changeCellToForm: this.props.changeCellToForm,
-        updateFormElement: this.updateFormElement,
+        updateFormElement: this.props.updateFormElement,
 
         updateElementText: this.updateTableElementText
       }));
     }
+    // updateFormElement={this.updateFormElement}
 
     for (i = 0; i < this.props.tableRows[0].columns.length; i++) {
       columnHeaders.push(React.createElement(
@@ -1030,10 +1052,17 @@ module.exports = React.createClass({
   getInitialState: function () {
     return { type: "UserText", text: "answer here" };
   },
-  updateFormName: function (newText) {
-    sectionToUpdate = "formName";
-    this.props.updateFormElement(newText.formName, sectionToUpdate);
+  updateFormElement: function (newText) {
+    // sectionToUpdate = "formName";
+    // this.props.updateFormElement(newText.formName, sectionToUpdate);
+    console.log("UFE triggered in userTextForm", newText.formName);
+    this.props.updateFormElement(newText.formName);
   },
+
+  // updateFormName: function(newText) {
+  //   sectionToUpdate = "formName";
+  //   this.props.updateFormElement(newText.formName, sectionToUpdate)
+  // },
   // updateFormContent: function(newText) {
   //   sectionToUpdate = "formContent";
   //   // this.props.updateFormElement(newText.formContent, sectionToUpdate)
@@ -1045,7 +1074,7 @@ module.exports = React.createClass({
       { className: 'userText-form' },
       React.createElement(RIEInput, {
         value: this.props.formName,
-        change: this.updateFormName,
+        change: this.updateFormElement,
         propName: 'formName',
         className: 'userText-formName'
       }),
@@ -1221,15 +1250,28 @@ var FormBuilder = React.createClass({
     targetCell.type = cellType;
     this.setState({ currentForm: currentForm });
   },
-  updateFormElement: function (newText, formElementId, sectionToUpdate) {
+  // updateFormElement: function(newText, formElementId, sectionToUpdate) {
+  updateFormElement: function (newText, formElementId) {
     var currentForm = this.state.currentForm;
     var targetCell = currentForm[formElementId];
-    if (sectionToUpdate == "formName") {
-      targetCell.formName = newText;
-    } else if (sectionToUpdate == "formContent") {
-      targetCell.formContent = newText;
-    }
+    // if (sectionToUpdate == "formName") {
+    //   targetCell.formName = newText
+    // } else if (sectionToUpdate == "formContent") {
+    //   targetCell.formContent = newText;
+    // }
+    targetCell.formName = newText;
     this.setState({ currentForm: currentForm });
+    console.log("UFE triggered in Index", targetCell);
+  },
+
+  updateTableFormElement: function (newText, cellId, rowId, formElementId) {
+    var currentForm = this.state.currentForm;
+    var targetCell = currentForm[formElementId].tableRows[rowId].columns[cellId];
+    // console.log(targetCell);
+    // console.log(targetCell.props);
+    targetCell.formName = newText;
+    this.setState({ currentForm: currentForm });
+    console.log("UTFE triggered in Index", targetCell);
   },
 
   // add functions for:
@@ -1279,6 +1321,7 @@ var FormBuilder = React.createClass({
         moveElementUp: this.moveElementUp,
         moveElementDown: this.moveElementDown,
         updateFormElement: this.updateFormElement,
+        updateTableFormElement: this.updateTableFormElement,
 
         updateFormName: this.updateFormName,
         updateFormContent: this.updateFormContent,

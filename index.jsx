@@ -100,15 +100,28 @@ var FormBuilder = React.createClass({
     targetCell.type = cellType;
     this.setState({currentForm: currentForm});
   },
-  updateFormElement: function(newText, formElementId, sectionToUpdate) {
+  // updateFormElement: function(newText, formElementId, sectionToUpdate) {
+  updateFormElement: function(newText, formElementId) {
     var currentForm = this.state.currentForm;
     var targetCell  = currentForm[formElementId];
-    if (sectionToUpdate == "formName") {
-      targetCell.formName = newText
-    } else if (sectionToUpdate == "formContent") {
-      targetCell.formContent = newText;
-    }
+    // if (sectionToUpdate == "formName") {
+    //   targetCell.formName = newText
+    // } else if (sectionToUpdate == "formContent") {
+    //   targetCell.formContent = newText;
+    // }
+    targetCell.formName = newText
     this.setState({currentForm: currentForm});
+    console.log("UFE triggered in Index", targetCell)
+  },
+
+  updateTableFormElement: function(newText, cellId, rowId, formElementId) {
+    var currentForm = this.state.currentForm;
+    var targetCell = currentForm[formElementId].tableRows[rowId].columns[cellId];
+    // console.log(targetCell);
+    // console.log(targetCell.props);
+    targetCell.formName = newText;
+    this.setState({currentForm: currentForm})
+    console.log("UTFE triggered in Index", targetCell)
   },
 
   // add functions for:
@@ -158,6 +171,7 @@ var FormBuilder = React.createClass({
           moveElementUp={this.moveElementUp}
           moveElementDown={this.moveElementDown}
           updateFormElement={this.updateFormElement}
+          updateTableFormElement={this.updateTableFormElement}
 
           updateFormName={this.updateFormName}
           updateFormContent={this.updateFormContent}

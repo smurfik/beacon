@@ -28,18 +28,17 @@ module.exports = React.createClass({
     event.preventDefault();
     this.props.addColumn();
   },
-  updateFormElement: function(newText, sectionToUpdate, cellId, rowId) {
-    // console.log(newText, sectionToUpdate);
+  // updateFormElement: function(newText, sectionToUpdate, cellId, rowId) {
+  updateFormElement: function(newText, cellId, rowId) {
 
-    // PASS UP CELL, ROW, ELEMENT ID AS WELL?
-
-    if (sectionToUpdate == "formName") {
-      // console.log("triggered in TableForm", newText, sectionToUpdate)
-      this.props.updateFormElement(newText.formName, sectionToUpdate)
-    } else if (sectionToUpdate == "formContent") {
-      // console.log("triggered in TableForm", newText, sectionToUpdate, sectionToUpdate, cellId, rowId)
-      this.props.updateFormElement(newText.formContent, sectionToUpdate)
-    }
+    // if (sectionToUpdate == "formName") {
+    //   // console.log("triggered in TableForm", newText, sectionToUpdate)
+    //   this.props.updateFormElement(newText.formName, sectionToUpdate)
+    // } else if (sectionToUpdate == "formContent") {
+    //   // console.log("triggered in TableForm", newText, sectionToUpdate, sectionToUpdate, cellId, rowId)
+    //   this.props.updateFormElement(newText.formContent, sectionToUpdate)
+    // }
+    this.props.updateFormElement(newText, cellId, rowId)
   },
 
   updateFormName: function(newText) {
@@ -73,12 +72,13 @@ module.exports = React.createClass({
           element={this.props.tableRows[i]}
           columns={this.props.tableRows[i].columns}
           changeCellToForm={this.props.changeCellToForm}
-          updateFormElement={this.updateFormElement}
+          updateFormElement={this.props.updateFormElement}
 
           updateElementText={this.updateTableElementText}
         />
       );
     }
+          // updateFormElement={this.updateFormElement}
 
     for (i = 0; i < this.props.tableRows[0].columns.length; i++) {
       columnHeaders.push(<th key={i}> Column {i+1} </th>);

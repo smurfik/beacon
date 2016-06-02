@@ -14,17 +14,25 @@ var React       = require('react'),
     sectionToUpdate;
 
 module.exports = React.createClass({
-
   changeCellToForm: function(event) {
     var cellId   = this.props.id // == this cell's id, passed up so that the right cell can be rerendered as a form.
     var cellType = event.target.value
     this.props.changeCellToForm(cellType, cellId);
   },
-  updateFormName: function(newText) {
-    sectionToUpdate = "formName";
-    console.log("updateFormName triggered in TABLECELL module: *", newText.formName, "*", sectionToUpdate, this.props.id);
-    // this.props.updateFormElement(newText.formName, sectionToUpdate, cellId);
+  updateFormElement: function(newText) {
+    var cellId = this.props.id // == this cell's id, passed up so that the right cell's contents can be updated.
+    // console.log(sectionToUpdate)
+    // debugger
+    // this.props.updateFormElement(newText, sectionToUpdate, cellId);
+    console.log("UFE triggered in tableCell", newText, cellId);
+    this.props.updateFormElement(newText, cellId);
   },
+
+  // updateFormName: function(newText) {
+  //   sectionToUpdate = "formName";
+  //   console.log("updateFormName triggered in TABLECELL module: *", newText.formName, "*", sectionToUpdate, this.props.id);
+  //   // this.props.updateFormElement(newText.formName, sectionToUpdate, cellId);
+  // },
   // updateFormContent: function(newText) {
   //   sectionToUpdate = "formContent";
   //   // this.props.updateFormElement(newText.formContent, sectionToUpdate)
@@ -64,8 +72,10 @@ module.exports = React.createClass({
             cellId:            this.props.id,
             formName:          this.props.formName,
             formContent:       this.props.formContent,
-            updateFormName:    this.updateFormName,
-            updateFormContent: this.updateFormContent
+            updateFormElement: this.updateFormElement
+
+            // updateFormName:    this.updateFormName,
+            // updateFormContent: this.updateFormContent
 
             // SOMETHING NEEDS TO BE HERE AS A PROP FOR THE CELL TO RERENDER AS A FORM:
             // updateFormElement: this.props.updateFormElement
