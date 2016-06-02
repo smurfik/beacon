@@ -29,12 +29,11 @@ module.exports = React.createClass({
     this.props.addColumn();
   },
   updateFormElement: function(newText, cellId, rowId) {
-    this.props.updateFormElement(newText, cellId, rowId)
-  },
-
-  updateFormName: function(newText) {
-    sectionToUpdate = "formName";
-    this.props.updateFormElement(newText.formName, sectionToUpdate)
+    if (cellId == undefined) {
+      this.props.updateFormElement(newText.formName); // this is if we're just updating the name of the Table form
+    } else {
+      this.props.updateFormElement(newText, cellId, rowId) // this is if we're updating the text within a tabel cell
+    }
   },
 
   render: function() {
@@ -51,12 +50,9 @@ module.exports = React.createClass({
           columns={this.props.tableRows[i].columns}
           changeCellToForm={this.props.changeCellToForm}
           updateFormElement={this.props.updateFormElement}
-
-          updateElementText={this.updateTableElementText}
         />
       );
     }
-          // updateFormElement={this.updateFormElement}
 
     for (i = 0; i < this.props.tableRows[0].columns.length; i++) {
       columnHeaders.push(<th key={i}> Column {i+1} </th>);
@@ -65,7 +61,7 @@ module.exports = React.createClass({
       <div className="table-form">
         <RIEInput
           value     = {this.props.formName}
-          change    = {this.updateFormName}
+          change    = {this.updateFormElement}
           propName  = "formName"
           className = "table-formName"
         />
