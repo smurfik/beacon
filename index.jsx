@@ -97,11 +97,6 @@ var FormBuilder = React.createClass({
     targetCell.formTitle = newText;
     this.setState({currentForm: currentForm})
   },
-
-  // add functions for:
-  //  updateTable
-  //  updateTableFormContent
-
   deleteElement: function(id) {
     var currentForm = this.state.currentForm;
     currentForm.splice(id, 1);
