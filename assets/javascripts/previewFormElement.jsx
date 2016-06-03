@@ -7,10 +7,10 @@ module.exports = React.createClass({
   updateAnswer: function(answer, cellId, rowId) {
     var viewElementId = this.props.id;
     if (cellId == undefined) {  // if element being updated is not in a table
-      console.log("triggered in previewFormElement: ", answer, viewElementId)
+      // console.log("triggered in previewFormElement: ", answer, viewElementId)
       this.props.updateAnswer(answer, viewElementId);
     } else {
-      console.log("triggered in previewFormElement: ", answer, cellId, rowId, viewElementId)
+      // console.log("triggered in previewFormElement: ", answer, cellId, rowId, viewElementId)
       this.props.updateTableAnswer(answer, cellId, rowId, viewElementId);
     }
   },

@@ -388,9 +388,15 @@ module.exports = React.createClass({
 
   // },
   showAnswers: function () {
-    // collect answers of all PreviewFormElements (iterate through them)
-    // and display as JSON in console,
-    // eventually returning as JSON in a new route/view for AJAX
+    // collect answers of all PreviewFormElements and display as JSON in console.
+    // Eventually this should return JSON in a new route/view, for AJAX.
+    var previewAnswers = this.state.previewAnswers;
+    allAnswersObject = {};
+
+    for (i = 0; i < previewAnswers.length; i++) {
+      allAnswersObject[i] = previewAnswers[i].answer;
+    }
+    console.log(allAnswersObject);
   },
   render: function () {
     var previewFormElements = [],
@@ -455,7 +461,7 @@ module.exports = React.createClass({
       React.createElement(
         'button',
         { onClick: this.showAnswers },
-        'Submit'
+        'Submit Form'
       )
     );
 
@@ -558,10 +564,10 @@ module.exports = React.createClass({
     var viewElementId = this.props.id;
     if (cellId == undefined) {
       // if element being updated is not in a table
-      console.log("triggered in previewFormElement: ", answer, viewElementId);
+      // console.log("triggered in previewFormElement: ", answer, viewElementId)
       this.props.updateAnswer(answer, viewElementId);
     } else {
-      console.log("triggered in previewFormElement: ", answer, cellId, rowId, viewElementId);
+      // console.log("triggered in previewFormElement: ", answer, cellId, rowId, viewElementId)
       this.props.updateTableAnswer(answer, cellId, rowId, viewElementId);
     }
   },
@@ -1158,14 +1164,6 @@ var FormBuilder = React.createClass({
     currentForm[id + 1] = movedDown;
     currentForm[id] = movedUp;
     this.setState({ currentForm: currentForm });
-  },
-  updatePreviewAnswer: function (answer, viewElementId) {
-    var previewAnswers = this.state.previewAnswers;
-    // HERE
-    // debugger
-    // var targetAnswer = previewAnswers[viewElementId];
-    // targetAnswer.answer = answer;
-    // this.setState({previewAnswers: previewAnswers})
   },
   render: function () {
     return React.createElement(

@@ -18,9 +18,15 @@ module.exports = React.createClass({
 
   // },
   showAnswers: function() {
-    // collect answers of all PreviewFormElements (iterate through them)
-    // and display as JSON in console,
-    // eventually returning as JSON in a new route/view for AJAX
+    // collect answers of all PreviewFormElements and display as JSON in console.
+    // Eventually this should return JSON in a new route/view, for AJAX.
+    var previewAnswers   = this.state.previewAnswers;
+        allAnswersObject = {}
+
+    for (i = 0; i < previewAnswers.length; i++) {
+      allAnswersObject[i] = previewAnswers[i].answer;
+    }
+    console.log(allAnswersObject);
   },
   render: function() {
     var previewFormElements = [],
@@ -71,7 +77,7 @@ module.exports = React.createClass({
           <button onClick={this.closeModal}>Close preview</button>
         </header>
         {bodyContent}
-        <button onClick={this.showAnswers}>Submit</button>
+        <button onClick={this.showAnswers}>Submit Form</button>
       </div>
     )
 

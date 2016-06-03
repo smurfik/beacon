@@ -123,14 +123,6 @@ var FormBuilder = React.createClass({
     currentForm[(id)] = movedUp;
     this.setState({currentForm: currentForm});
   },
-  updatePreviewAnswer: function(answer, viewElementId) {
-    var previewAnswers = this.state.previewAnswers;
-    // HERE
-    // debugger
-    // var targetAnswer = previewAnswers[viewElementId];
-    // targetAnswer.answer = answer;
-    // this.setState({previewAnswers: previewAnswers})
-  },
   render: function(){
     return (
       <div>
