@@ -381,9 +381,14 @@ module.exports = React.createClass({
     targetAnswer.answer = answer;
     this.setState({ previewAnswers: previewAnswers });
   },
-  // updateTableAnswer: function () {
-
-  // },
+  updateTableAnswer: function (answer, cellId, rowId, viewElementId) {
+    var previewAnswers = this.state.previewAnswers;
+    console.log("triggered in modal, ", answer, cellId, rowId, viewElementId);
+    // debugger
+    targetAnswer = previewAnswers[viewElementId].tableRows[rowId].columns[cellId];
+    targetAnswer.answer = answer;
+    this.setState({ previewAnswers: previewAnswers });
+  },
   showAnswers: function () {
     // collect answers of all PreviewFormElements and display as JSON in console.
     // Eventually this should return JSON in a new route/view, for AJAX.
@@ -408,7 +413,8 @@ module.exports = React.createClass({
           key: i,
           element: this.props.previewFormElements[i],
           formTitle: this.props.previewFormElements[i].formTitle,
-          tableRows: this.props.previewFormElements[i].tableRows
+          tableRows: this.props.previewFormElements[i].tableRows,
+          updateTableAnswer: this.updateTableAnswer
         }));
       } else {
         previewFormElements.push(React.createElement(PreviewFormElement, {
@@ -518,12 +524,16 @@ module.exports = React.createClass({
 
 },{"./formBank.js":6,"./tableCell.jsx":14,"react":188,"riek":194}],12:[function(require,module,exports){
 var React = require('react'),
-
-// ViewBank  = require('./viewBank.js'),
-TableCellView = require('./tableCellView.jsx');
+    ViewBank = require('./viewBank.js'),
+    TableCellView = require('./tableCellView.jsx');
 
 module.exports = React.createClass({
   displayName: 'exports',
+
+  updateAnswer: function (newText, cellId) {
+    var rowId = this.props.id;
+    this.props.updateAnswer(newText, cellId, rowId);
+  },
 
   render: function () {
     var columns = [],
@@ -536,7 +546,8 @@ module.exports = React.createClass({
         element: this.props.columns[i],
         type: this.props.columns[i].type,
         formTitle: this.props.columns[i].formTitle,
-        formContent: this.props.columns[i].formContent
+        formContent: this.props.columns[i].formContent,
+        updateAnswer: this.updateAnswer
       }));
     }
 
@@ -548,7 +559,7 @@ module.exports = React.createClass({
   }
 });
 
-},{"./tableCellView.jsx":15,"react":188}],13:[function(require,module,exports){
+},{"./tableCellView.jsx":15,"./viewBank.js":21,"react":188}],13:[function(require,module,exports){
 var React = require('react'),
     riek = require('riek'),
     RIEInput = riek.RIEInput,
@@ -561,10 +572,9 @@ module.exports = React.createClass({
     var viewElementId = this.props.id;
     if (cellId == undefined) {
       // if element being updated is not in a table
-      // console.log("triggered in previewFormElement: ", answer, viewElementId)
       this.props.updateAnswer(answer, viewElementId);
     } else {
-      // console.log("triggered in previewFormElement: ", answer, cellId, rowId, viewElementId)
+      console.log("triggered in previewFormElement: ", answer, cellId, rowId, viewElementId);
       this.props.updateTableAnswer(answer, cellId, rowId, viewElementId);
     }
   },
@@ -573,7 +583,8 @@ module.exports = React.createClass({
     if (this.props.element.type == "Table") {
       element = React.createElement(ViewBank["Table"], {
         formTitle: this.props.formTitle,
-        tableRows: this.props.tableRows
+        tableRows: this.props.tableRows,
+        updateAnswer: this.updateAnswer
       });
     } else {
       element = React.createElement(ViewBank[this.props.element.type], {
@@ -693,7 +704,10 @@ var React = require('react'),
 module.exports = React.createClass({
   displayName: 'exports',
 
-  // add handleChange later?
+  updateAnswer: function (answer) {
+    var cellId = this.props.id;
+    this.props.updateAnswer(answer, cellId);
+  },
   render: function () {
     var body, dropdown;
 
@@ -709,9 +723,10 @@ module.exports = React.createClass({
       );
     } else {
       var cellBody = React.createElement(localViewBank[this.props.type], {
-        // cellId:            this.props.id,
+        cellId: this.props.id,
         formTitle: this.props.formTitle,
-        formContent: this.props.formContent
+        formContent: this.props.formContent,
+        updateAnswer: this.updateAnswer
       });
       body = React.createElement(
         'div',
@@ -761,7 +776,7 @@ module.exports = React.createClass({
     if (cellId == undefined) {
       this.props.updateFormElement(newText.formTitle); // this is if we're just updating the name of the Table form
     } else {
-        this.props.updateFormElement(newText, cellId, rowId); // this is if we're updating the text within a tabel cell
+        this.props.updateFormElement(newText, cellId, rowId); // this is if we're updating the text within a table cell
       }
   },
 
@@ -843,9 +858,6 @@ var React = require('react'),
 module.exports = React.createClass({
   displayName: 'exports',
 
-  // getInitialState: function() {
-  //   return {text: "Table"}
-  // },
   render: function () {
     var columnHeaders = [],
         rows = [],
@@ -856,7 +868,8 @@ module.exports = React.createClass({
         id: i,
         key: i,
         element: this.props.tableRows[i],
-        columns: this.props.tableRows[i].columns
+        columns: this.props.tableRows[i].columns,
+        updateAnswer: this.props.updateAnswer
       }));
     }
     for (i = 0; i < this.props.tableRows[0].columns.length; i++) {

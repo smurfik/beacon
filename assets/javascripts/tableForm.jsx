@@ -28,7 +28,7 @@ module.exports = React.createClass({
     if (cellId == undefined) {
       this.props.updateFormElement(newText.formTitle); // this is if we're just updating the name of the Table form
     } else {
-      this.props.updateFormElement(newText, cellId, rowId) // this is if we're updating the text within a tabel cell
+      this.props.updateFormElement(newText, cellId, rowId) // this is if we're updating the text within a table cell
     }
   },
 

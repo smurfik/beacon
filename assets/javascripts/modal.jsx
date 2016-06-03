@@ -14,9 +14,14 @@ module.exports = React.createClass({
     targetAnswer.answer = answer;
     this.setState({previewAnswers: previewAnswers});
   },
-  // updateTableAnswer: function () {
-
-  // },
+  updateTableAnswer: function (answer, cellId, rowId, viewElementId) {
+    var previewAnswers      = this.state.previewAnswers;
+        console.log("triggered in modal, ", answer, cellId, rowId, viewElementId);
+        // debugger
+        targetAnswer        = previewAnswers[viewElementId].tableRows[rowId].columns[cellId];
+        targetAnswer.answer = answer;
+        this.setState({previewAnswers: previewAnswers});
+  },
   showAnswers: function() {
     // collect answers of all PreviewFormElements and display as JSON in console.
     // Eventually this should return JSON in a new route/view, for AJAX.
@@ -38,11 +43,12 @@ module.exports = React.createClass({
       if (this.props.previewFormElements[i].type == "Table") {
         previewFormElements.push(
           <PreviewFormElement
-            id        = {i}
-            key       = {i}
-            element   = {this.props.previewFormElements[i]}
-            formTitle = {this.props.previewFormElements[i].formTitle}
-            tableRows = {this.props.previewFormElements[i].tableRows}
+            id                = {i}
+            key               = {i}
+            element           = {this.props.previewFormElements[i]}
+            formTitle         = {this.props.previewFormElements[i].formTitle}
+            tableRows         = {this.props.previewFormElements[i].tableRows}
+            updateTableAnswer = {this.updateTableAnswer}
           />
         );
       } else {

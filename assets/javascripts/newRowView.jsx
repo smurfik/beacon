@@ -1,8 +1,13 @@
 var React     = require('react'),
-    // ViewBank  = require('./viewBank.js'),
+    ViewBank  = require('./viewBank.js'),
     TableCellView = require('./tableCellView.jsx');
 
 module.exports = React.createClass({
+  updateAnswer: function(newText, cellId) {
+    var rowId = this.props.id
+    this.props.updateAnswer(newText, cellId, rowId);
+  },
+
   render: function() {
     var columns = [],
         i;
@@ -16,6 +21,7 @@ module.exports = React.createClass({
           type              = {this.props.columns[i].type}
           formTitle         = {this.props.columns[i].formTitle}
           formContent       = {this.props.columns[i].formContent}
+          updateAnswer      = {this.updateAnswer}
         />
       )
     }

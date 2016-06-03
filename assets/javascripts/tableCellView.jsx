@@ -11,7 +11,10 @@ var React       = require('react'),
     };
 
 module.exports = React.createClass({
-  // add handleChange later?
+  updateAnswer: function(answer) {
+    var cellId = this.props.id;
+    this.props.updateAnswer(answer, cellId);
+  },
   render: function() {
     var body,
         dropdown;
@@ -26,9 +29,10 @@ module.exports = React.createClass({
       var cellBody = (
         React.createElement(
           localViewBank[this.props.type], {
-            // cellId:            this.props.id,
-            formTitle:         this.props.formTitle,
-            formContent:       this.props.formContent,
+            cellId:       this.props.id,
+            formTitle:    this.props.formTitle,
+            formContent:  this.props.formContent,
+            updateAnswer: this.updateAnswer
           }
         )
       )

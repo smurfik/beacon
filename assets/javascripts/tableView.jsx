@@ -3,9 +3,6 @@ var React = require('react'),
     NewRowView = require('./newRowView.jsx');
 
 module.exports = React.createClass({
-  // getInitialState: function() {
-  //   return {text: "Table"}
-  // },
   render: function() {
     var columnHeaders = [],
         rows = [],
@@ -16,8 +13,9 @@ module.exports = React.createClass({
         <NewRowView
           id={i}
           key={i}
-          element={this.props.tableRows[i]}
-          columns={this.props.tableRows[i].columns}
+          element      = {this.props.tableRows[i]}
+          columns      = {this.props.tableRows[i].columns}
+          updateAnswer = {this.props.updateAnswer}
         />
       );
     }
