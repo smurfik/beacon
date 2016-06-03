@@ -178,12 +178,9 @@ var React = require('react');
 module.exports = React.createClass({
   displayName: "exports",
 
-  getInitialState: function () {
-    return { answer: "select below" };
-  },
   handleChange: function (event) {
-    this.state.answer = event.target.value;
-    this.forceUpdate();
+    var answer = event.target.value;
+    this.props.updateAnswer(answer);
   },
   render: function () {
     return React.createElement(
@@ -196,7 +193,7 @@ module.exports = React.createClass({
       ),
       React.createElement(
         "select",
-        { className: "dropdown-formContent", onChange: this.handleChange, value: this.state.answer },
+        { className: "dropdown-formContent", onChange: this.handleChange, value: this.props.answer },
         React.createElement(
           "option",
           { value: "select an answer" },
