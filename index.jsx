@@ -12,7 +12,7 @@ var React       = require('react'),
 
 var FormBuilder = React.createClass({
   getInitialState: function() {
-    return {currentForm: [], isModalOpen: false}
+    return {currentForm: [], previewAnswers: [], isModalOpen: false}
   },
   openModal: function() {
     this.setState({isModalOpen: true});
@@ -22,6 +22,7 @@ var FormBuilder = React.createClass({
   },
   addElement: function(elementType) {
     var formElementObject = {};
+    var previewAnswerObject = {}
     var addRow = function() {
       // DON'T DELETE: this is where addRow is defined as one of Table FormElement's props (as a function) when it is added to Builder.
     };
@@ -50,16 +51,20 @@ var FormBuilder = React.createClass({
           }]
       }
     } else {
-
       formElementObject = {
         type: elementType,
         formTitle: "Question",
         formContent: "Your answer"
       };
+      previewAnswerObject = {
+        answer: "Your answer"
+      }
     }
     var currentForm = this.state.currentForm;
     currentForm.push(formElementObject);
-    this.setState({currentForm: currentForm});
+    var previewAnswers = this.state.previewAnswers
+    previewAnswers.push(previewAnswerObject);
+    this.setState({currentForm: currentForm, previewAnswers: previewAnswers});
   },
   addRow: function(newRowObject, id) {
     var currentForm = this.state.currentForm;
@@ -118,6 +123,14 @@ var FormBuilder = React.createClass({
     currentForm[(id)] = movedUp;
     this.setState({currentForm: currentForm});
   },
+  updatePreviewAnswer: function(answer, viewElementId) {
+    var previewAnswers = this.state.previewAnswers;
+    // HERE
+    // debugger
+    // var targetAnswer = previewAnswers[viewElementId];
+    // targetAnswer.answer = answer;
+    // this.setState({previewAnswers: previewAnswers})
+  },
   render: function(){
     return (
       <div>
@@ -125,6 +138,7 @@ var FormBuilder = React.createClass({
           isOpen={this.state.isModalOpen}
           closeModal={this.closeModal}
           previewFormElements={this.state.currentForm}
+          previewAnswers={this.state.previewAnswers}
           updateFormElement={this.updateFormElement}>
         </Modal>
         <Builder

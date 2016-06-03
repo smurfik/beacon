@@ -3,46 +3,30 @@ var React = require('react'),
 
 module.exports = React.createClass({
   getInitialState: function() {
-    return {userAnswers: []}
+    return {previewAnswers: this.props.previewAnswers}
   },
   closeModal: function() {
     this.props.closeModal();
   },
   updateAnswer: function(answer, viewElementId) {
-    var userAnswers  = this.state.userAnswers;
-    console.log(userAnswers);
-    debugger
-    console.log("triggered in Modal: ", answer, viewElementId);
-    var targetAnswer = userAnswers[viewElementId];
+    var previewAnswers  = this.state.previewAnswers,
+        targetAnswer = previewAnswers[viewElementId];
     targetAnswer.answer = answer;
-    this.setState({userAnswers: userAnswers});
+    this.setState({previewAnswers: previewAnswers});
   },
-
   // updateTableAnswer: function () {
 
   // },
-
+  showAnswers: function() {
+    // collect answers of all PreviewFormElements (iterate through them)
+    // and display as JSON in console,
+    // eventually returning as JSON in a new route/view for AJAX
+  },
   render: function() {
     var previewFormElements = [],
-        // userAnswers = [],
-        // answerObject = {},
         body,
         bodyContent,
         i;
-
-    // create an array to track answers for each previewFormElement;
-    // the array starts empty and is updated as user responds
-
-    // for (i = 0; i < this.props.previewFormElements.length; i++) {
-    //   userAnswers.push(answerObject);
-    //   // userAnswers.push(
-    //   //   answerObject = {
-    //   //     id       = {i},
-    //   //     question = {this.props.previewFormElements[i].formTitle},
-    //   //     answer   = ""
-    //   //   }
-    //   // )
-    // }
 
     for (i = 0; i < this.props.previewFormElements.length; i++) {
       if (this.props.previewFormElements[i].type == "Table") {
@@ -54,7 +38,7 @@ module.exports = React.createClass({
             formTitle = {this.props.previewFormElements[i].formTitle}
             tableRows = {this.props.previewFormElements[i].tableRows}
           />
-        )
+        );
       } else {
         previewFormElements.push(
           <PreviewFormElement
@@ -63,12 +47,12 @@ module.exports = React.createClass({
             element      = {this.props.previewFormElements[i]}
             formTitle    = {this.props.previewFormElements[i].formTitle}
             formContent  = {this.props.previewFormElements[i].formContent}
+            answer       = {this.props.previewAnswers[i].answer}
             updateAnswer = {this.updateAnswer}
           />
         )
       }
     }
-            // updateFormElement={this.props.updateFormElement}
 
     if (this.props.previewFormElements[0] == null) {
       bodyContent = <span>Nothing to preview</span>
@@ -87,6 +71,7 @@ module.exports = React.createClass({
           <button onClick={this.closeModal}>Close preview</button>
         </header>
         {bodyContent}
+        <button onClick={this.showAnswers}>Submit</button>
       </div>
     )
 

@@ -373,47 +373,30 @@ module.exports = React.createClass({
   displayName: 'exports',
 
   getInitialState: function () {
-    return { userAnswers: [] };
+    return { previewAnswers: this.props.previewAnswers };
   },
   closeModal: function () {
     this.props.closeModal();
   },
   updateAnswer: function (answer, viewElementId) {
-    var userAnswers = this.state.userAnswers;
-    console.log(userAnswers);
-    debugger;
-    console.log("triggered in Modal: ", answer, viewElementId);
-    var targetAnswer = userAnswers[viewElementId];
+    var previewAnswers = this.state.previewAnswers,
+        targetAnswer = previewAnswers[viewElementId];
     targetAnswer.answer = answer;
-    this.setState({ userAnswers: userAnswers });
+    this.setState({ previewAnswers: previewAnswers });
   },
-
   // updateTableAnswer: function () {
 
   // },
-
+  showAnswers: function () {
+    // collect answers of all PreviewFormElements (iterate through them)
+    // and display as JSON in console,
+    // eventually returning as JSON in a new route/view for AJAX
+  },
   render: function () {
     var previewFormElements = [],
-
-    // userAnswers = [],
-    // answerObject = {},
-    body,
+        body,
         bodyContent,
         i;
-
-    // create an array to track answers for each previewFormElement;
-    // the array starts empty and is updated as user responds
-
-    // for (i = 0; i < this.props.previewFormElements.length; i++) {
-    //   userAnswers.push(answerObject);
-    //   // userAnswers.push(
-    //   //   answerObject = {
-    //   //     id       = {i},
-    //   //     question = {this.props.previewFormElements[i].formTitle},
-    //   //     answer   = ""
-    //   //   }
-    //   // )
-    // }
 
     for (i = 0; i < this.props.previewFormElements.length; i++) {
       if (this.props.previewFormElements[i].type == "Table") {
@@ -431,11 +414,11 @@ module.exports = React.createClass({
           element: this.props.previewFormElements[i],
           formTitle: this.props.previewFormElements[i].formTitle,
           formContent: this.props.previewFormElements[i].formContent,
+          answer: this.props.previewAnswers[i].answer,
           updateAnswer: this.updateAnswer
         }));
       }
     }
-    // updateFormElement={this.props.updateFormElement}
 
     if (this.props.previewFormElements[0] == null) {
       bodyContent = React.createElement(
@@ -468,7 +451,12 @@ module.exports = React.createClass({
           'Close preview'
         )
       ),
-      bodyContent
+      bodyContent,
+      React.createElement(
+        'button',
+        { onClick: this.showAnswers },
+        'Submit'
+      )
     );
 
     if (this.props.isOpen) {
@@ -566,14 +554,6 @@ var React = require('react'),
 module.exports = React.createClass({
   displayName: 'exports',
 
-  // updatePreviewFormElement: function() {
-  // we'll need a function that passes updates in previewFormElements up to
-  // parent, so that user answers can be stored and sent in JSON format.
-
-  // the logic of this function should probably follow that in the standard
-  // formElement component -- i.e. look for cell ID to see if the element
-  // comes from within a table, or is a standard formElement.
-  // },
   updateAnswer: function (answer, cellId, rowId) {
     var viewElementId = this.props.id;
     if (cellId == undefined) {
@@ -596,6 +576,7 @@ module.exports = React.createClass({
       element = React.createElement(ViewBank[this.props.element.type], {
         formTitle: this.props.formTitle,
         formContent: this.props.formContent,
+        answer: this.props.answer,
         updateAnswer: this.updateAnswer
       });
     }
@@ -1005,43 +986,28 @@ module.exports = React.createClass({
 var React = require('react');
 
 module.exports = React.createClass({
-  displayName: 'exports',
+  displayName: "exports",
 
-  getInitialState: function () {
-    return { answer: "Your answer" }; // we have to use this component's state
-    // in order to display a default value on load, so that it can be
-    // dynamically updated as the answer as text is entered, and hold
-    // in state until the form is submitted.
-  },
   handleInput: function (event) {
     var answer = event.target.value;
-    this.setState({ answer: answer });
-    console.log('triggered in view component', answer);
     this.props.updateAnswer(answer);
-    // eventually, put something like 'updateAnswer' here so that the parent
-    // component (modal or formBuilder?) gets the users's answer in JSON format
   },
   render: function () {
     return React.createElement(
-      'div',
-      { className: 'userText-view' },
+      "div",
+      { className: "userText-view" },
       React.createElement(
-        'h2',
+        "h2",
         null,
         this.props.formTitle
       ),
       React.createElement(
-        'form',
+        "form",
         null,
-        React.createElement('input', {
-          type: 'text',
+        React.createElement("input", {
+          type: "text",
           onChange: this.handleInput,
-          value: this.state.answer }),
-        React.createElement(
-          'button',
-          null,
-          'Submit'
-        )
+          value: this.props.answer })
       )
     );
   }
@@ -1083,7 +1049,7 @@ var FormBuilder = React.createClass({
   displayName: 'FormBuilder',
 
   getInitialState: function () {
-    return { currentForm: [], isModalOpen: false };
+    return { currentForm: [], previewAnswers: [], isModalOpen: false };
   },
   openModal: function () {
     this.setState({ isModalOpen: true });
@@ -1093,6 +1059,7 @@ var FormBuilder = React.createClass({
   },
   addElement: function (elementType) {
     var formElementObject = {};
+    var previewAnswerObject = {};
     var addRow = function () {
       // DON'T DELETE: this is where addRow is defined as one of Table FormElement's props (as a function) when it is added to Builder.
     };
@@ -1120,16 +1087,20 @@ var FormBuilder = React.createClass({
         }]
       };
     } else {
-
       formElementObject = {
         type: elementType,
         formTitle: "Question",
         formContent: "Your answer"
       };
+      previewAnswerObject = {
+        answer: "Your answer"
+      };
     }
     var currentForm = this.state.currentForm;
     currentForm.push(formElementObject);
-    this.setState({ currentForm: currentForm });
+    var previewAnswers = this.state.previewAnswers;
+    previewAnswers.push(previewAnswerObject);
+    this.setState({ currentForm: currentForm, previewAnswers: previewAnswers });
   },
   addRow: function (newRowObject, id) {
     var currentForm = this.state.currentForm;
@@ -1188,6 +1159,14 @@ var FormBuilder = React.createClass({
     currentForm[id] = movedUp;
     this.setState({ currentForm: currentForm });
   },
+  updatePreviewAnswer: function (answer, viewElementId) {
+    var previewAnswers = this.state.previewAnswers;
+    // HERE
+    // debugger
+    // var targetAnswer = previewAnswers[viewElementId];
+    // targetAnswer.answer = answer;
+    // this.setState({previewAnswers: previewAnswers})
+  },
   render: function () {
     return React.createElement(
       'div',
@@ -1196,6 +1175,7 @@ var FormBuilder = React.createClass({
         isOpen: this.state.isModalOpen,
         closeModal: this.closeModal,
         previewFormElements: this.state.currentForm,
+        previewAnswers: this.state.previewAnswers,
         updateFormElement: this.updateFormElement }),
       React.createElement(Builder, {
         formElements: this.state.currentForm,
