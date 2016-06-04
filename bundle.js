@@ -383,8 +383,7 @@ module.exports = React.createClass({
   },
   updateTableAnswer: function (answer, cellId, rowId, viewElementId) {
     var previewAnswers = this.state.previewAnswers;
-    console.log("triggered in modal, ", answer, cellId, rowId, viewElementId);
-    // debugger
+    // console.log("triggered in modal, ", answer, cellId, rowId, viewElementId);
     targetAnswer = previewAnswers[viewElementId].tableRows[rowId].columns[cellId];
     targetAnswer.answer = answer;
     this.setState({ previewAnswers: previewAnswers });
@@ -396,7 +395,20 @@ module.exports = React.createClass({
     allAnswersObject = {};
 
     for (i = 0; i < previewAnswers.length; i++) {
-      allAnswersObject[i] = previewAnswers[i].answer;
+
+      // this deeply nested loop for a table feels too complicated!
+      // what's a better way to get answers embedded in a table out of the table
+      // and into a simple list that's part of the allAnswersObject JSON?
+
+      if (previewAnswers[i].type == "Table") {
+        for (i = 0; previewAnswers[i].tableRows.length; i++) {
+          for (i = 0; this.columns.length; i++) {
+            // allAnswersObject[i] =
+          }
+        }
+      } else {
+          allAnswersObject[i] = previewAnswers[i].answer;
+        }
     }
     console.log(allAnswersObject);
   },
@@ -574,7 +586,7 @@ module.exports = React.createClass({
       // if element being updated is not in a table
       this.props.updateAnswer(answer, viewElementId);
     } else {
-      console.log("triggered in previewFormElement: ", answer, cellId, rowId, viewElementId);
+      // console.log("triggered in previewFormElement: ", answer, cellId, rowId, viewElementId)
       this.props.updateTableAnswer(answer, cellId, rowId, viewElementId);
     }
   },
@@ -1099,6 +1111,13 @@ var FormBuilder = React.createClass({
             type: "unselected",
             formTitle: "Question",
             formContent: "[Enter question]"
+          }]
+        }]
+      };
+      previewAnswerObject = {
+        type: elementType,
+        tableRows: [{ columns: [{
+            answer: "Your answer"
           }]
         }]
       };

@@ -9,7 +9,7 @@ module.exports = React.createClass({
     if (cellId == undefined) {  // if element being updated is not in a table
       this.props.updateAnswer(answer, viewElementId);
     } else {
-      console.log("triggered in previewFormElement: ", answer, cellId, rowId, viewElementId)
+      // console.log("triggered in previewFormElement: ", answer, cellId, rowId, viewElementId)
       this.props.updateTableAnswer(answer, cellId, rowId, viewElementId);
     }
   },
@@ -18,8 +18,8 @@ module.exports = React.createClass({
     if (this.props.element.type == "Table") {
       element = React.createElement(
         ViewBank["Table"], {
-          formTitle: this.props.formTitle,
-          tableRows: this.props.tableRows,
+          formTitle:    this.props.formTitle,
+          tableRows:    this.props.tableRows,
           updateAnswer: this.updateAnswer
         }
       );

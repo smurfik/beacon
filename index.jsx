@@ -49,6 +49,15 @@ var FormBuilder = React.createClass({
               formContent:       "[Enter question]",
             }],
           }]
+      };
+      previewAnswerObject = {
+        type: elementType,
+        tableRows:
+          [{columns:
+            [{
+              answer: "Your answer"
+            }],
+          }]
       }
     } else {
       formElementObject = {
