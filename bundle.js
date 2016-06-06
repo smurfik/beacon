@@ -760,7 +760,10 @@ var React = require('react'),
     riek = require('riek'),
     RIEInput = riek.RIEInput,
     FormBank = require('./formBank.js'),
-    NewRow = require('./newRow.jsx');
+    NewRow = require('./newRow.jsx'),
+    generateQuestionId = function () {
+  return Math.floor(Math.random() * (10000 - 1)) + 1;
+};
 
 module.exports = React.createClass({
   displayName: 'exports',
@@ -770,11 +773,13 @@ module.exports = React.createClass({
     var newRowObject = { columns: [] };
     var numberOfColumns = this.props.tableRows[0].columns.length;
     for (var i = 0; i < numberOfColumns; i++) {
+      var questionId = generateQuestionId();
       var newCellObject = {
         type: "unselected",
         formTitle: "Question",
         formContent: "[Enter question]",
-        testProp: "test prop appears"
+        questionId: questionId
+        // testProp:    "test prop appears"
       }; // this one is added so that any new row contains at least 1 cell
       newRowObject.columns.push(newCellObject);
     }
@@ -1147,7 +1152,9 @@ var FormBuilder = React.createClass({
   addRow: function (newRowObject, id) {
     var currentForm = this.state.currentForm;
     currentForm[id].tableRows.push(newRowObject);
-    this.setState({ currentForm: currentForm });
+    var previewAnswers = this.state.previewAnswers;
+    previewAnswers[id].tableRows.push(newRowObject);
+    this.setState({ currentForm: currentForm, previewAnswers: previewAnswers });
   },
   addColumn: function (id) {
     var currentForm = this.state.currentForm;
