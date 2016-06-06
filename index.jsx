@@ -22,7 +22,11 @@ var FormBuilder = React.createClass({
   },
   addElement: function(elementType) {
     var formElementObject = {};
-    var previewAnswerObject = {}
+    var previewAnswerObject = {};
+    function generateQuestionId() {
+      return Math.floor(Math.random() * (10000 - 1)) + 1;
+    };
+    var questionId = generateQuestionId();
     var addRow = function() {
       // DON'T DELETE: this is where addRow is defined as one of Table FormElement's props (as a function) when it is added to Builder.
     };
@@ -43,10 +47,10 @@ var FormBuilder = React.createClass({
         tableRows:
           [{columns:
             [{
-              // cellId:          null,
-              type:              "unselected",
-              formTitle:         "Question",
-              formContent:       "[Enter question]",
+              type:         "unselected",
+              formTitle:    "Question",
+              formContent:  "[Enter question]",
+              questionId:   questionId,
             }],
           }]
       };
@@ -55,7 +59,8 @@ var FormBuilder = React.createClass({
         tableRows:
           [{columns:
             [{
-              answer: "Your answer"
+              answer: "Your answer",
+              questionId: questionId,
             }],
           }]
       }
@@ -63,10 +68,12 @@ var FormBuilder = React.createClass({
       formElementObject = {
         type: elementType,
         formTitle: "Question",
-        formContent: "Your answer"
+        formContent: "Your answer",
+        questionId: questionId,
       };
       previewAnswerObject = {
-        answer: "Your answer"
+        answer: "Your answer",
+        questionId: questionId,
       }
     }
     var currentForm = this.state.currentForm;
@@ -83,11 +90,16 @@ var FormBuilder = React.createClass({
   addColumn: function(id) {
     var currentForm = this.state.currentForm;
     var tableRows = currentForm[id].tableRows;
+    function generateQuestionId() {
+      return Math.floor(Math.random() * (10000 - 1)) + 1;
+    };
     for (var i = 0; i < tableRows.length; i++) {
+      var questionId = generateQuestionId();
       var newCellObject = {
-        type: "unselected",
-        formTitle:         "Question",
-        formContent:       "[Enter question]",
+        type:        "unselected",
+        formTitle:   "Question",
+        formContent: "[Enter question]",
+        questionId:  questionId
       };
       tableRows[i].columns.push(newCellObject);
     }
