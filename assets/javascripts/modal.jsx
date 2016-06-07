@@ -9,18 +9,10 @@ module.exports = React.createClass({
     this.props.closeModal();
   },
   updateAnswer: function(answer, questionId) {
-    var previewAnswers  = this.state.previewAnswers;
-    previewAnswers[questionId] = answer;
+    var previewAnswers           = this.state.previewAnswers;
+    previewAnswers[questionId]   = answer;
     this.setState({previewAnswers: previewAnswers});
   },
-  // updateTableAnswer: function (answer, cellId, rowId, viewElementId) {
-  //   var previewAnswers      = this.state.previewAnswers;
-  //       // console.log("triggered in modal, ", answer, cellId, rowId, viewElementId);
-  //       targetAnswer        = previewAnswers[viewElementId].tableRows[rowId].columns[cellId];
-  //       targetAnswer.answer = answer;
-  //       this.setState({previewAnswers: previewAnswers});
-  // },
-
   showAnswers: function() {
     // collect answers of all PreviewFormElements and display as JSON in console.
     // Eventually this should return JSON in a new route/view, for AJAX.
@@ -46,17 +38,16 @@ module.exports = React.createClass({
       } else if (pfeType == "Table") {
         previewFormElements.push(
           <PreviewFormElement
-            key          = {this.props.previewFormElements[i].questionId}
-            element      = {this.props.previewFormElements[i]}
-            questionId   = {this.props.previewFormElements[i].questionId}
-            formTitle    = {this.props.previewFormElements[i].formTitle}
-            tableRows    = {this.props.previewFormElements[i].tableRows}
-            updateAnswer = {this.updateAnswer}
+            key            = {i}
+            id             = {i}
+            element        = {this.props.previewFormElements[i]}
+            questionId     = {this.props.previewFormElements[i].questionId}
+            formTitle      = {this.props.previewFormElements[i].formTitle}
+            tableRows      = {this.props.previewFormElements[i].tableRows}
+            updateAnswer   = {this.updateAnswer}
           />
+            // previewAnswers = {this.state.previewAnswers}
         );
-            // key               = {i}
-            // id                = {i}
-            // updateTableAnswer = {this.updateTableAnswer}
       } else {
         var questionId = this.props.previewFormElements[i].questionId;
         previewFormElements.push(

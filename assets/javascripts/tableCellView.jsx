@@ -11,10 +11,6 @@ var React       = require('react'),
     };
 
 module.exports = React.createClass({
-  // updateAnswer: function(answer) {
-  //   var cellId = this.props.id;
-  //   this.props.updateAnswer(answer, cellId);
-  // },
   render: function() {
     var body,
         dropdown;
@@ -33,11 +29,11 @@ module.exports = React.createClass({
             questionId:   this.props.questionId,
             formTitle:    this.props.formTitle,
             formContent:  this.props.formContent,
+            answer:       this.props.answer,
             updateAnswer: this.props.updateAnswer
           }
         )
       )
-            // updateAnswer: this.updateAnswer
       body = (
         <div>
           {cellBody}

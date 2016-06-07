@@ -13,10 +13,11 @@ module.exports = React.createClass({
         <NewRowView
           id={i}
           key={i}
-          element      = {this.props.tableRows[i]}
-          columns      = {this.props.tableRows[i].columns}
-          updateAnswer = {this.props.updateAnswer}
+          element        = {this.props.tableRows[i]}
+          columns        = {this.props.tableRows[i].columns}
+          updateAnswer   = {this.props.updateAnswer}
         />
+          // previewAnswers = {this.props.previewAnswers}
       );
     }
     for (i = 0; i < this.props.tableRows[0].columns.length; i++) {

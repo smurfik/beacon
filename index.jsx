@@ -88,10 +88,7 @@ var FormBuilder = React.createClass({
   addRow: function(newRowObject, id) {
     var currentForm = this.state.currentForm;
     currentForm[id].tableRows.push(newRowObject);
-    var previewAnswers = this.state.previewAnswers;
-    debugger
-    previewAnswers[id].tableRows.push(newRowObject);
-    this.setState({currentForm: currentForm, previewAnswers: previewAnswers});
+    this.setState({currentForm: currentForm});
   },
   addColumn: function(id) {
     var currentForm = this.state.currentForm;

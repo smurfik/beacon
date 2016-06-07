@@ -380,14 +380,6 @@ module.exports = React.createClass({
     previewAnswers[questionId] = answer;
     this.setState({ previewAnswers: previewAnswers });
   },
-  // updateTableAnswer: function (answer, cellId, rowId, viewElementId) {
-  //   var previewAnswers      = this.state.previewAnswers;
-  //       // console.log("triggered in modal, ", answer, cellId, rowId, viewElementId);
-  //       targetAnswer        = previewAnswers[viewElementId].tableRows[rowId].columns[cellId];
-  //       targetAnswer.answer = answer;
-  //       this.setState({previewAnswers: previewAnswers});
-  // },
-
   showAnswers: function () {
     // collect answers of all PreviewFormElements and display as JSON in console.
     // Eventually this should return JSON in a new route/view, for AJAX.
@@ -410,16 +402,16 @@ module.exports = React.createClass({
         }));
       } else if (pfeType == "Table") {
         previewFormElements.push(React.createElement(PreviewFormElement, {
-          key: this.props.previewFormElements[i].questionId,
+          key: i,
+          id: i,
           element: this.props.previewFormElements[i],
           questionId: this.props.previewFormElements[i].questionId,
           formTitle: this.props.previewFormElements[i].formTitle,
           tableRows: this.props.previewFormElements[i].tableRows,
           updateAnswer: this.updateAnswer
-        }));
-        // key               = {i}
-        // id                = {i}
-        // updateTableAnswer = {this.updateTableAnswer}
+        })
+        // previewAnswers = {this.state.previewAnswers}
+        );
       } else {
           var questionId = this.props.previewFormElements[i].questionId;
           previewFormElements.push(React.createElement(PreviewFormElement, {
@@ -535,27 +527,25 @@ var React = require('react'),
 module.exports = React.createClass({
   displayName: 'exports',
 
-  // updateAnswer: function(newText, cellId) {
-  //   var rowId = this.props.id
-  //   this.props.updateAnswer(newText, cellId, rowId);
-  // },
   render: function () {
     var columns = [],
         i;
 
     for (i = 0; i < this.props.columns.length; i++) {
+      var questionId = this.props.columns[i].questionId;
       columns.push(React.createElement(TableCellView, {
         id: i,
         key: i,
         element: this.props.columns[i],
         type: this.props.columns[i].type,
-        questionId: this.props.columns[i].questionId,
+        questionId: questionId,
         formTitle: this.props.columns[i].formTitle,
         formContent: this.props.columns[i].formContent,
         updateAnswer: this.props.updateAnswer
-      }));
+      })
+      // answer       = {this.props.previewAnswers[questionId]}
+      );
     }
-    // updateAnswer      = {this.updateAnswer}
 
     return React.createElement(
       'tr',
@@ -574,36 +564,24 @@ var React = require('react'),
 module.exports = React.createClass({
   displayName: 'exports',
 
-  // updateAnswer: function(answer, cellId, rowId) {
-  //   var viewElementId = this.props.id;
-  //   if (cellId == undefined) {  // if element being updated is not in a table
-  //     this.props.updateAnswer(answer, viewElementId);
-  //   } else {
-  //     this.props.updateTableAnswer(answer, cellId, rowId, viewElementId);
-  //   }
-  // },
-  // updateAnswer: function(answer, questionId) {
-  //   this.props
-  // },
   render: function () {
     var element;
     if (this.props.element.type == "Table") {
       element = React.createElement(ViewBank["Table"], {
         formTitle: this.props.formTitle,
         tableRows: this.props.tableRows,
-        // updateAnswer: this.updateAnswer
         updateAnswer: this.props.updateAnswer
       });
-    } else {
-      element = React.createElement(ViewBank[this.props.element.type], {
-        questionId: this.props.questionId,
-        formTitle: this.props.formTitle,
-        formContent: this.props.formContent,
-        answer: this.props.answer,
-        // updateAnswer:      this.updateAnswer
-        updateAnswer: this.props.updateAnswer
-      });
-    }
+    } else // previewAnswers: this.props.previewAnswers
+      {
+        element = React.createElement(ViewBank[this.props.element.type], {
+          questionId: this.props.questionId,
+          formTitle: this.props.formTitle,
+          formContent: this.props.formContent,
+          answer: this.props.answer,
+          updateAnswer: this.props.updateAnswer
+        });
+      }
     return React.createElement(
       'div',
       { className: 'preview-form-element' },
@@ -714,10 +692,6 @@ var React = require('react'),
 module.exports = React.createClass({
   displayName: 'exports',
 
-  // updateAnswer: function(answer) {
-  //   var cellId = this.props.id;
-  //   this.props.updateAnswer(answer, cellId);
-  // },
   render: function () {
     var body, dropdown;
 
@@ -737,9 +711,9 @@ module.exports = React.createClass({
         questionId: this.props.questionId,
         formTitle: this.props.formTitle,
         formContent: this.props.formContent,
+        answer: this.props.answer,
         updateAnswer: this.props.updateAnswer
       });
-      // updateAnswer: this.updateAnswer
       body = React.createElement(
         'div',
         null,
@@ -886,7 +860,9 @@ module.exports = React.createClass({
         element: this.props.tableRows[i],
         columns: this.props.tableRows[i].columns,
         updateAnswer: this.props.updateAnswer
-      }));
+      })
+      // previewAnswers = {this.props.previewAnswers}
+      );
     }
     for (i = 0; i < this.props.tableRows[0].columns.length; i++) {
       columnHeaders.push(React.createElement(
@@ -1154,10 +1130,7 @@ var FormBuilder = React.createClass({
   addRow: function (newRowObject, id) {
     var currentForm = this.state.currentForm;
     currentForm[id].tableRows.push(newRowObject);
-    var previewAnswers = this.state.previewAnswers;
-    debugger;
-    previewAnswers[id].tableRows.push(newRowObject);
-    this.setState({ currentForm: currentForm, previewAnswers: previewAnswers });
+    this.setState({ currentForm: currentForm });
   },
   addColumn: function (id) {
     var currentForm = this.state.currentForm;
