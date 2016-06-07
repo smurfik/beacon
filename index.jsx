@@ -21,18 +21,22 @@ var FormBuilder = React.createClass({
     this.setState({isModalOpen: false});
   },
   addElement: function(elementType) {
-    var formElementObject = {};
-    var previewAnswerObject = {};
+    var currentForm = this.state.currentForm,
+        previewAnswers = this.state.previewAnswers,
+        formElementObject = {},
+        previewAnswerObject = {},
+        addRow = function() {
+          // DON'T DELETE: this is where addRow is defined as one of Table FormElement's props (as a function) when it is added to Builder.
+        },
+        addColumn = function() {
+          // don't delete per same reasons as above, but for columns.
+        },
+        questionId = generateQuestionId();
+
     function generateQuestionId() {
       return Math.floor(Math.random() * (10000 - 1)) + 1;
     };
-    var questionId = generateQuestionId();
-    var addRow = function() {
-      // DON'T DELETE: this is where addRow is defined as one of Table FormElement's props (as a function) when it is added to Builder.
-    };
-    var addColumn = function() {
-      // don't delete per same reasons as above, but for columns.
-    };
+
     if (elementType == "Header" || elementType == "Description") { // any additional form elements that do not require an editable 'formContent' field should go here
       formElementObject = {
         type:      elementType,
@@ -72,18 +76,17 @@ var FormBuilder = React.createClass({
         questionId:  questionId,
       };
       previewAnswerObject = {
-        // answer: "Your answer",
         questionId: questionId,
-      }
+      };
+      previewAnswers[previewAnswerObject.questionId] = "Your Answer";
     }
-    var currentForm = this.state.currentForm;
+
     currentForm.push(formElementObject);
-    var previewAnswers = this.state.previewAnswers;
 
     // do we need conditionals for elementType so that the right reference to an
     // answer is populated in previewAnswer object? Right now, elements within a
     // table FormElement don't appear correctly in previewAnswers.
-    previewAnswers[previewAnswerObject.questionId] = "Your Answer";
+
     this.setState({currentForm: currentForm, previewAnswers: previewAnswers});
   },
   addRow: function(newRowObject, id) {

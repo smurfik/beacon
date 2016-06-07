@@ -3,7 +3,7 @@ var React = require('react');
 module.exports = React.createClass({
   handleChange: function(event) {
     var answer = event.target.value;
-    this.props.updateAnswer(answer);
+    this.props.updateAnswer(answer, this.props.questionId);
   },
   render: function() {
     return(

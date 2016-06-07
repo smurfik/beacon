@@ -83,7 +83,17 @@ module.exports = React.createClass({
         i;
 
     for (i = 0; i < this.props.previewFormElements.length; i++) {
-      if (this.props.previewFormElements[i].type == "Table") {
+      var pfeType = this.props.previewFormElements[i].type;
+      if (pfeType == "Header" || pfeType == "Description") {
+        previewFormElements.push(
+          <PreviewFormElement
+            key          = {i}
+            element      = {this.props.previewFormElements[i]}
+            formTitle    = {this.props.previewFormElements[i].formTitle}
+            formContent  = {this.props.previewFormElements[i].formContent}
+          />
+        )
+      } else if (pfeType == "Table") {
         previewFormElements.push(
           <PreviewFormElement
             key          = {this.props.previewFormElements[i].questionId}
