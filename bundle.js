@@ -375,42 +375,73 @@ module.exports = React.createClass({
   closeModal: function () {
     this.props.closeModal();
   },
-  updateAnswer: function (answer, viewElementId) {
-    var previewAnswers = this.state.previewAnswers,
-        targetAnswer = previewAnswers[viewElementId];
-    targetAnswer.answer = answer;
-    this.setState({ previewAnswers: previewAnswers });
-  },
-  updateTableAnswer: function (answer, cellId, rowId, viewElementId) {
+  // updateAnswer: function(answer, viewElementId) {
+  //   var previewAnswers  = this.state.previewAnswers,
+  //       targetAnswer = previewAnswers[viewElementId];
+  //   targetAnswer.answer = answer;
+  //   this.setState({previewAnswers: previewAnswers});
+  // },
+  updateAnswer: function (answer, questionId) {
+    // console.log(answer);
+    // debugger
     var previewAnswers = this.state.previewAnswers;
-    // console.log("triggered in modal, ", answer, cellId, rowId, viewElementId);
-    targetAnswer = previewAnswers[viewElementId].tableRows[rowId].columns[cellId];
-    targetAnswer.answer = answer;
+    // targetAnswer    = previewAnswers[questionId];
+    previewAnswers[questionId] = answer;
+    // targetAnswer.answer = answer;
     this.setState({ previewAnswers: previewAnswers });
+    // console.log(this.state);
+    // debugger
   },
+  // updateTableAnswer: function (answer, cellId, rowId, viewElementId) {
+  //   var previewAnswers      = this.state.previewAnswers;
+  //       // console.log("triggered in modal, ", answer, cellId, rowId, viewElementId);
+  //       targetAnswer        = previewAnswers[viewElementId].tableRows[rowId].columns[cellId];
+  //       targetAnswer.answer = answer;
+  //       this.setState({previewAnswers: previewAnswers});
+  // },
+  // showAnswers: function() {
+  //   // collect answers of all PreviewFormElements and display as JSON in console.
+  //   // Eventually this should return JSON in a new route/view, for AJAX.
+  //   var previewAnswers   = this.state.previewAnswers;
+  //       allAnswersObject = {}
+  //
+  //   for (i = 0; i < previewAnswers.length; i++) {
+  //
+  //     // this deeply nested loop for a table feels too complicated!
+  //     // what's a better way to get answers embedded in a table out of the table
+  //     // and into a simple list that's part of the allAnswersObject JSON?
+  //
+  //     if (previewAnswers[i].type == "Table") {
+  //       for (i = 0; previewAnswers[i].tableRows.length; i++) {
+  //         for (i = 0; this.columns.length; i++) {
+  //           // allAnswersObject[i] =
+  //         }
+  //       }
+  //     } else {
+  //       allAnswersObject[i] = previewAnswers[i].answer;
+  //     }
+  //   }
+  //   console.log(allAnswersObject);
+  // },
   showAnswers: function () {
     // collect answers of all PreviewFormElements and display as JSON in console.
     // Eventually this should return JSON in a new route/view, for AJAX.
-    var previewAnswers = this.state.previewAnswers;
-    allAnswersObject = {};
-
-    for (i = 0; i < previewAnswers.length; i++) {
-
-      // this deeply nested loop for a table feels too complicated!
-      // what's a better way to get answers embedded in a table out of the table
-      // and into a simple list that's part of the allAnswersObject JSON?
-
-      if (previewAnswers[i].type == "Table") {
-        for (i = 0; previewAnswers[i].tableRows.length; i++) {
-          for (i = 0; this.columns.length; i++) {
-            // allAnswersObject[i] =
-          }
-        }
-      } else {
-          allAnswersObject[i] = previewAnswers[i].answer;
-        }
-    }
-    console.log(allAnswersObject);
+    // var previewAnswers   = this.state.previewAnswers;
+    //     allAnswersObject = {}
+    // //     // console.log(previewAnswers);
+    // //     // debugger
+    // //
+    // for (i = 0; i < previewAnswers.length; i++) {
+    // //     // allAnswersObject[i] = previewAnswers[i].answer;
+    // //     // allAnswersObject[i] = previewAnswers[i]
+    //     allAnswersObject[i.questionId] = i.answer;
+    //   }
+    // console.log(allAnswersObject);
+    // $.each(previewAnswers, function(questionId, answer) {
+    //   // console.log(questionId, answer);
+    // });
+    console.log(this.state.previewAnswers);
+    // console.log(allAnswersObject);
   },
   render: function () {
     var previewFormElements = [],
@@ -421,24 +452,31 @@ module.exports = React.createClass({
     for (i = 0; i < this.props.previewFormElements.length; i++) {
       if (this.props.previewFormElements[i].type == "Table") {
         previewFormElements.push(React.createElement(PreviewFormElement, {
-          id: i,
-          key: i,
+          key: this.props.previewFormElements[i].questionId,
           element: this.props.previewFormElements[i],
+          questionId: this.props.previewFormElements[i].questionId,
           formTitle: this.props.previewFormElements[i].formTitle,
           tableRows: this.props.previewFormElements[i].tableRows,
-          updateTableAnswer: this.updateTableAnswer
-        }));
-      } else {
-        previewFormElements.push(React.createElement(PreviewFormElement, {
-          id: i,
-          key: i,
-          element: this.props.previewFormElements[i],
-          formTitle: this.props.previewFormElements[i].formTitle,
-          formContent: this.props.previewFormElements[i].formContent,
-          answer: this.props.previewAnswers[i].answer,
           updateAnswer: this.updateAnswer
         }));
-      }
+        // key               = {i}
+        // id                = {i}
+        // updateTableAnswer = {this.updateTableAnswer}
+      } else {
+          var questionId = this.props.previewFormElements[i].questionId;
+          previewFormElements.push(React.createElement(PreviewFormElement, {
+            key: questionId,
+            element: this.props.previewFormElements[i],
+            questionId: questionId,
+            formTitle: this.props.previewFormElements[i].formTitle,
+            formContent: this.props.previewFormElements[i].formContent,
+            answer: this.state.previewAnswers[questionId],
+            updateAnswer: this.updateAnswer
+          }));
+          // answer       = {this.props.previewAnswers[i].answer}
+          // id           = {i}
+          // key          = {i}
+        }
     }
 
     if (this.props.previewFormElements[0] == null) {
@@ -542,11 +580,10 @@ var React = require('react'),
 module.exports = React.createClass({
   displayName: 'exports',
 
-  updateAnswer: function (newText, cellId) {
-    var rowId = this.props.id;
-    this.props.updateAnswer(newText, cellId, rowId);
-  },
-
+  // updateAnswer: function(newText, cellId) {
+  //   var rowId = this.props.id
+  //   this.props.updateAnswer(newText, cellId, rowId);
+  // },
   render: function () {
     var columns = [],
         i;
@@ -557,11 +594,13 @@ module.exports = React.createClass({
         key: i,
         element: this.props.columns[i],
         type: this.props.columns[i].type,
+        questionId: this.props.columns[i].questionId,
         formTitle: this.props.columns[i].formTitle,
         formContent: this.props.columns[i].formContent,
-        updateAnswer: this.updateAnswer
+        updateAnswer: this.props.updateAnswer
       }));
     }
+    // updateAnswer      = {this.updateAnswer}
 
     return React.createElement(
       'tr',
@@ -580,30 +619,34 @@ var React = require('react'),
 module.exports = React.createClass({
   displayName: 'exports',
 
-  updateAnswer: function (answer, cellId, rowId) {
-    var viewElementId = this.props.id;
-    if (cellId == undefined) {
-      // if element being updated is not in a table
-      this.props.updateAnswer(answer, viewElementId);
-    } else {
-      // console.log("triggered in previewFormElement: ", answer, cellId, rowId, viewElementId)
-      this.props.updateTableAnswer(answer, cellId, rowId, viewElementId);
-    }
-  },
+  // updateAnswer: function(answer, cellId, rowId) {
+  //   var viewElementId = this.props.id;
+  //   if (cellId == undefined) {  // if element being updated is not in a table
+  //     this.props.updateAnswer(answer, viewElementId);
+  //   } else {
+  //     this.props.updateTableAnswer(answer, cellId, rowId, viewElementId);
+  //   }
+  // },
+  // updateAnswer: function(answer, questionId) {
+  //   this.props
+  // },
   render: function () {
     var element;
     if (this.props.element.type == "Table") {
       element = React.createElement(ViewBank["Table"], {
         formTitle: this.props.formTitle,
         tableRows: this.props.tableRows,
-        updateAnswer: this.updateAnswer
+        // updateAnswer: this.updateAnswer
+        updateAnswer: this.props.updateAnswer
       });
     } else {
       element = React.createElement(ViewBank[this.props.element.type], {
+        questionId: this.props.questionId,
         formTitle: this.props.formTitle,
         formContent: this.props.formContent,
         answer: this.props.answer,
-        updateAnswer: this.updateAnswer
+        // updateAnswer:      this.updateAnswer
+        updateAnswer: this.props.updateAnswer
       });
     }
     return React.createElement(
@@ -716,10 +759,10 @@ var React = require('react'),
 module.exports = React.createClass({
   displayName: 'exports',
 
-  updateAnswer: function (answer) {
-    var cellId = this.props.id;
-    this.props.updateAnswer(answer, cellId);
-  },
+  // updateAnswer: function(answer) {
+  //   var cellId = this.props.id;
+  //   this.props.updateAnswer(answer, cellId);
+  // },
   render: function () {
     var body, dropdown;
 
@@ -736,10 +779,12 @@ module.exports = React.createClass({
     } else {
       var cellBody = React.createElement(localViewBank[this.props.type], {
         cellId: this.props.id,
+        questionId: this.props.questionId,
         formTitle: this.props.formTitle,
         formContent: this.props.formContent,
-        updateAnswer: this.updateAnswer
+        updateAnswer: this.props.updateAnswer
       });
+      // updateAnswer: this.updateAnswer
       body = React.createElement(
         'div',
         null,
@@ -1021,9 +1066,13 @@ var React = require('react');
 module.exports = React.createClass({
   displayName: "exports",
 
+  // handleInput: function(event) {
+  //   var answer = event.target.value;
+  //   this.props.updateAnswer(answer);
+  // },
   handleInput: function (event) {
     var answer = event.target.value;
-    this.props.updateAnswer(answer);
+    this.props.updateAnswer(answer, this.props.questionId);
   },
   render: function () {
     return React.createElement(
@@ -1082,7 +1131,7 @@ var FormBuilder = React.createClass({
   displayName: 'FormBuilder',
 
   getInitialState: function () {
-    return { currentForm: [], previewAnswers: [], isModalOpen: false };
+    return { currentForm: [], previewAnswers: {}, isModalOpen: false };
   },
   openModal: function () {
     this.setState({ isModalOpen: true });
@@ -1126,7 +1175,7 @@ var FormBuilder = React.createClass({
       previewAnswerObject = {
         type: elementType,
         tableRows: [{ columns: [{
-            answer: "Your answer",
+            // answer: "Your answer",
             questionId: questionId
           }]
         }]
@@ -1139,20 +1188,25 @@ var FormBuilder = React.createClass({
         questionId: questionId
       };
       previewAnswerObject = {
-        answer: "Your answer",
+        // answer: "Your answer",
         questionId: questionId
       };
     }
     var currentForm = this.state.currentForm;
     currentForm.push(formElementObject);
     var previewAnswers = this.state.previewAnswers;
-    previewAnswers.push(previewAnswerObject);
+
+    // do we need conditionals for elementType so that the right reference to an
+    // answer is populated in previewAnswer object? Right now, elements within a
+    // table FormElement don't appear correctly in previewAnswers.
+    previewAnswers[previewAnswerObject.questionId] = "Your Answer";
     this.setState({ currentForm: currentForm, previewAnswers: previewAnswers });
   },
   addRow: function (newRowObject, id) {
     var currentForm = this.state.currentForm;
     currentForm[id].tableRows.push(newRowObject);
     var previewAnswers = this.state.previewAnswers;
+    debugger;
     previewAnswers[id].tableRows.push(newRowObject);
     this.setState({ currentForm: currentForm, previewAnswers: previewAnswers });
   },

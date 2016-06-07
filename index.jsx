@@ -12,7 +12,7 @@ var React       = require('react'),
 
 var FormBuilder = React.createClass({
   getInitialState: function() {
-    return {currentForm: [], previewAnswers: [], isModalOpen: false}
+    return {currentForm: [], previewAnswers: {}, isModalOpen: false}
   },
   openModal: function() {
     this.setState({isModalOpen: true});
@@ -55,37 +55,42 @@ var FormBuilder = React.createClass({
           }]
       };
       previewAnswerObject = {
-        type: elementType,
+        type:        elementType,
         tableRows:
           [{columns:
             [{
-              answer: "Your answer",
+              // answer: "Your answer",
               questionId: questionId,
             }],
           }]
       }
     } else {
       formElementObject = {
-        type: elementType,
-        formTitle: "Question",
+        type:        elementType,
+        formTitle:   "Question",
         formContent: "Your answer",
-        questionId: questionId,
+        questionId:  questionId,
       };
       previewAnswerObject = {
-        answer: "Your answer",
+        // answer: "Your answer",
         questionId: questionId,
       }
     }
     var currentForm = this.state.currentForm;
     currentForm.push(formElementObject);
-    var previewAnswers = this.state.previewAnswers
-    previewAnswers.push(previewAnswerObject);
+    var previewAnswers = this.state.previewAnswers;
+
+    // do we need conditionals for elementType so that the right reference to an
+    // answer is populated in previewAnswer object? Right now, elements within a
+    // table FormElement don't appear correctly in previewAnswers.
+    previewAnswers[previewAnswerObject.questionId] = "Your Answer";
     this.setState({currentForm: currentForm, previewAnswers: previewAnswers});
   },
   addRow: function(newRowObject, id) {
     var currentForm = this.state.currentForm;
     currentForm[id].tableRows.push(newRowObject);
-    var previewAnswers = this.state.previewAnswers
+    var previewAnswers = this.state.previewAnswers;
+    debugger
     previewAnswers[id].tableRows.push(newRowObject);
     this.setState({currentForm: currentForm, previewAnswers: previewAnswers});
   },

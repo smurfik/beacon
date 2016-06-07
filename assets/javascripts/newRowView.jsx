@@ -3,11 +3,10 @@ var React     = require('react'),
     TableCellView = require('./tableCellView.jsx');
 
 module.exports = React.createClass({
-  updateAnswer: function(newText, cellId) {
-    var rowId = this.props.id
-    this.props.updateAnswer(newText, cellId, rowId);
-  },
-
+  // updateAnswer: function(newText, cellId) {
+  //   var rowId = this.props.id
+  //   this.props.updateAnswer(newText, cellId, rowId);
+  // },
   render: function() {
     var columns = [],
         i;
@@ -19,12 +18,14 @@ module.exports = React.createClass({
           key               = {i}
           element           = {this.props.columns[i]}
           type              = {this.props.columns[i].type}
+          questionId        = {this.props.columns[i].questionId}
           formTitle         = {this.props.columns[i].formTitle}
           formContent       = {this.props.columns[i].formContent}
-          updateAnswer      = {this.updateAnswer}
+          updateAnswer      = {this.props.updateAnswer}
         />
       )
     }
+          // updateAnswer      = {this.updateAnswer}
 
     return(
       <tr>
