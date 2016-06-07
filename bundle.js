@@ -375,22 +375,10 @@ module.exports = React.createClass({
   closeModal: function () {
     this.props.closeModal();
   },
-  // updateAnswer: function(answer, viewElementId) {
-  //   var previewAnswers  = this.state.previewAnswers,
-  //       targetAnswer = previewAnswers[viewElementId];
-  //   targetAnswer.answer = answer;
-  //   this.setState({previewAnswers: previewAnswers});
-  // },
   updateAnswer: function (answer, questionId) {
-    // console.log(answer);
-    // debugger
     var previewAnswers = this.state.previewAnswers;
-    // targetAnswer    = previewAnswers[questionId];
     previewAnswers[questionId] = answer;
-    // targetAnswer.answer = answer;
     this.setState({ previewAnswers: previewAnswers });
-    // console.log(this.state);
-    // debugger
   },
   // updateTableAnswer: function (answer, cellId, rowId, viewElementId) {
   //   var previewAnswers      = this.state.previewAnswers;
@@ -399,49 +387,11 @@ module.exports = React.createClass({
   //       targetAnswer.answer = answer;
   //       this.setState({previewAnswers: previewAnswers});
   // },
-  // showAnswers: function() {
-  //   // collect answers of all PreviewFormElements and display as JSON in console.
-  //   // Eventually this should return JSON in a new route/view, for AJAX.
-  //   var previewAnswers   = this.state.previewAnswers;
-  //       allAnswersObject = {}
-  //
-  //   for (i = 0; i < previewAnswers.length; i++) {
-  //
-  //     // this deeply nested loop for a table feels too complicated!
-  //     // what's a better way to get answers embedded in a table out of the table
-  //     // and into a simple list that's part of the allAnswersObject JSON?
-  //
-  //     if (previewAnswers[i].type == "Table") {
-  //       for (i = 0; previewAnswers[i].tableRows.length; i++) {
-  //         for (i = 0; this.columns.length; i++) {
-  //           // allAnswersObject[i] =
-  //         }
-  //       }
-  //     } else {
-  //       allAnswersObject[i] = previewAnswers[i].answer;
-  //     }
-  //   }
-  //   console.log(allAnswersObject);
-  // },
+
   showAnswers: function () {
     // collect answers of all PreviewFormElements and display as JSON in console.
     // Eventually this should return JSON in a new route/view, for AJAX.
-    // var previewAnswers   = this.state.previewAnswers;
-    //     allAnswersObject = {}
-    // //     // console.log(previewAnswers);
-    // //     // debugger
-    // //
-    // for (i = 0; i < previewAnswers.length; i++) {
-    // //     // allAnswersObject[i] = previewAnswers[i].answer;
-    // //     // allAnswersObject[i] = previewAnswers[i]
-    //     allAnswersObject[i.questionId] = i.answer;
-    //   }
-    // console.log(allAnswersObject);
-    // $.each(previewAnswers, function(questionId, answer) {
-    //   // console.log(questionId, answer);
-    // });
     console.log(this.state.previewAnswers);
-    // console.log(allAnswersObject);
   },
   render: function () {
     var previewFormElements = [],
@@ -481,9 +431,6 @@ module.exports = React.createClass({
             answer: this.state.previewAnswers[questionId],
             updateAnswer: this.updateAnswer
           }));
-          // answer       = {this.props.previewAnswers[i].answer}
-          // id           = {i}
-          // key          = {i}
         }
     }
 
@@ -832,8 +779,7 @@ module.exports = React.createClass({
         formTitle: "Question",
         formContent: "[Enter question]",
         questionId: questionId
-        // testProp:    "test prop appears"
-      }; // this one is added so that any new row contains at least 1 cell
+      }; // this newCellObject is added so that any new row contains at least 1 cell
       newRowObject.columns.push(newCellObject);
     }
     this.props.addRow(newRowObject);
@@ -1188,25 +1134,21 @@ var FormBuilder = React.createClass({
           }]
         }]
       };
+      // update here so that previewAnswers in state is updated with the answer
+      // of previewFormElements within tables.
     } else {
-      formElementObject = {
-        type: elementType,
-        formTitle: "Question",
-        formContent: "Your answer",
-        questionId: questionId
-      };
-      previewAnswerObject = {
-        questionId: questionId
-      };
-      previewAnswers[previewAnswerObject.questionId] = "Your Answer";
-    }
-
+        formElementObject = {
+          type: elementType,
+          formTitle: "Question",
+          formContent: "Your answer",
+          questionId: questionId
+        };
+        previewAnswerObject = {
+          questionId: questionId
+        };
+        previewAnswers[previewAnswerObject.questionId] = "Your Answer";
+      }
     currentForm.push(formElementObject);
-
-    // do we need conditionals for elementType so that the right reference to an
-    // answer is populated in previewAnswer object? Right now, elements within a
-    // table FormElement don't appear correctly in previewAnswers.
-
     this.setState({ currentForm: currentForm, previewAnswers: previewAnswers });
   },
   addRow: function (newRowObject, id) {

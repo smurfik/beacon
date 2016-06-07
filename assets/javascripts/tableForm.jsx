@@ -19,8 +19,7 @@ module.exports = React.createClass({
         formTitle:   "Question",
         formContent: "[Enter question]",
         questionId: questionId
-        // testProp:    "test prop appears"
-      } // this one is added so that any new row contains at least 1 cell
+      } // this newCellObject is added so that any new row contains at least 1 cell
       newRowObject.columns.push(newCellObject);
     }
     this.props.addRow(newRowObject);

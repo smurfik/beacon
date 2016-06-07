@@ -68,6 +68,8 @@ var FormBuilder = React.createClass({
             }],
           }]
       }
+      // update here so that previewAnswers in state is updated with the answer
+      // of previewFormElements within tables.
     } else {
       formElementObject = {
         type:        elementType,
@@ -80,13 +82,7 @@ var FormBuilder = React.createClass({
       };
       previewAnswers[previewAnswerObject.questionId] = "Your Answer";
     }
-
     currentForm.push(formElementObject);
-
-    // do we need conditionals for elementType so that the right reference to an
-    // answer is populated in previewAnswer object? Right now, elements within a
-    // table FormElement don't appear correctly in previewAnswers.
-
     this.setState({currentForm: currentForm, previewAnswers: previewAnswers});
   },
   addRow: function(newRowObject, id) {
