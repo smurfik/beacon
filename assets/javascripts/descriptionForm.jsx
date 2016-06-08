@@ -1,5 +1,5 @@
-var React = require('react'),
-    riek = require('riek'),
+var React    = require('react'),
+    riek     = require('riek'),
     RIEInput = riek.RIEInput;
 
 module.exports = React.createClass({

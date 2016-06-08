@@ -21,9 +21,9 @@ var FormBuilder = React.createClass({
     this.setState({isModalOpen: false});
   },
   addElement: function(elementType) {
-    var currentForm = this.state.currentForm,
-        previewAnswers = this.state.previewAnswers,
-        formElementObject = {},
+    var currentForm         = this.state.currentForm,
+        previewAnswers      = this.state.previewAnswers,
+        formElementObject   = {},
         previewAnswerObject = {},
         addRow = function() {
           // DON'T DELETE: this is where addRow is defined as one of Table FormElement's props (as a function) when it is added to Builder.
@@ -51,29 +51,17 @@ var FormBuilder = React.createClass({
         tableRows:
           [{columns:
             [{
-              type:         "unselected",
-              formTitle:    "Question",
-              formContent:  "[Enter question]",
-              questionId:   questionId,
+              type:        "unselected",
+              formTitle:   "Question",
+              formContent: "[Enter question]",
+              questionId:  questionId,
             }],
           }]
       };
-      // previewAnswerObject = {
-      //   type:        elementType,
-      //   tableRows:
-      //     [{columns:
-      //       [{
-      //         answer:     "Your answer",
-      //         questionId: questionId,
-      //       }],
-      //     }]
-      // }
       previewAnswerObject = {
         questionId: questionId,
       };
       previewAnswers[previewAnswerObject.questionId] = "Your Answer";
-      // update here so that previewAnswers in state is updated with the answer
-      // of previewFormElements within tables.
     } else {
       formElementObject = {
         type:        elementType,
@@ -101,13 +89,13 @@ var FormBuilder = React.createClass({
       return Math.floor(Math.random() * (10000 - 1)) + 1;
     };
     for (var i = 0; i < tableRows.length; i++) {
-      var questionId = generateQuestionId();
-      var newCellObject = {
-        type:        "unselected",
-        formTitle:   "Question",
-        formContent: "[Enter question]",
-        questionId:  questionId
-      };
+      var questionId = generateQuestionId(),
+          newCellObject = {
+            type:        "unselected",
+            formTitle:   "Question",
+            formContent: "[Enter question]",
+            questionId:  questionId
+          };
       tableRows[i].columns.push(newCellObject);
 
       var previewAnswers = this.state.previewAnswers,
@@ -119,20 +107,20 @@ var FormBuilder = React.createClass({
     this.setState({currentForm: currentForm});
   },
   changeCellToForm: function(cellType, cellId, rowId, tableId) {
-    var currentForm = this.state.currentForm;
-    var targetCell = currentForm[tableId].tableRows[rowId].columns[cellId];
+    var currentForm = this.state.currentForm,
+        targetCell  = currentForm[tableId].tableRows[rowId].columns[cellId];
     targetCell.type = cellType;
     this.setState({currentForm: currentForm});
   },
   updateFormElement: function(newText, formElementId) {
-    var currentForm = this.state.currentForm;
-    var targetCell  = currentForm[formElementId];
+    var currentForm = this.state.currentForm,
+        targetCell  = currentForm[formElementId];
     targetCell.formTitle = newText
     this.setState({currentForm: currentForm});
   },
   updateTableFormElement: function(newText, cellId, rowId, formElementId) {
-    var currentForm = this.state.currentForm;
-    var targetCell = currentForm[formElementId].tableRows[rowId].columns[cellId];
+    var currentForm      = this.state.currentForm,
+        targetCell       = currentForm[formElementId].tableRows[rowId].columns[cellId];
     targetCell.formTitle = newText;
     this.setState({currentForm: currentForm})
   },
@@ -142,17 +130,17 @@ var FormBuilder = React.createClass({
     this.setState({currentForm: currentForm});
   },
   moveElementUp: function(id) {
-    var currentForm = this.state.currentForm;
-    var movedUp = currentForm[id];
-    var movedDown = currentForm[(id - 1)];
+    var currentForm = this.state.currentForm,
+        movedUp = currentForm[id],
+        movedDown = currentForm[(id - 1)];
     currentForm[(id - 1)] = movedUp;
     currentForm[id] = movedDown;
     this.setState({currentForm: currentForm});
   },
   moveElementDown: function(id) {
-    var currentForm = this.state.currentForm;
-    var movedDown = currentForm[id];
-    var movedUp = currentForm[(id + 1)];
+    var currentForm = this.state.currentForm,
+        movedDown = currentForm[id],
+        movedUp = currentForm[(id + 1)];
     currentForm[(id + 1)] = movedDown;
     currentForm[(id)] = movedUp;
     this.setState({currentForm: currentForm});

@@ -534,9 +534,6 @@ module.exports = React.createClass({
 
     for (i = 0; i < this.props.columns.length; i++) {
       var questionId = this.props.columns[i].questionId;
-      // console.log(this.props.previewAnswers);
-      // debugger
-      // var answer = this.props.previewAnswers[questionId];
       columns.push(React.createElement(TableCellView, {
         id: i,
         key: i,
@@ -547,9 +544,7 @@ module.exports = React.createClass({
         formContent: this.props.columns[i].formContent,
         updateAnswer: this.props.updateAnswer,
         answer: this.props.previewAnswers[questionId]
-      })
-      // answer = "blah"
-      );
+      }));
     }
 
     return React.createElement(
@@ -615,7 +610,7 @@ module.exports = React.createClass({
 
   changeCellToForm: function (event) {
     var cellId = this.props.id; // == this cell's id, passed up so that the right cell can be rerendered as a form.
-    var cellType = event.target.value;
+    cellType = event.target.value;
     this.props.changeCellToForm(cellType, cellId);
   },
   updateFormElement: function (newText) {
@@ -623,8 +618,8 @@ module.exports = React.createClass({
     this.props.updateFormElement(newText, cellId);
   },
   render: function () {
-    var body;
-    var dropdown = React.createElement(
+    var body,
+        dropdown = React.createElement(
       'div',
       { className: 'form-type-selector' },
       React.createElement(
@@ -1115,34 +1110,22 @@ var FormBuilder = React.createClass({
           }]
         }]
       };
-      // previewAnswerObject = {
-      //   type:        elementType,
-      //   tableRows:
-      //     [{columns:
-      //       [{
-      //         answer:     "Your answer",
-      //         questionId: questionId,
-      //       }],
-      //     }]
-      // }
       previewAnswerObject = {
         questionId: questionId
       };
       previewAnswers[previewAnswerObject.questionId] = "Your Answer";
-      // update here so that previewAnswers in state is updated with the answer
-      // of previewFormElements within tables.
     } else {
-        formElementObject = {
-          type: elementType,
-          formTitle: "Question",
-          formContent: "Your answer",
-          questionId: questionId
-        };
-        previewAnswerObject = {
-          questionId: questionId
-        };
-        previewAnswers[previewAnswerObject.questionId] = "Your Answer";
-      }
+      formElementObject = {
+        type: elementType,
+        formTitle: "Question",
+        formContent: "Your answer",
+        questionId: questionId
+      };
+      previewAnswerObject = {
+        questionId: questionId
+      };
+      previewAnswers[previewAnswerObject.questionId] = "Your Answer";
+    }
     currentForm.push(formElementObject);
     this.setState({ currentForm: currentForm, previewAnswers: previewAnswers });
   },
@@ -1158,8 +1141,8 @@ var FormBuilder = React.createClass({
       return Math.floor(Math.random() * (10000 - 1)) + 1;
     };
     for (var i = 0; i < tableRows.length; i++) {
-      var questionId = generateQuestionId();
-      var newCellObject = {
+      var questionId = generateQuestionId(),
+          newCellObject = {
         type: "unselected",
         formTitle: "Question",
         formContent: "[Enter question]",
@@ -1176,20 +1159,20 @@ var FormBuilder = React.createClass({
     this.setState({ currentForm: currentForm });
   },
   changeCellToForm: function (cellType, cellId, rowId, tableId) {
-    var currentForm = this.state.currentForm;
-    var targetCell = currentForm[tableId].tableRows[rowId].columns[cellId];
+    var currentForm = this.state.currentForm,
+        targetCell = currentForm[tableId].tableRows[rowId].columns[cellId];
     targetCell.type = cellType;
     this.setState({ currentForm: currentForm });
   },
   updateFormElement: function (newText, formElementId) {
-    var currentForm = this.state.currentForm;
-    var targetCell = currentForm[formElementId];
+    var currentForm = this.state.currentForm,
+        targetCell = currentForm[formElementId];
     targetCell.formTitle = newText;
     this.setState({ currentForm: currentForm });
   },
   updateTableFormElement: function (newText, cellId, rowId, formElementId) {
-    var currentForm = this.state.currentForm;
-    var targetCell = currentForm[formElementId].tableRows[rowId].columns[cellId];
+    var currentForm = this.state.currentForm,
+        targetCell = currentForm[formElementId].tableRows[rowId].columns[cellId];
     targetCell.formTitle = newText;
     this.setState({ currentForm: currentForm });
   },
@@ -1199,17 +1182,17 @@ var FormBuilder = React.createClass({
     this.setState({ currentForm: currentForm });
   },
   moveElementUp: function (id) {
-    var currentForm = this.state.currentForm;
-    var movedUp = currentForm[id];
-    var movedDown = currentForm[id - 1];
+    var currentForm = this.state.currentForm,
+        movedUp = currentForm[id],
+        movedDown = currentForm[id - 1];
     currentForm[id - 1] = movedUp;
     currentForm[id] = movedDown;
     this.setState({ currentForm: currentForm });
   },
   moveElementDown: function (id) {
-    var currentForm = this.state.currentForm;
-    var movedDown = currentForm[id];
-    var movedUp = currentForm[id + 1];
+    var currentForm = this.state.currentForm,
+        movedDown = currentForm[id],
+        movedUp = currentForm[id + 1];
     currentForm[id + 1] = movedDown;
     currentForm[id] = movedUp;
     this.setState({ currentForm: currentForm });

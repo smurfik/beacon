@@ -1,5 +1,5 @@
-var React = require('react'),
-    ViewBank = require('./viewBank.js'),
+var React      = require('react'),
+    ViewBank   = require('./viewBank.js'),
     NewRowView = require('./newRowView.jsx');
 
 module.exports = React.createClass({

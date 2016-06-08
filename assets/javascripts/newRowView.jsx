@@ -1,5 +1,5 @@
-var React     = require('react'),
-    ViewBank  = require('./viewBank.js'),
+var React         = require('react'),
+    ViewBank      = require('./viewBank.js'),
     TableCellView = require('./tableCellView.jsx');
 
 module.exports = React.createClass({
@@ -9,9 +9,6 @@ module.exports = React.createClass({
 
     for (i = 0; i < this.props.columns.length; i++) {
       var questionId = this.props.columns[i].questionId;
-      // console.log(this.props.previewAnswers);
-      // debugger
-      // var answer = this.props.previewAnswers[questionId];
       columns.push(
         <TableCellView
           id           = {i}
@@ -24,7 +21,6 @@ module.exports = React.createClass({
           updateAnswer = {this.props.updateAnswer}
           answer       = {this.props.previewAnswers[questionId]}
         />
-          // answer = "blah"
       )
     }
 

@@ -1,8 +1,8 @@
-var React       = require('react'),
-    Header      = require('./headerView.jsx'),
-    Description = require('./descriptionView.jsx'),
-    UserText    = require('./userTextView.jsx'),
-    Dropdown    = require('./dropdownView.jsx'),
+var React         = require('react'),
+    Header        = require('./headerView.jsx'),
+    Description   = require('./descriptionView.jsx'),
+    UserText      = require('./userTextView.jsx'),
+    Dropdown      = require('./dropdownView.jsx'),
     localViewBank = {
       Header: Header,
       Description: Description,

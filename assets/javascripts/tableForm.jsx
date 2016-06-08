@@ -50,12 +50,12 @@ module.exports = React.createClass({
     for (i = 0; i < this.props.tableRows.length; i++) {
       rows.push(
         <NewRow
-          id={i}
-          key={i}
-          element={this.props.tableRows[i]}
-          columns={this.props.tableRows[i].columns}
-          changeCellToForm={this.props.changeCellToForm}
-          updateFormElement={this.props.updateFormElement}
+          id                = {i}
+          key               = {i}
+          element           = {this.props.tableRows[i]}
+          columns           = {this.props.tableRows[i].columns}
+          changeCellToForm  = {this.props.changeCellToForm}
+          updateFormElement = {this.props.updateFormElement}
         />
       );
     }

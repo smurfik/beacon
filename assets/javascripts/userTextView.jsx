@@ -14,9 +14,9 @@ module.exports = React.createClass({
         <h2>{this.props.formTitle}</h2>
         <form>
           <input
-            type="text"
-            onChange={this.handleInput}
-            value={this.props.answer}/>
+            type    = "text"
+            onChange= {this.handleInput}
+            value   = {this.props.answer}/>
         </form>
       </div>
     )
