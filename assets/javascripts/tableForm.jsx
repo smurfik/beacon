@@ -11,16 +11,22 @@ module.exports = React.createClass({
   addRow: function(event) {
     event.preventDefault();
     var newRowObject = {columns: []};
-    var numberOfColumns = this.props.tableRows[0].columns.length
+        numberOfColumns = this.props.tableRows[0].columns.length
     for (var i = 0; i < numberOfColumns; i++) {
       var questionId = generateQuestionId();
-      var newCellObject = {
-        type:        "unselected",
-        formTitle:   "Question",
-        formContent: "[Enter question]",
-        questionId: questionId
-      } // this newCellObject is added so that any new row contains at least 1 cell
+          newCellObject = {
+            type:        "unselected",
+            formTitle:   "Question",
+            formContent: "[Enter question]",
+            questionId:  questionId
+          } // this newCellObject is added so that any new row contains at least 1 cell
       newRowObject.columns.push(newCellObject);
+
+      var previewAnswers      = this.props.previewAnswers
+          previewAnswerObject = {
+            questionId: questionId,
+          };
+      previewAnswers[previewAnswerObject.questionId] = "Your Answer";
     }
     this.props.addRow(newRowObject);
   },

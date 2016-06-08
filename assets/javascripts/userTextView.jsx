@@ -1,6 +1,9 @@
 var React = require('react');
 
 module.exports = React.createClass({
+  getInitialState: function() {
+    return {formValue: "Your Answer"}
+  },
   handleInput: function(event) {
     var answer = event.target.value;
     this.props.updateAnswer(answer, this.props.questionId);

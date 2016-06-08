@@ -58,16 +58,20 @@ var FormBuilder = React.createClass({
             }],
           }]
       };
+      // previewAnswerObject = {
+      //   type:        elementType,
+      //   tableRows:
+      //     [{columns:
+      //       [{
+      //         answer:     "Your answer",
+      //         questionId: questionId,
+      //       }],
+      //     }]
+      // }
       previewAnswerObject = {
-        type:        elementType,
-        tableRows:
-          [{columns:
-            [{
-              // answer: "Your answer",
-              questionId: questionId,
-            }],
-          }]
-      }
+        questionId: questionId,
+      };
+      previewAnswers[previewAnswerObject.questionId] = "Your Answer";
       // update here so that previewAnswers in state is updated with the answer
       // of previewFormElements within tables.
     } else {
@@ -91,8 +95,8 @@ var FormBuilder = React.createClass({
     this.setState({currentForm: currentForm});
   },
   addColumn: function(id) {
-    var currentForm = this.state.currentForm;
-    var tableRows = currentForm[id].tableRows;
+    var currentForm    = this.state.currentForm,
+        tableRows      = currentForm[id].tableRows;
     function generateQuestionId() {
       return Math.floor(Math.random() * (10000 - 1)) + 1;
     };
@@ -105,6 +109,12 @@ var FormBuilder = React.createClass({
         questionId:  questionId
       };
       tableRows[i].columns.push(newCellObject);
+
+      var previewAnswers = this.state.previewAnswers,
+          previewAnswerObject = {
+            questionId: questionId,
+          };
+      previewAnswers[previewAnswerObject.questionId] = "Your Answer";
     }
     this.setState({currentForm: currentForm});
   },
@@ -151,22 +161,23 @@ var FormBuilder = React.createClass({
     return (
       <div>
         <Modal
-          isOpen={this.state.isModalOpen}
-          closeModal={this.closeModal}
-          previewFormElements={this.state.currentForm}
-          previewAnswers={this.state.previewAnswers}
-          updateFormElement={this.updateFormElement}>
+          isOpen              = {this.state.isModalOpen}
+          closeModal          = {this.closeModal}
+          previewFormElements = {this.state.currentForm}
+          previewAnswers      = {this.state.previewAnswers}
+          updateFormElement   = {this.updateFormElement}>
         </Modal>
         <Builder
-          formElements={this.state.currentForm}
-          deleteElement={this.deleteElement}
-          moveElementUp={this.moveElementUp}
-          moveElementDown={this.moveElementDown}
-          updateFormElement={this.updateFormElement}
-          updateTableFormElement={this.updateTableFormElement}
-          addRow={this.addRow} addColumn={this.addColumn}
-          changeCellToForm={this.changeCellToForm}
-          openModal={this.openModal}
+          formElements           = {this.state.currentForm}
+          deleteElement          = {this.deleteElement}
+          moveElementUp          = {this.moveElementUp}
+          moveElementDown        = {this.moveElementDown}
+          updateFormElement      = {this.updateFormElement}
+          updateTableFormElement = {this.updateTableFormElement}
+          addRow                 = {this.addRow} addColumn={this.addColumn}
+          changeCellToForm       = {this.changeCellToForm}
+          openModal              = {this.openModal}
+          previewAnswers         = {this.state.previewAnswers}
         />
         <Toolbar addElement={this.addElement}/>
       </div>

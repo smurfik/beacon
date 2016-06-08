@@ -45,8 +45,8 @@ module.exports = React.createClass({
             formTitle      = {this.props.previewFormElements[i].formTitle}
             tableRows      = {this.props.previewFormElements[i].tableRows}
             updateAnswer   = {this.updateAnswer}
+            previewAnswers = {this.state.previewAnswers}
           />
-            // previewAnswers = {this.state.previewAnswers}
         );
       } else {
         var questionId = this.props.previewFormElements[i].questionId;

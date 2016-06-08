@@ -27,7 +27,8 @@ module.exports = React.createClass({
           updateTableFormElement: this.props.updateTableFormElement,
           moveElementUp: this.props.moveElementUp,
           moveElementDown: this.props.moveElementDown,
-          deleteElement: this.props.deleteElement
+          deleteElement: this.props.deleteElement,
+          previewAnswers: this.props.previewAnswers
         }));
       } else {
         formElements.push(React.createElement(FormElement, {
@@ -286,7 +287,8 @@ module.exports = React.createClass({
         changeCellToForm: this.changeCellToForm,
         addRow: this.addRow,
         addColumn: this.addColumn,
-        updateFormElement: this.updateFormElement
+        updateFormElement: this.updateFormElement,
+        previewAnswers: this.props.previewAnswers
       });
     } else {
       element = React.createElement(FormBank[this.props.element.type], {
@@ -408,22 +410,21 @@ module.exports = React.createClass({
           questionId: this.props.previewFormElements[i].questionId,
           formTitle: this.props.previewFormElements[i].formTitle,
           tableRows: this.props.previewFormElements[i].tableRows,
-          updateAnswer: this.updateAnswer
-        })
-        // previewAnswers = {this.state.previewAnswers}
-        );
+          updateAnswer: this.updateAnswer,
+          previewAnswers: this.state.previewAnswers
+        }));
       } else {
-          var questionId = this.props.previewFormElements[i].questionId;
-          previewFormElements.push(React.createElement(PreviewFormElement, {
-            key: questionId,
-            element: this.props.previewFormElements[i],
-            questionId: questionId,
-            formTitle: this.props.previewFormElements[i].formTitle,
-            formContent: this.props.previewFormElements[i].formContent,
-            answer: this.state.previewAnswers[questionId],
-            updateAnswer: this.updateAnswer
-          }));
-        }
+        var questionId = this.props.previewFormElements[i].questionId;
+        previewFormElements.push(React.createElement(PreviewFormElement, {
+          key: questionId,
+          element: this.props.previewFormElements[i],
+          questionId: questionId,
+          formTitle: this.props.previewFormElements[i].formTitle,
+          formContent: this.props.previewFormElements[i].formContent,
+          answer: this.state.previewAnswers[questionId],
+          updateAnswer: this.updateAnswer
+        }));
+      }
     }
 
     if (this.props.previewFormElements[0] == null) {
@@ -533,6 +534,9 @@ module.exports = React.createClass({
 
     for (i = 0; i < this.props.columns.length; i++) {
       var questionId = this.props.columns[i].questionId;
+      // console.log(this.props.previewAnswers);
+      // debugger
+      // var answer = this.props.previewAnswers[questionId];
       columns.push(React.createElement(TableCellView, {
         id: i,
         key: i,
@@ -541,9 +545,10 @@ module.exports = React.createClass({
         questionId: questionId,
         formTitle: this.props.columns[i].formTitle,
         formContent: this.props.columns[i].formContent,
-        updateAnswer: this.props.updateAnswer
+        updateAnswer: this.props.updateAnswer,
+        answer: this.props.previewAnswers[questionId]
       })
-      // answer       = {this.props.previewAnswers[questionId]}
+      // answer = "blah"
       );
     }
 
@@ -570,18 +575,18 @@ module.exports = React.createClass({
       element = React.createElement(ViewBank["Table"], {
         formTitle: this.props.formTitle,
         tableRows: this.props.tableRows,
+        updateAnswer: this.props.updateAnswer,
+        previewAnswers: this.props.previewAnswers
+      });
+    } else {
+      element = React.createElement(ViewBank[this.props.element.type], {
+        questionId: this.props.questionId,
+        formTitle: this.props.formTitle,
+        formContent: this.props.formContent,
+        answer: this.props.answer,
         updateAnswer: this.props.updateAnswer
       });
-    } else // previewAnswers: this.props.previewAnswers
-      {
-        element = React.createElement(ViewBank[this.props.element.type], {
-          questionId: this.props.questionId,
-          formTitle: this.props.formTitle,
-          formContent: this.props.formContent,
-          answer: this.props.answer,
-          updateAnswer: this.props.updateAnswer
-        });
-      }
+    }
     return React.createElement(
       'div',
       { className: 'preview-form-element' },
@@ -745,16 +750,22 @@ module.exports = React.createClass({
   addRow: function (event) {
     event.preventDefault();
     var newRowObject = { columns: [] };
-    var numberOfColumns = this.props.tableRows[0].columns.length;
+    numberOfColumns = this.props.tableRows[0].columns.length;
     for (var i = 0; i < numberOfColumns; i++) {
       var questionId = generateQuestionId();
-      var newCellObject = {
+      newCellObject = {
         type: "unselected",
         formTitle: "Question",
         formContent: "[Enter question]",
         questionId: questionId
       }; // this newCellObject is added so that any new row contains at least 1 cell
       newRowObject.columns.push(newCellObject);
+
+      var previewAnswers = this.props.previewAnswers;
+      previewAnswerObject = {
+        questionId: questionId
+      };
+      previewAnswers[previewAnswerObject.questionId] = "Your Answer";
     }
     this.props.addRow(newRowObject);
   },
@@ -859,10 +870,9 @@ module.exports = React.createClass({
         key: i,
         element: this.props.tableRows[i],
         columns: this.props.tableRows[i].columns,
-        updateAnswer: this.props.updateAnswer
-      })
-      // previewAnswers = {this.props.previewAnswers}
-      );
+        updateAnswer: this.props.updateAnswer,
+        previewAnswers: this.props.previewAnswers
+      }));
     }
     for (i = 0; i < this.props.tableRows[0].columns.length; i++) {
       columnHeaders.push(React.createElement(
@@ -996,6 +1006,9 @@ var React = require('react');
 module.exports = React.createClass({
   displayName: "exports",
 
+  getInitialState: function () {
+    return { formValue: "Your Answer" };
+  },
   handleInput: function (event) {
     var answer = event.target.value;
     this.props.updateAnswer(answer, this.props.questionId);
@@ -1102,14 +1115,20 @@ var FormBuilder = React.createClass({
           }]
         }]
       };
+      // previewAnswerObject = {
+      //   type:        elementType,
+      //   tableRows:
+      //     [{columns:
+      //       [{
+      //         answer:     "Your answer",
+      //         questionId: questionId,
+      //       }],
+      //     }]
+      // }
       previewAnswerObject = {
-        type: elementType,
-        tableRows: [{ columns: [{
-            // answer: "Your answer",
-            questionId: questionId
-          }]
-        }]
+        questionId: questionId
       };
+      previewAnswers[previewAnswerObject.questionId] = "Your Answer";
       // update here so that previewAnswers in state is updated with the answer
       // of previewFormElements within tables.
     } else {
@@ -1133,8 +1152,8 @@ var FormBuilder = React.createClass({
     this.setState({ currentForm: currentForm });
   },
   addColumn: function (id) {
-    var currentForm = this.state.currentForm;
-    var tableRows = currentForm[id].tableRows;
+    var currentForm = this.state.currentForm,
+        tableRows = currentForm[id].tableRows;
     function generateQuestionId() {
       return Math.floor(Math.random() * (10000 - 1)) + 1;
     };
@@ -1147,6 +1166,12 @@ var FormBuilder = React.createClass({
         questionId: questionId
       };
       tableRows[i].columns.push(newCellObject);
+
+      var previewAnswers = this.state.previewAnswers,
+          previewAnswerObject = {
+        questionId: questionId
+      };
+      previewAnswers[previewAnswerObject.questionId] = "Your Answer";
     }
     this.setState({ currentForm: currentForm });
   },
@@ -1208,7 +1233,8 @@ var FormBuilder = React.createClass({
         updateTableFormElement: this.updateTableFormElement,
         addRow: this.addRow, addColumn: this.addColumn,
         changeCellToForm: this.changeCellToForm,
-        openModal: this.openModal
+        openModal: this.openModal,
+        previewAnswers: this.state.previewAnswers
       }),
       React.createElement(Toolbar, { addElement: this.addElement })
     );

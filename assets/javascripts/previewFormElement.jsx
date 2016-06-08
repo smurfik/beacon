@@ -9,10 +9,10 @@ module.exports = React.createClass({
     if (this.props.element.type == "Table") {
       element = React.createElement(
         ViewBank["Table"], {
-          formTitle:      this.props.formTitle,
-          tableRows:      this.props.tableRows,
-          updateAnswer:   this.props.updateAnswer,
-          // previewAnswers: this.props.previewAnswers
+          formTitle:       this.props.formTitle,
+          tableRows:       this.props.tableRows,
+          updateAnswer:    this.props.updateAnswer,
+          previewAnswers:  this.props.previewAnswers
         }
       );
     } else {

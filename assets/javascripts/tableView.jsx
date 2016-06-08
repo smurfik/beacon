@@ -16,8 +16,8 @@ module.exports = React.createClass({
           element        = {this.props.tableRows[i]}
           columns        = {this.props.tableRows[i].columns}
           updateAnswer   = {this.props.updateAnswer}
+          previewAnswers = {this.props.previewAnswers}
         />
-          // previewAnswers = {this.props.previewAnswers}
       );
     }
     for (i = 0; i < this.props.tableRows[0].columns.length; i++) {

@@ -46,6 +46,7 @@ module.exports = React.createClass({
           addRow: this.addRow,
           addColumn: this.addColumn,
           updateFormElement: this.updateFormElement,
+          previewAnswers:  this.props.previewAnswers
         }
       )
     } else {

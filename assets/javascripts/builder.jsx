@@ -26,6 +26,7 @@ module.exports = React.createClass({
             moveElementUp={this.props.moveElementUp}
             moveElementDown={this.props.moveElementDown}
             deleteElement={this.props.deleteElement}
+            previewAnswers = {this.props.previewAnswers}
           />
         )
       } else {
