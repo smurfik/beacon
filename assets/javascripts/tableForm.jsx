@@ -2,19 +2,31 @@ var React = require('react'),
     riek = require('riek'),
     RIEInput = riek.RIEInput,
     FormBank = require('./formBank.js'),
-    NewRow = require('./newRow.jsx');
+    NewRow = require('./newRow.jsx'),
+    generateQuestionId = function() {
+      return Math.floor(Math.random() * (10000 - 1)) + 1;
+    };
 
 module.exports = React.createClass({
-  getInitialState: function() {
-    return {text: "Table"}
-  },
   addRow: function(event) {
     event.preventDefault();
     var newRowObject = {columns: []};
-    var numberOfColumns = this.props.tableRows[0].columns.length
+        numberOfColumns = this.props.tableRows[0].columns.length
     for (var i = 0; i < numberOfColumns; i++) {
-      var newCellObject = {type: "unselected", text: "[Enter question]"} // this one is added so that any new row contains at least 1 cell
+      var questionId = generateQuestionId();
+          newCellObject = {
+            type:        "unselected",
+            formTitle:   "Question",
+            formContent: "[Enter question]",
+            questionId:  questionId
+          } // this newCellObject is added so that any new row contains at least 1 cell
       newRowObject.columns.push(newCellObject);
+
+      var previewAnswers      = this.props.previewAnswers
+          previewAnswerObject = {
+            questionId: questionId,
+          };
+      previewAnswers[previewAnswerObject.questionId] = "Your Answer";
     }
     this.props.addRow(newRowObject);
   },
@@ -22,12 +34,14 @@ module.exports = React.createClass({
     event.preventDefault();
     this.props.addColumn();
   },
-  updateTableElementText: function(newText, cellId, rowId) {
-    this.props.updateTableElementText(newText, cellId, rowId);
+  updateFormElement: function(newText, cellId, rowId) {
+    if (cellId == undefined) {
+      this.props.updateFormElement(newText.formTitle); // this is if we're just updating the name of the Table form
+    } else {
+      this.props.updateFormElement(newText, cellId, rowId) // this is if we're updating the text within a table cell
+    }
   },
-  updateTableTitleText: function(newText){
-    this.props.updateFormElementText(newText.text);
-  },
+
   render: function() {
     var columnHeaders = [],
         rows = [],
@@ -36,12 +50,12 @@ module.exports = React.createClass({
     for (i = 0; i < this.props.tableRows.length; i++) {
       rows.push(
         <NewRow
-          id={i}
-          key={i}
-          element={this.props.tableRows[i]}
-          columns={this.props.tableRows[i].columns}
-          changeCellToForm={this.props.changeCellToForm}
-          updateElementText={this.updateTableElementText}
+          id                = {i}
+          key               = {i}
+          element           = {this.props.tableRows[i]}
+          columns           = {this.props.tableRows[i].columns}
+          changeCellToForm  = {this.props.changeCellToForm}
+          updateFormElement = {this.props.updateFormElement}
         />
       );
     }
@@ -50,14 +64,14 @@ module.exports = React.createClass({
       columnHeaders.push(<th key={i}> Column {i+1} </th>);
     }
     return(
-      <div id="table-form">
+      <div className="table-form">
         <RIEInput
-          value={this.props.text}
-          change={this.updateTableTitleText}
-          propName="text"
-          className="form-question-header"
+          value     = {this.props.formTitle}
+          change    = {this.updateFormElement}
+          propName  = "formTitle"
+          className = "table-formTitle"
         />
-        <button id="add-column-button" onClick={this.addColumn}>Add Column</button>
+      <button className="add-column-button" onClick={this.addColumn}>Add Column</button>
         <form>
           <table>
             <thead>

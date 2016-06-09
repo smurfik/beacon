@@ -1,10 +1,10 @@
-var React       = require('react'),
-    riek        = require('riek'),
-    RIEInput    = riek.RIEInput,
-    Header      = require('./headerForm.jsx'),
-    Description = require('./descriptionForm.jsx'),
-    UserText    = require('./userTextForm.jsx'),
-    Dropdown    = require('./dropdownForm.jsx'),
+var React         = require('react'),
+    riek          = require('riek'),
+    RIEInput      = riek.RIEInput,
+    Header        = require('./headerForm.jsx'),
+    Description   = require('./descriptionForm.jsx'),
+    UserText      = require('./userTextForm.jsx'),
+    Dropdown      = require('./dropdownForm.jsx'),
     localFormBank = {
       Header: Header,
       Description: Description,
@@ -14,23 +14,23 @@ var React       = require('react'),
 
 module.exports = React.createClass({
   changeCellToForm: function(event) {
-    var cellId = this.props.id // == this cell's id, passed up so that the right cell can be rerendered as a form.
-    var cellType = event.target.value
+    var cellId   = this.props.id; // == this cell's id, passed up so that the right cell can be rerendered as a form.
+        cellType = event.target.value
     this.props.changeCellToForm(cellType, cellId);
   },
-  updateElementText: function(newText) {
+  updateFormElement: function(newText) {
     var cellId = this.props.id // == this cell's id, passed up so that the right cell's contents can be updated.
-    this.props.updateElementText(newText, cellId);
+    this.props.updateFormElement(newText, cellId);
   },
   render: function() {
-    var body;
-    var dropdown = (
+    var body,
+        dropdown = (
       <div className="form-type-selector">
         <span>Select Form Type:</span>
         <select onChange={this.changeCellToForm}>
           <option value="selected">[select]</option>
           <option value="UserText">Text</option>
-        <option value="Dropdown">Dropdown</option>
+          <option value="Dropdown">Dropdown</option>
         </select>
       </div>
     )
@@ -45,8 +45,10 @@ module.exports = React.createClass({
       var cellBody = (
         React.createElement(
           localFormBank[this.props.type], {
-            text: this.props.text,
-            updateElementText: this.updateElementText
+            cellId:            this.props.id,
+            formTitle:         this.props.formTitle,
+            formContent:       this.props.formContent,
+            updateFormElement: this.updateFormElement
           }
         )
       )

@@ -13,23 +13,36 @@ module.exports = React.createClass({
       if (this.props.formElements[i].type == "Table") {
         formElements.push(
           <FormElement
-            id={i}
-            text={this.props.formElements[i].text}
-            key={i}
-            element={this.props.formElements[i]}
-            deleteElement={this.props.deleteElement}
-            moveElementUp={this.props.moveElementUp}
-            moveElementDown={this.props.moveElementDown}
-            updateFormElementText={this.props.updateFormElementText}
-            updateTableElementText={this.props.updateTableElementText}
-            addRow={this.props.addRow}
-            tableRows={this.props.formElements[i].tableRows}
-            addColumn={this.props.addColumn}
-            changeCellToForm={this.props.changeCellToForm}
+            id                    = {i}
+            key                   = {i}
+            element               = {this.props.formElements[i]}
+            formTitle             = {this.props.formElements[i].formTitle}
+            tableRows             = {this.props.formElements[i].tableRows}
+            addRow                = {this.props.addRow}
+            addColumn             = {this.props.addColumn}
+            changeCellToForm      = {this.props.changeCellToForm}
+            updateFormElement     = {this.props.updateFormElement}
+            updateTableFormElement= {this.props.updateTableFormElement}
+            moveElementUp         = {this.props.moveElementUp}
+            moveElementDown       = {this.props.moveElementDown}
+            deleteElement         = {this.props.deleteElement}
+            previewAnswers        = {this.props.previewAnswers}
           />
         )
       } else {
-        formElements.push(<FormElement id={i} text={this.props.formElements[i].text} key={i} element={this.props.formElements[i]} deleteElement={this.props.deleteElement} moveElementUp={this.props.moveElementUp} moveElementDown={this.props.moveElementDown} updateFormElementText={this.props.updateFormElementText}/>)
+        formElements.push(
+          <FormElement
+            id                = {i}
+            key               = {i}
+            element           = {this.props.formElements[i]}
+            formTitle         = {this.props.formElements[i].formTitle}
+            formContent       = {this.props.formElements[i].formContent}
+            updateFormElement = {this.props.updateFormElement}
+            moveElementUp     = {this.props.moveElementUp}
+            moveElementDown   = {this.props.moveElementDown}
+            deleteElement     = {this.props.deleteElement}
+          />
+        )
       }
     }
 
@@ -43,8 +56,11 @@ module.exports = React.createClass({
       )
     }
     return(
-      <div id="preview-pane">
-        <h1>Builder</h1>
+      <div id="builder-pane">
+        <header>
+          <h1>Builder</h1>
+          <button id="open-modal-button" onClick={this.props.openModal}>Preview</button>
+        </header>
         {body}
       </div>
     );

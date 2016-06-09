@@ -1,26 +1,29 @@
-var React = require('react'),
-    riek = require('riek'),
+var React    = require('react'),
+    riek     = require('riek'),
     RIEInput = riek.RIEInput;
 
 module.exports = React.createClass({
-  getInitialState: function() {
-    return({type: "Dropdown", text: "Question"});
+  updateFormElement: function(newText) {
+    this.props.updateFormElement(newText.formTitle);
   },
-  updateElementText: function(newText) {
-    this.props.updateElementText(newText.text);
+  updateFormContent: function(event) {
+    // This function should evolve as we change this element FROM a
+    // selectable dropdown TO a form where admin enters the values they
+    // want to appear in the user-facing dropdown
   },
   render: function() {
     return(
-      <div id="dropdown-form">
-      <RIEInput
-        value={this.props.text}
-        change={this.updateElementText}
-        propName="text"
-        className="form-question-header"
+      <div className="dropdown-form">
+        <RIEInput
+          value     = {this.props.formTitle}
+          change    = {this.updateFormElement}
+          propName  = "formTitle"
+          className = "dropdown-formTitle"
         />
-        <select>
-          <option value="value1">Value 1</option>
-          <option value="value2">Value 2</option>
+        <select className="dropdown-formContent" onChange={this.updateFormContent} value={this.props.formContent}>
+          <option value = "response" > [select] </option>
+          <option value = "Option A" > Option A </option>
+          <option value = "Option A" > Option B </option>
         </select>
       </div>
     )

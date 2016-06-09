@@ -1,23 +1,21 @@
-var React = require('react'),
-    riek = require('riek'),
+var React    = require('react'),
+    riek     = require('riek'),
     RIEInput = riek.RIEInput;
 
 module.exports = React.createClass({
-  getInitialState: function() {
-    return({type: "UserText", text: "answer here"});
-  },
-  updateElementText: function(newText) {
-    this.props.updateElementText(newText.text);
+  updateFormElement: function(newText) {
+    this.props.updateFormElement(newText.formTitle);
   },
   render: function() {
     return(
-      <div id="user-text-form">
+      <div className="userText-form">
         <RIEInput
-          value={this.props.text}
-          change={this.updateElementText}
-          propName="text"
-          className="form-user-text"
-          />
+          value     = {this.props.formTitle}
+          change    = {this.updateFormElement}
+          propName  = "formTitle"
+          className = "userText-formTitle"
+        />
+        <span className="form-explainer">User answers here</span>
       </div>
     )
   }

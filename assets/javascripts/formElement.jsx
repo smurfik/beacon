@@ -4,12 +4,12 @@ var React = require('react'),
     FormBank = require('./formBank.js');
 
 module.exports = React.createClass({
-  updateElementText: function(newText, cellId, rowId) {
-    var tableId = this.props.id;
+  updateFormElement: function(newText, cellId, rowId) {
+    var formElementId = this.props.id;
     if (cellId == undefined) { //i.e. if we are updating the text of a standard form element in builder, not a tableCell, which is form within a Table
-      this.props.updateFormElementText(newText, tableId);
+      this.props.updateFormElement(newText, formElementId);
     } else {
-      this.props.updateTableElementText(newText, cellId, rowId, tableId);
+      this.props.updateTableFormElement(newText, cellId, rowId, formElementId);
     }
   },
   deleteElement: function(event, id) {
@@ -39,22 +39,24 @@ module.exports = React.createClass({
     if (this.props.element.type == "Table") {
       element = React.createElement(
         FormBank["Table"], {
-          text: this.props.text,
-          updateTableElementText: this.updateElementText,
-          updateFormElementText: this.updateElementText,
-          addRow: this.addRow,
-          tableRows: this.props.tableRows,
-          addColumn: this.addColumn,
-          changeCellToForm: this.changeCellToForm
+          formTitle:         this.props.formTitle,
+          text:              this.props.formTitle,
+          tableRows:         this.props.tableRows,
+          changeCellToForm:  this.changeCellToForm,
+          addRow:            this.addRow,
+          addColumn:         this.addColumn,
+          updateFormElement: this.updateFormElement,
+          previewAnswers:    this.props.previewAnswers
         }
-      );
+      )
     } else {
       element = React.createElement(
         FormBank[this.props.element.type], {
-          text: this.props.text,
-          updateElementText: this.updateElementText
+          formTitle:         this.props.formTitle,
+          formContent:       this.props.formContent,
+          updateFormElement: this.updateFormElement
         }
-      );
+      )
     }
     return (
       <div className="form-element">

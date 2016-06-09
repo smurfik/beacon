@@ -7,24 +7,51 @@ header {
   background-color: hsl(0, 0%, 80%);
 }
 
+header h1 {
+  display: inline-block;
+  /*padding-left: 140px;*/
+}
+
+header a {
+  float: right;
+  margin: 30px;
+  text-decoration: none;
+  font-weight: bold;
+  color: black;
+  }
+
+header a:visited {
+  color: black;
+}
+
 #form-builder {
   width: 0 auto;
 }
 
-#preview-pane, #toolbar-pane {
+#builder-pane, #toolbar-pane {
   display: inline-block;
   margin: 10px;
   padding: 10px;
   border: 1px solid hsl(0, 0%, 80%);
 }
 
-#preview-pane {
+#builder-pane {
   float: left;
   width: 60%;
+  display: block;
 }
 
-#preview-pane h1 {
-  text-align: center;
+#builder-pane header, span {
+  display: block;
+}
+
+#open-modal-button {
+  float: right;
+  margin: 30px 20px;
+}
+
+#builder-pane>span {
+  padding-top: 20px;
 }
 
 #toolbar-pane {
